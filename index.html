@@ -26,6 +26,8 @@
               $(".toolWindow").each(function() {
                   var win = $(this);
                   win.draggable();
+                  win.append("<div class='header'><canvas class='toolWindowHeader' height=30 width="
+                      + win.width() + "></canvas></div>");
                   $(".toolWindowHeader", this).each(function() {
                       var context = this.getContext('2d');
                       var gradient = context.createLinearGradient(0, 0, 0, this.height);
@@ -44,12 +46,10 @@
         </script>
     </head>
     <body>
-        <div class="toolWindow" style="top:100px;left:100px;width:150px;height:200px;" windowTitle="Title here">
-            <div class="header"><canvas class="toolWindowHeader" height=30></canvas></div>
+        <div class="toolWindow" style="top:150px;left:500px;width:350px;height:200px;" windowTitle="Title here">
         </div>
         
         <div class="toolWindow" style="top:100px;left:300px;width:150px;height:200px;" windowTitle="Tools">
-            <div class="header"><canvas class="toolWindowHeader" height=30></canvas></div>
         </div>
     </body>
 </html>
