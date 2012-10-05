@@ -37,18 +37,18 @@
                       context.font = '12px verdana';
                       context.textBaseline = 'top';
                       context.fillStyle = '#b0b0b0'; 
-                      context.fillText(win.prop("title"), 10, 8);
+                      context.fillText(win.attr("windowTitle"), 10, 8);
                       });
               });
            });
         </script>
     </head>
     <body>
-        <div class="toolWindow" style="top:100px;left:100px;width:150px;height:200px;" title="Title here">
+        <div class="toolWindow" style="top:100px;left:100px;width:150px;height:200px;" windowTitle="Title here">
             <div class="header"><canvas class="toolWindowHeader" height=30></canvas></div>
         </div>
         
-        <div class="toolWindow" style="top:100px;left:300px;width:150px;height:200px;" title="Tools">
+        <div class="toolWindow" style="top:100px;left:300px;width:150px;height:200px;" windowTitle="Tools">
             <div class="header"><canvas class="toolWindowHeader" height=30></canvas></div>
         </div>
     </body>
