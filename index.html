@@ -10,7 +10,7 @@
                 position: fixed;
                 display: block;
             }
-            .toolWindow > div {
+            .toolWindow .header {
                 width: 100%;
                 height: 100%;
                 overflow: hidden;
@@ -24,7 +24,8 @@
         <script type="text/javascript">
             $(function() {
               $(".toolWindow").each(function() {
-                  $(this).draggable();
+                  var win = $(this);
+                  win.draggable();
                   $(".toolWindowHeader", this).each(function() {
                       var context = this.getContext('2d');
                       var gradient = context.createLinearGradient(0, 0, 0, this.height);
@@ -33,18 +34,22 @@
                       gradient.addColorStop(1.0, "rgba(20, 20, 20, 0.3)");
                       context.fillStyle = gradient;
                       context.fillRect(0, 0, this.width, this.height);
+                      context.font = '12px verdana';
+                      context.textBaseline = 'top';
+                      context.fillStyle = '#b0b0b0'; 
+                      context.fillText(win.prop("title"), 10, 8);
                       });
               });
            });
         </script>
     </head>
     <body>
-        <div class="toolWindow" style="top:100px;left:100px;width:150px;height:200px;">
-            <div><canvas class="toolWindowHeader" height=30></canvas></div>
+        <div class="toolWindow" style="top:100px;left:100px;width:150px;height:200px;" title="Title here">
+            <div class="header"><canvas class="toolWindowHeader" height=30></canvas></div>
         </div>
         
-        <div class="toolWindow" style="top:100px;left:300px;width:150px;height:200px;">
-            <div><canvas class="toolWindowHeader" height=30></canvas></div>
+        <div class="toolWindow" style="top:100px;left:300px;width:150px;height:200px;" title="Tools">
+            <div class="header"><canvas class="toolWindowHeader" height=30></canvas></div>
         </div>
     </body>
 </html>
