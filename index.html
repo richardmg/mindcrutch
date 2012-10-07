@@ -41,14 +41,14 @@
               $(".toolWindow").each(function() {
                   var win = $(this);
                   window.activeWindow = win;
-                  // Make window draggable, and let it pop to top on click':
+                  // Make window draggable, and
+                  // let it pop to top on click':
                   win.draggable();
                   win.mousedown(function() { 
-                      if (window.activeWindow.css("z-index") == 1)
-                        window.activeWindow.css("z-index", 0);
-                      window.activeWindow = win;
-                      if (win.css("z-index") == 0)
-                        win.css("z-index", 1);
+                      if (win != window.activeWindow) {
+                          $("body").append(win);
+                          window.activeWindow = win;
+                      }
                   });
 
                   // Create frame div in which we place a canvas. We need this extra
@@ -93,6 +93,11 @@
         <div class="toolWindow" style="top:100px;left:300px;width:150px;height:200px;">
             <div class="title">Tools</div>
             <div class="contents">Hello world</div>
+        </div>
+
+        <div class="toolWindow" style="z-index:1; top:50px;left:50px;width:250px;height:150px;">
+            <div class="title">Stays on top</div>
+            <div class="contents">I'm always on top</div>
         </div>
     </body>
 </html>
