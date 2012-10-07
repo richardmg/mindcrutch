@@ -40,9 +40,14 @@
             $(function() {
               $(".toolWindow").each(function() {
                   var win = $(this);
+                  window.activeWindow = win;
                   // Make window draggable, and let it pop to top on click':
-                  win.mousedown(function() { $("body").append(win); });
                   win.draggable();
+                  win.mousedown(function() { 
+                      window.activeWindow.css("z-index", 0);
+                      window.activeWindow = win;
+                      win.css("z-index", 1);
+                  });
 
                   // Create frame div in which we place a canvas. We need this extra
                   // div around the canvas so that the canvas gets clipped to the
@@ -80,7 +85,7 @@
     <body>
         <div class="toolWindow" style="top:150px;left:500px;width:640px;height:400px;">
             <div class="title">Window title</div>
-            <iframe class="contents" src="http://www.myip.com"></iframe>
+            <iframe class="contents" src="http://www.yahoo.com"></iframe>
         </div>
         
         <div class="toolWindow" style="top:100px;left:300px;width:150px;height:200px;">
