@@ -40,9 +40,30 @@
             $(function() {
               $(".toolWindow").each(function() {
                   var win = $(this);
+                  // Make window draggable, and let it pop to top on click':
+                  win.mousedown(function() { $("body").append(win); });
                   win.draggable();
+
+                  // Create frame div in which we place a canvas. We need this extra
+                  // div around the canvas so that the canvas gets clipped to the
+                  // rounded corners:
                   win.append("<div class='frame'></div>");
-                  $(".frame", win).append("<canvas class='headerCanvas' height=30px width=" + win.width() + "px</canvas>");
+                  $(".frame", win).append("<canvas class='headerCanvas' height=30px width="
+                      + win.width() + "px</canvas>");
+
+                  // Draw the background as a gradient:
+                  var canvas = $(".frame .headerCanvas", win).get(0);
+                  var context = canvas.getContext('2d');
+                  var gradient = context.createLinearGradient(0, 0, 0, canvas.height);
+                  gradient.addColorStop(0.0, "rgba(120, 120, 120, 0.3)");
+                  gradient.addColorStop(0.4, "rgba(50, 50, 50, 0.3)");
+                  gradient.addColorStop(1.0, "rgba(20, 20, 20, 0.3)");
+                  context.fillStyle = gradient;
+                  context.fillRect(0, 0, canvas.width, canvas.height);
+
+                  // Since adding margins and paddings to a div makes it bigger
+                  // that 100%, we need this extra fixup code to make
+                  // the contents fit inside the window with the margins:
                   var contents = $(".contents", win);
                   var w = win.width();
                   var h = win.height();
@@ -50,21 +71,8 @@
                   var r = parseInt(contents.css('margin-right'), 10);
                   var t = parseInt(contents.css('margin-top'), 10);
                   var b = parseInt(contents.css('margin-bottom'), 10);
-                  contents.css(
-                      {'width':w - l - r,
-                      'height':h - t - b,
-                      'left':l, 'top':t,
+                  contents.css( {'width':w - l - r, 'height':h - t - b, 'left':l, 'top':t,
                       'margin-left':0, 'margin-right':0, 'margin-top':0, 'margin-bottom':0});
-
-                  $(".headerCanvas", this).each(function() {
-                      var context = this.getContext('2d');
-                      var gradient = context.createLinearGradient(0, 0, 0, this.height);
-                      gradient.addColorStop(0.0, "rgba(120, 120, 120, 0.3)");
-                      gradient.addColorStop(0.4, "rgba(50, 50, 50, 0.3)");
-                      gradient.addColorStop(1.0, "rgba(20, 20, 20, 0.3)");
-                      context.fillStyle = gradient;
-                      context.fillRect(0, 0, this.width, this.height);
-                  });
               });
            });
         </script>
@@ -72,7 +80,7 @@
     <body>
         <div class="toolWindow" style="top:150px;left:500px;width:640px;height:400px;">
             <div class="title">Window title</div>
-            <iframe class="contents" src="http://www.vg.no"></iframe>
+            <iframe class="contents" src="http://www.myip.com"></iframe>
         </div>
         
         <div class="toolWindow" style="top:100px;left:300px;width:150px;height:200px;">
