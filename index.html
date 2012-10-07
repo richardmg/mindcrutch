@@ -28,8 +28,10 @@
             }
             .toolWindow .contents {
                 position: absolute;
-                left: 10;
-                top: 40;
+                margin-top:30px;
+                margin-bottom:10px;
+                margin-right:13px;
+                margin-left:10px;
                 color: white;
             }
 
@@ -40,7 +42,19 @@
                   var win = $(this);
                   win.draggable();
                   win.append("<div class='frame'></div>");
-                  $(".frame", win).append("<canvas class='headerCanvas' height=30 width=" + win.width() + "</canvas>");
+                  $(".frame", win).append("<canvas class='headerCanvas' height=30px width=" + win.width() + "px</canvas>");
+                  var contents = $(".contents", win);
+                  var w = win.width();
+                  var h = win.height();
+                  var l = parseInt(contents.css('margin-left'), 10);
+                  var r = parseInt(contents.css('margin-right'), 10);
+                  var t = parseInt(contents.css('margin-top'), 10);
+                  var b = parseInt(contents.css('margin-bottom'), 10);
+                  contents.css(
+                      {'width':w - l - r,
+                      'height':h - t - b,
+                      'left':l, 'top':t,
+                      'margin-left':0, 'margin-right':0, 'margin-top':0, 'margin-bottom':0});
 
                   $(".headerCanvas", this).each(function() {
                       var context = this.getContext('2d');
@@ -56,16 +70,14 @@
         </script>
     </head>
     <body>
-        <div class="toolWindow" style="top:150px;left:500px;width:350px;height:200px;">
+        <div class="toolWindow" style="top:150px;left:500px;width:640px;height:400px;">
             <div class="title">Window title</div>
-            <div class="contents">
-                Where am I
-                <button type="button">Click me</input>
-            </div>
+            <iframe class="contents" src=""></iframe>
         </div>
         
         <div class="toolWindow" style="top:100px;left:300px;width:150px;height:200px;">
             <div class="title">Tools</div>
+            <div class="contents">Hello world</div>
         </div>
     </body>
 </html>
