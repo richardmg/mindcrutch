@@ -44,9 +44,11 @@
                   // Make window draggable, and let it pop to top on click':
                   win.draggable();
                   win.mousedown(function() { 
-                      window.activeWindow.css("z-index", 0);
+                      if (window.activeWindow.css("z-index") == 1)
+                        window.activeWindow.css("z-index", 0);
                       window.activeWindow = win;
-                      win.css("z-index", 1);
+                      if (win.css("z-index") == 0)
+                        win.css("z-index", 1);
                   });
 
                   // Create frame div in which we place a canvas. We need this extra
