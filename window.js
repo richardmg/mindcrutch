@@ -1,4 +1,24 @@
 
+function redefineMarginsOnNode(node)
+{
+    // Since adding margins and paddings to a node makes it bigger
+    // than 100%, this helper code makes the node fill the size
+    // of the parent including its margins (if width/height is set to 0):
+    var o = $(node);
+    if (o.width() == 0) {
+        var w = o.parent().width();
+        var l = parseInt(o.css('margin-left'), 10);
+        var r = parseInt(o.css('margin-right'), 10);
+        o.css({'left':l, 'width':w-l-r, 'margin-left':0, 'margin-right':0});
+    }
+    if (o.height() == 0) {
+        var h = o.parent().height();
+        var t = parseInt(o.css('margin-top'), 10);
+        var b = parseInt(o.css('margin-bottom'), 10);
+        o.css({'top':t, 'height':h-t-b, 'margin-top':0, 'margin-bottom':0});
+    }
+}
+
 function registerToolWindow(divtag) {
     var win = $(divtag);
     window.activeWindow = win;
@@ -29,24 +49,7 @@ function registerToolWindow(divtag) {
     context.fillStyle = gradient;
     context.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Since adding margins and paddings to a div makes it bigger
-    // than 100%, we need this extra fixup code to make header and
-    // contents fit inside the window with the given margins:
-    var contents = $(".header, .contents", win).each(function() {
-        var o = $(this);
-        var w = win.width();
-        var h = win.height();
-        if (o.width() == 0) {
-            var l = parseInt(o.css('margin-left'), 10);
-            var r = parseInt(o.css('margin-right'), 10);
-            o.css({'left':l, 'width':w-l-r, 'margin-left':0, 'margin-right':0});
-        }
-        if (o.height() == 0) {
-            var t = parseInt(o.css('margin-top'), 10);
-            var b = parseInt(o.css('margin-bottom'), 10);
-            o.css({'top':t, 'height':h-t-b, 'margin-top':0, 'margin-bottom':0});
-        }
-    });
+    $(".header, .contents", win).each(function() { redefineMarginsOnNode(this); });
 }
 
 // Register all windows at startup:
