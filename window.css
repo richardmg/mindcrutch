@@ -1,6 +1,5 @@
 .toolWindow {
     position: fixed;
-    noraise: true;
 }
 .toolWindow .frame {
     width: 100%;
