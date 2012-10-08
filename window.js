@@ -6,7 +6,7 @@ function registerToolWindow(divtag) {
     // let it pop to top on click':
     win.draggable();
     win.mousedown(function() { 
-        if (win != window.activeWindow && win.attr("autoraise") !== "true") {
+        if (win != window.activeWindow && win.attr("autoraise") != "false") {
             $("body").append(win);
             window.activeWindow = win;
         }
