@@ -6,7 +6,7 @@ function registerToolWindow(divtag) {
     // let it pop to top on click':
     win.draggable();
     win.mousedown(function() { 
-        if (win != window.activeWindow) {
+        if (win != window.activeWindow && win.attr("autoraise") !== "true") {
             $("body").append(win);
             window.activeWindow = win;
         }
@@ -23,7 +23,7 @@ function registerToolWindow(divtag) {
     var canvas = $(".frame .headerCanvas", win).get(0);
     var context = canvas.getContext('2d');
     var gradient = context.createLinearGradient(0, 0, 0, canvas.height);
-    gradient.addColorStop(0.0, "rgba(120, 120, 120, 0.3)");
+    gradient.addColorStop(0.0, "rgba(180, 180, 180, 0.3)");
     gradient.addColorStop(0.4, "rgba(50, 50, 50, 0.3)");
     gradient.addColorStop(1.0, "rgba(20, 20, 20, 0.3)");
     context.fillStyle = gradient;
