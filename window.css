@@ -12,15 +12,20 @@
     -moz-box-shadow: -6px 6px 8px -5px #202020;
     -webkit-box-shadow: -6px 6px 8px -5px #202020;
 }
-.toolWindow .title {
+.toolWindow .header {
     position: absolute;
-    left: 10;
-    top: 8;
+    width: 0px;
+    height: 17px;
+    margin-top:8;
+    margin-right:10px;
+    margin-left:10px;
     color: #b0b0b0;
     font: 12px verdana;
 }
 .toolWindow .contents {
     position: absolute;
+    width: 0px;
+    height: 0px;
     margin-top:30px;
     margin-bottom:13px;
     margin-right:13px;

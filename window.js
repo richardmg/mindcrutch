@@ -30,17 +30,23 @@ function registerToolWindow(divtag) {
     context.fillRect(0, 0, canvas.width, canvas.height);
 
     // Since adding margins and paddings to a div makes it bigger
-    // that 100%, we need this extra fixup code to make
-    // the contents fit inside the window with the margins:
-    var contents = $(".contents", win);
-    var w = win.width();
-    var h = win.height();
-    var l = parseInt(contents.css('margin-left'), 10);
-    var r = parseInt(contents.css('margin-right'), 10);
-    var t = parseInt(contents.css('margin-top'), 10);
-    var b = parseInt(contents.css('margin-bottom'), 10);
-    contents.css( {'width':w - l - r, 'height':h - t - b, 'left':l, 'top':t,
-            'margin-left':0, 'margin-right':0, 'margin-top':0, 'margin-bottom':0});
+    // than 100%, we need this extra fixup code to make header and
+    // contents fit inside the window with the given margins:
+    var contents = $(".header, .contents", win).each(function() {
+        var o = $(this);
+        var w = win.width();
+        var h = win.height();
+        if (o.width() == 0) {
+            var l = parseInt(o.css('margin-left'), 10);
+            var r = parseInt(o.css('margin-right'), 10);
+            o.css({'left':l, 'width':w-l-r, 'margin-left':0, 'margin-right':0});
+        }
+        if (o.height() == 0) {
+            var t = parseInt(o.css('margin-top'), 10);
+            var b = parseInt(o.css('margin-bottom'), 10);
+            o.css({'top':t, 'height':h-t-b, 'margin-top':0, 'margin-bottom':0});
+        }
+    });
 }
 
 // Register all windows at startup:
