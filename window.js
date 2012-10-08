@@ -45,7 +45,7 @@ function createToolWindow(node) {
     var gradient = context.createLinearGradient(0, 0, 0, canvas.height);
     gradient.addColorStop(0.0, "rgba(180, 180, 180, 0.3)");
     gradient.addColorStop(0.4, "rgba(50, 50, 50, 0.3)");
-    gradient.addColorStop(1.0, "rgba(20, 20, 20, 0.3)");
+    gradient.addColorStop(1.0, "rgba(20, 20, 20, 0.0)");
     context.fillStyle = gradient;
     context.fillRect(0, 0, canvas.width, canvas.height);
 
