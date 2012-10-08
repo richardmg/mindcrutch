@@ -1,5 +1,5 @@
 
-function redefineMarginsOnNode(node)
+function redefineMargins(node)
 {
     // Since adding margins and paddings to a node makes it bigger
     // than 100%, this helper code makes the node fill the size
@@ -19,8 +19,8 @@ function redefineMarginsOnNode(node)
     }
 }
 
-function registerToolWindow(divtag) {
-    var win = $(divtag);
+function createToolWindow(node) {
+    var win = $(node);
     window.activeWindow = win;
     // Make window draggable, and
     // let it pop to top on click':
@@ -49,10 +49,10 @@ function registerToolWindow(divtag) {
     context.fillStyle = gradient;
     context.fillRect(0, 0, canvas.width, canvas.height);
 
-    $(".header, .contents", win).each(function() { redefineMarginsOnNode(this); });
+    $(".header, .contents", win).each(function() { redefineMargins(this); });
 }
 
 // Register all windows at startup:
 $(function() {
-    $(".toolWindow").each(function() { registerToolWindow(this); });
+    $(".toolWindow").each(function() { createToolWindow(this); });
 });
