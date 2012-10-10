@@ -1,22 +1,21 @@
 .crutchbutton {
     display: inline-block;
-    border-style: solid;
-    border-width: 1px;
-    border-color: #404040;
+#border-style: solid;
+#border-width: 1px;
+#border-color: rgba(0, 0 ,0 ,0);
     padding: 10px;
     margin-bottom: 5px;
     margin-right: 5px;
     border-radius: 3;
-    background: -webkit-linear-gradient(top, #4d4d4d 0%,#202020 100%);
+    background-color: #303030;
+#background: -webkit-linear-gradient(top, #4d4d4d 100%,#202020 100%);
     font: 10px verdana;
     color: #b0b0b0;
 }
 .crutchbutton:hover {
-    border-color: #606050;
+    background-color: #404040;
 #box-shadow: 0px 0px 8px -2px #6d6e5d
 }
 .crutchbutton:active {
-    border-color: #c0c080;
-    background: -webkit-linear-gradient(top, #5d5d4d 0%,#202020 100%);
-#    box-shadow: 0px 0px 14px -2px #6d6e5d
+    background-color: #606060;
 }
