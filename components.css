@@ -4,6 +4,8 @@
     border-width: 1px;
     border-color: #404040;
     padding: 10px;
+    margin-bottom: 5px;
+    margin-right: 5px;
     border-radius: 3;
     background: -webkit-linear-gradient(top, #4d4d4d 0%,#202020 100%);
     font: 10px verdana;
