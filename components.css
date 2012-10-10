@@ -1,10 +1,9 @@
 .crutchbutton {
-    position: relative;
-    display: inline;
+    display: inline-block;
     border-style: solid;
     border-width: 1px;
     border-color: #404040;
-    padding: 6px;
+    padding: 10px;
     border-radius: 3;
     background: -webkit-linear-gradient(top, #4d4d4d 0%,#202020 100%);
     font: 10px verdana;
