@@ -22,12 +22,17 @@
 
 .thumbnail {
     height: 60px;
-    margin-right: 4px;
-    margin-bottom: 4px;
+    margin-right: 0px;
+    margin-bottom: 0px;
     vertical-align: top;
-#border: 2px solid #000000;
+    border: 2px solid #202020;
     display: inline-block;
+    border-radius: 6px;
+    overflow: hidden;
+}
+.thumbnail img {
+    height: 60px;
 }
 .thumbnail:hover {
-    border: 2px solid #505050;
+    border: 2px solid #ffffff;
 }
