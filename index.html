@@ -7,13 +7,21 @@
         <link rel="stylesheet" type="text/css" href="components.css">
 
         <script>
+            $(loadImages("monkey"));
+
             function loadImages(searchString)
             {
                 var url = "https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=" + searchString + "&callback=?";
                 console.log("loading: " + url);
                 $.getJSON(url, function(json) {
                     console.log("Return:" + JSON.stringify(json));
-                    $("#brushwin .contents").html(JSON.stringify(json));
+                    console.log("------------------------------------------");
+
+                    for (var i in json.responseData.results)
+                        console.log("Image: " + json.responseData.results[i].tbUrl);                        
+
+                    console.log("count: " + json.responseData.cursor.resultCount);
+//$("#brushwin .contents").html(JSON.stringify(json));
                 });
             }
         </script>
