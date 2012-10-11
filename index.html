@@ -12,16 +12,16 @@
             function loadImages(searchString)
             {
                 var url = "https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=" + searchString + "&callback=?";
-                console.log("loading: " + url);
                 $.getJSON(url, function(json) {
                     console.log("Return:" + JSON.stringify(json));
-                    console.log("------------------------------------------");
 
-                    for (var i in json.responseData.results)
-                        console.log("Image: " + json.responseData.results[i].tbUrl);                        
+                    var view = $($("#brushwin .contents").get(0));
+                    for (var i in json.responseData.results) {
+                        var tbUrl =  json.responseData.results[i].tbUrl;
+                        view.append("<img class='thumbnail' src='" + tbUrl + "'></img>");
+                    }
 
                     console.log("count: " + json.responseData.cursor.resultCount);
-//$("#brushwin .contents").html(JSON.stringify(json));
                 });
             }
         </script>

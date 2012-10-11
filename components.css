@@ -19,3 +19,12 @@
 .crutchbutton:active {
     background-color: #606060;
 }
+
+.thumbnail {
+    margin-right: 5px;
+    margin-bottom: 5px;
+    vertical-align: top;
+    border-style: solid:
+    border-width: 2px;
+    border-color: #ffffff;
+}
