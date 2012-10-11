@@ -21,16 +21,13 @@
 }
 
 .thumbnail {
-    margin-right: 5px;
-    margin-bottom: 5px;
+    height: 60px;
+    margin-right: 4px;
+    margin-bottom: 4px;
     vertical-align: top;
-    border-style: solid:
-    border-width: 2px;
-    border-color: #ffffff;
-    background-color: #202020;
-    padding: 5px;
+#border: 2px solid #000000;
     display: inline-block;
 }
-.thumbnail img {
-    height: 60;
+.thumbnail:hover {
+    border: 2px solid #505050;
 }

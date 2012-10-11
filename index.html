@@ -21,7 +21,7 @@
                     var view = $($("#brushwin .contents").get(0));
                     for (var i in json.responseData.results) {
                         var tbUrl =  json.responseData.results[i].tbUrl;
-                        view.append("<div class='thumbnail'><img src='" + tbUrl + "'></img></div>");
+                        view.append("<img class='thumbnail' src='" + tbUrl + "'></img>");
                     }
 
                     console.log("count: " + json.responseData.cursor.resultCount);
