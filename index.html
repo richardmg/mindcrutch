@@ -10,41 +10,38 @@
 
         <script>
             $(function() {
+                layers = new Array;
+
+                var canvas = $(".WooCanvas");
+                canvas[0].width = canvas.width();
+                canvas[0].height = canvas.height();
+                var context = canvas[0].getContext('2d');
+
+                function drawLayers()
+                {
+                    console.log("draw layers", layers.length);
+                    for (var i in layers) {
+                        var layer = layers[i];
+                        context.drawImage(layer.image, layer.x, layer.y);
+                    }
+                }
+
                 var WooLayer = function(url) {
+                    layers.push(this);
                     this.url = url;
                     this.x = 0;
                     this.y = 0;
                     this.rotation = 0;
                     this.scale = 1;
                     this.image = new Image();
+                    this.image.onload = drawLayers;
                     this.image.src = url;
                 };
-
-                var layers = [];
-
-                var canvas = $(".WooCanvas");
-                canvas[0].width = canvas.width();
-                canvas[0].height = canvas.height();
-                var context = canvas[0].getContext('2d');
-                //context.fillStyle = "#ff0000";
-                //context.fillRect(0, 0, 50, 50); 
-                //context.drawImage($("#monkey")[0], 10, 10);
-
-                            var img = new Image();
-                            img.src = "monkey.jpg";
-                            context.drawImage(img, 10, 10);
-
 
                 var paletteCallback = {
                     thumbnailPressed: function(result)
                     {
                         var layer = new WooLayer(result.url);
-                        layers.push(layer);
-                        context.drawImage(layer.image, layer.x, layer.y);
-
-//                        for (var layer in layers) {
-//                            context.drawImage(layer.image, layer.x, layer.y);
-//                        }
                     },
                     cursor: function(cursor)
                     {
@@ -63,14 +60,13 @@
     </head>
 
     <body>
-        <div id="brushwin" class="WooWindow" style="top:150px;left:500px;width:640px;height:400px;">
-            <div class="header">Palette</div>
-            <div class="contents" frameborder=0></div>
-        </div>
-        
         <div class="WooWindow" style="top:10px;left:10px;width:840px;height:480px;">
             <div class="header">Canvas</div>
             <canvas class="contents WooCanvas" style="background-color:#ffffff"></canvas>
+        </div>
+        <div id="brushwin" class="WooWindow" style="top:150px;left:500px;width:640px;height:400px;">
+            <div class="header">Palette</div>
+            <div class="contents" frameborder=0></div>
         </div>
 
         <!--
