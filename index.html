@@ -19,18 +19,21 @@
 
                 function drawLayers()
                 {
-                    console.log("draw layers", layers.length);
+                    console.log("draw layers, (no clear!)", layers.length);
                     for (var i in layers) {
                         var layer = layers[i];
-                        context.drawImage(layer.image, layer.x, layer.y);
+                        context.translate(layer.x, layer.y);
+                        context.rotate(10);
+                        context.drawImage(layer.image, 0, 0);
+                        context.translate(-layer.x, -layer.y);
                     }
                 }
 
                 var WooLayer = function(url) {
                     layers.push(this);
                     this.url = url;
-                    this.x = 0;
-                    this.y = 0;
+                    this.x = 300;
+                    this.y = 200;
                     this.rotation = 0;
                     this.scale = 1;
                     this.image = new Image();
