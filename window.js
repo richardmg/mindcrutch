@@ -1,10 +1,17 @@
+//
+// Usage:
+// <div class="WooWindow" style="top:150px;left:500px;width:640px;height:400px;">
+//    <div class="header">Your header</div>
+//    <div class="contents">Your contents</div>
+// </div>
+//
 
-function redefineMargins(node)
+function redefineMargins(element)
 {
-    // Since adding margins and paddings to a node makes it bigger
-    // than 100%, this helper code makes the node fill the size
+    // Since adding margins and paddings to an element makes it bigger
+    // than 100%, this helper code makes the element fill the size
     // of the parent including its margins (if width/height is set to 0):
-    var o = $(node);
+    var o = $(element);
     if (o.width() == 0) {
         var w = o.parent().width();
         var l = parseInt(o.css('margin-left'), 10);
@@ -19,8 +26,8 @@ function redefineMargins(node)
     }
 }
 
-function createWooWindow(node) {
-    var win = $(node);
+function createWooWindow(element) {
+    var win = $(element);
     window.activeWindow = win;
     // Make window draggable, and
     // let it pop to top on click':

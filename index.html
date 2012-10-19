@@ -9,20 +9,52 @@
         <link rel="stylesheet" type="text/css" href="components.css">
 
         <script>
-            
+            $(function() {
+                var WooLayer = function(url) {
+                    this.url = url;
+                    this.x = 0;
+                    this.y = 0;
+                    this.rotation = 0;
+                    this.scale = 1;
+                    this.image = new Image();
+                    this.image.src = url;
+                };
 
-            var paletteCallback = {
-                thumbnailPressed: function(result)
-                {
-                    console.log("called: " + result.url);
-                },
-                cursor: function(cursor)
-                {
-                    console.log("Search count: " + cursor.resultCount);
+                var layers = [];
+
+                var canvas = $(".WooCanvas");
+                canvas[0].width = canvas.width();
+                canvas[0].height = canvas.height();
+                var context = canvas[0].getContext('2d');
+                //context.fillStyle = "#ff0000";
+                //context.fillRect(0, 0, 50, 50); 
+                //context.drawImage($("#monkey")[0], 10, 10);
+
+                            var img = new Image();
+                            img.src = "monkey.jpg";
+                            context.drawImage(img, 10, 10);
+
+
+                var paletteCallback = {
+                    thumbnailPressed: function(result)
+                    {
+                        var layer = new WooLayer(result.url);
+                        layers.push(layer);
+                        context.drawImage(layer.image, layer.x, layer.y);
+
+//                        for (var layer in layers) {
+//                            context.drawImage(layer.image, layer.x, layer.y);
+//                        }
+                    },
+                    cursor: function(cursor)
+                    {
+                        console.log("Search count: " + cursor.resultCount);
+                    }
                 }
-            }
 
-            $(loadImagesFromGoogle("monkey", "#brushWin .contents", paletteCallback));
+                loadImagesFromGoogle("monkey", "#brushWin .contents", paletteCallback);
+            });
+
         </script>
 
         <style type="text/css">
@@ -31,23 +63,17 @@
     </head>
 
     <body>
-        <div id="webwin" class="WooWindow" style="display:none; top:150px;left:500px;width:640px;height:400px;" autoraise="false">
-            <div class="header">Window title</div>
-            <iframe class="contents" frameborder=0 src="http://www.youtube.com/embed/DzDCBgJLhYw"></iframe>
-        </div>
-
         <div id="brushwin" class="WooWindow" style="top:150px;left:500px;width:640px;height:400px;">
             <div class="header">Palette</div>
             <div class="contents" frameborder=0></div>
         </div>
         
-        <div class="WooWindow" style="top:50px;left:100px;width:640px;height:480px;">
+        <div class="WooWindow" style="top:10px;left:10px;width:840px;height:480px;">
             <div class="header">Canvas</div>
-            <div class="contents" style="background-color:#ffffff">
-                
-            </div>
+            <canvas class="contents WooCanvas" style="background-color:#ffffff"></canvas>
         </div>
 
+        <!--
         <div class="WooWindow" style="top:50px;left:50px;width:250px;height:150px;">
             <div class="header">File</div>
             <div class="contents">
@@ -55,5 +81,6 @@
                 <div class="crutchbutton" onClick="loadImagesFromGoogle('monkey', '#brushWin .contents', paletteCallback)">Load images</div>
             </div>
         </div>
+        -->
     </body>
 </html>
