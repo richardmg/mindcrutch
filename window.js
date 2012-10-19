@@ -19,7 +19,7 @@ function redefineMargins(node)
     }
 }
 
-function createToolWindow(node) {
+function createWooWindow(node) {
     var win = $(node);
     window.activeWindow = win;
     // Make window draggable, and
@@ -35,24 +35,24 @@ function createToolWindow(node) {
     // Create frame div in which we place a canvas. We need this extra
     // div around the canvas so that the canvas gets clipped to the
     // rounded corners:
-    win.append("<div class='frame'></div>");
-    $(".frame", win).append("<canvas class='headerCanvas' height=30px width="
-            + win.width() + "px</canvas>");
+    var frame = $("<div class='frame'></div>");
+    var canvas = $("<canvas class='headerCanvas' height=30px width=" + win.width() + "px</canvas>");
+    win.append(frame);
+    frame.append(canvas);
 
     // Draw the background as a gradient:
-    var canvas = $(".frame .headerCanvas", win).get(0);
-    var context = canvas.getContext('2d');
-    var gradient = context.createLinearGradient(0, 0, 0, canvas.height);
+    var context = canvas[0].getContext('2d');
+    var gradient = context.createLinearGradient(0, 0, 0, canvas.height());
     gradient.addColorStop(0.0, "rgba(180, 180, 180, 0.3)");
     gradient.addColorStop(0.4, "rgba(50, 50, 50, 0.3)");
     gradient.addColorStop(1.0, "rgba(20, 20, 20, 0.0)");
     context.fillStyle = gradient;
-    context.fillRect(0, 0, canvas.width, canvas.height);
+    context.fillRect(0, 0, canvas.width(), canvas.height());
 
     $(".header, .contents", win).each(function() { redefineMargins(this); });
 }
 
 // Register all windows at startup:
 $(function() {
-    $(".WooWindow").each(function() { createToolWindow(this); });
+    $(".WooWindow").each(function() { createWooWindow(this); });
 });
