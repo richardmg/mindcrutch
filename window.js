@@ -54,5 +54,5 @@ function createToolWindow(node) {
 
 // Register all windows at startup:
 $(function() {
-    $(".toolWindow").each(function() { createToolWindow(this); });
+    $(".WooWindow").each(function() { createToolWindow(this); });
 });
