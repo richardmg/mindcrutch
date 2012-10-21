@@ -23,9 +23,10 @@
                     }
                 }
 
-                var imageinput = $("#imageinput");
-                imageinput.on("change", function() {
-                    loadImagesFromGoogle(imageinput.attr("value"), "#brushWin .contents", paletteCallback);
+                var imageInput = $("#imageinput");
+                imageInput.on("change", function() {
+                    $("#brushWin .imagesContainer").empty();
+                    loadImagesFromGoogle(imageInput.attr("value"), "#brushWin .imagesContainer", paletteCallback);
                 });
 
                 $("#brushwin .contents").disableSelection();
@@ -40,7 +41,7 @@
     </head>
 
     <body>
-        <div class="WooWindow" style="top:10px;left:10px;width:840px;height:480px;" draggable="false">
+        <div class="WooWindow" style="top:10px;left:10px;width:840px;height:480px;" draggable="true">
             <div class="header">Canvas</div>
             <canvas class="contents WooCanvas" style="background-color:#ffffff"></canvas>
         </div>
@@ -48,6 +49,7 @@
             <div class="header">Palette</div>
             <div class="contents" frameborder=0>
                 <input id="imageinput" type="text" style="display:block;width:100%"></input>
+                <div class="imagesContainer" frameborder=0></div>
             </div>
         </div>
 
