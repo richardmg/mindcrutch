@@ -31,10 +31,6 @@ function createWooWindow(element) {
     window.activeWindow = win;
     // Make window draggable, and
     // let it pop to top on click':
-    if (win.attr("draggable") != "false") {
-        win.css("cursor", "move");
-        win.draggable();
-    }
     win.mousedown(function() { 
         if (win != window.activeWindow && win.attr("autoraise") != "false") {
             $("body").append(win);
@@ -49,6 +45,12 @@ function createWooWindow(element) {
     var canvas = $("<canvas class='headerCanvas' height=30px width=" + win.width() + "px</canvas>");
     win.append(frame);
     frame.append(canvas);
+
+    if (win.attr("draggable") != "false") {
+        frame.css("cursor", "move");
+        $(".header", win).css("cursor", "move");
+        win.draggable({cancel:".contents"});
+    }
 
     // Draw the background as a gradient:
     var context = canvas[0].getContext('2d');
