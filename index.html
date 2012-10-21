@@ -19,7 +19,7 @@
 
                 function drawLayers()
                 {
-                    console.log("draw layers, (no clear!)", layers.length);
+                    context.canvas.width = context.canvas.width;
                     for (var i in layers) {
                         var layer = layers[i];
                         context.translate(layer.x, layer.y);
