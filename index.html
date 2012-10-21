@@ -10,51 +10,7 @@
 
         <script>
             $(function() {
-                layers = new Array;
-
-                var canvas = $(".WooCanvas");
-                canvas[0].width = canvas.width();
-                canvas[0].height = canvas.height();
-                var context = canvas[0].getContext('2d');
-
-                var mousedown = false;
-                canvas.on("mousedown", function() {
-                    // Find which layer clicked:
-                    var layer = layers[0];
-                    mousedown = true;
-                });
-                canvas.on("mouseup", function() {
-                    mousedown = false;
-                });
-
-                canvas.on("mousemove", function() {
-                    if (mousedown)
-                        console.log("mouse move");
-                });
-
-                function drawLayers()
-                {
-                    context.canvas.width = context.canvas.width;
-                    for (var i in layers) {
-                        var layer = layers[i];
-                        context.translate(layer.x, layer.y);
-                        context.rotate(10);
-                        context.drawImage(layer.image, 0, 0);
-                        context.translate(-layer.x, -layer.y);
-                    }
-                }
-
-                var WooLayer = function(url) {
-                    layers.push(this);
-                    this.url = url;
-                    this.x = 300;
-                    this.y = 200;
-                    this.rotation = 0;
-                    this.scale = 1;
-                    this.image = new Image();
-                    this.image.onload = drawLayers;
-                    this.image.src = url;
-                };
+                initImagePalette();
 
                 var paletteCallback = {
                     thumbnailPressed: function(result)
@@ -84,7 +40,9 @@
         </div>
         <div id="brushwin" class="WooWindow" style="top:150px;left:500px;width:640px;height:400px;">
             <div class="header">Palette</div>
-            <div class="contents" frameborder=0></div>
+            <div class="contents" frameborder=0>
+                <input type="text" style="display:block;width:100%"></input>
+            </div>
         </div>
 
         <!--
