@@ -10,7 +10,7 @@
 
         <script>
             $(function() {
-                initImagePalette();
+                initCanvas();
 
                 var paletteCallback = {
                     thumbnailPressed: function(result)
@@ -45,9 +45,9 @@
             <div class="header">Canvas</div>
             <canvas class="contents WooCanvas" style="background-color:#ffffff"></canvas>
         </div>
-        <div id="brushwin" class="WooWindow" style="top:150px;left:500px;width:640px;height:400px;">
+        <div id="brushwin" class="WooWindow" style="top:150px;left:500px;width:640px;height:400px">
             <div class="header">Palette</div>
-            <div class="contents" frameborder=0>
+            <div class="contents" frameborder=0 style="overflow:auto">
                 <input id="imageinput" type="text" style="display:block;width:100%"></input>
                 <div class="imagesContainer" frameborder=0></div>
             </div>
