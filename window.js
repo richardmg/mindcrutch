@@ -31,7 +31,10 @@ function createWooWindow(element) {
     window.activeWindow = win;
     // Make window draggable, and
     // let it pop to top on click':
-    win.draggable();
+    if (win.attr("draggable") != "false") {
+        win.css("cursor", "move");
+        win.draggable();
+    }
     win.mousedown(function() { 
         if (win != window.activeWindow && win.attr("autoraise") != "false") {
             $("body").append(win);

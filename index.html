@@ -17,6 +17,21 @@
                 canvas[0].height = canvas.height();
                 var context = canvas[0].getContext('2d');
 
+                var mousedown = false;
+                canvas.on("mousedown", function() {
+                    // Find which layer clicked:
+                    var layer = layers[0];
+                    mousedown = true;
+                });
+                canvas.on("mouseup", function() {
+                    mousedown = false;
+                });
+
+                canvas.on("mousemove", function() {
+                    if (mousedown)
+                        console.log("mouse move");
+                });
+
                 function drawLayers()
                 {
                     context.canvas.width = context.canvas.width;
@@ -63,7 +78,7 @@
     </head>
 
     <body>
-        <div class="WooWindow" style="top:10px;left:10px;width:840px;height:480px;">
+        <div class="WooWindow" style="top:10px;left:10px;width:840px;height:480px;" draggable="false">
             <div class="header">Canvas</div>
             <canvas class="contents WooCanvas" style="background-color:#ffffff"></canvas>
         </div>
