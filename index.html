@@ -23,15 +23,16 @@
                     {
                         console.log("Search count: " + cursor.resultCount);
                     }
-                }
+                };
 
                 var imageInput = $("#imageSearchInput");
                 imageInput.on("change", function() {
-                    $("#brushWin .imagesContainer").empty();
-                    loadImagesFromGoogle(imageInput.attr("value"), "#brushWin .imagesContainer", paletteCallback);
+                    $("#brushWin .imagesContainer")
+                    .empty()
+                    .fillWithGoogleImages(imageInput.attr("value"), paletteCallback);
                 });
 
-                //loadImagesFromGoogle("monkey", "#brushWin .contents", paletteCallback);
+                $("#brushWin .imagesContainer").fillWithGoogleImages("boat", paletteCallback);
             });
 
         </script>

@@ -1,8 +1,9 @@
 
-function loadImagesFromGoogle(searchString, targetSel, callback)
+$.fn.fillWithGoogleImages = function(searchString, callback)
 {
+    var $plugin_this = this;
     var rsz = 8
-    for (var start=0; start<(5*rsz); start+=rsz) {
+    for (var start=0; start<(7*rsz); start+=rsz) {
         //https://developers.google.com/image-search/v1/jsondevguide#basic
         //var url = "https://ajax.googleapis.com/ajax/services/search/images?v=1.0&imgtype=clipart&imgsz=small&rsz=8&q=" + searchString + "&callback=?";
         var url = "https://ajax.googleapis.com/ajax/services/search/images?v=1.0&imgsz=small&rsz="
@@ -11,7 +12,7 @@ function loadImagesFromGoogle(searchString, targetSel, callback)
         //var url = "https://ajax.googleapis.com/ajax/services/search/images?v=1.0&imgtype=clipart&imgcolor=brown&rsz=8&q=" + searchString + "&callback=?";
         $.getJSON(url, function(json) {
                 //console.log("Return:" + JSON.stringify(json));
-                $(targetSel).each(function() {
+                $plugin_this.each(function() {
                     var view = $(this);
                     for (var i in json.responseData.results) {
                         var r = json.responseData.results[i];
@@ -26,4 +27,5 @@ function loadImagesFromGoogle(searchString, targetSel, callback)
                 });
         });
     }
+    return this;
 }
