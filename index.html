@@ -11,13 +11,13 @@
         <script>
             $(function() {
                 $(".WooWindow").createWooWindow();
-                $("#brushwin .contents").disableSelection();
-                initCanvas();
+                var $canvas = $(".WooCanvas").createWooCanvas();
+                var canvas = $.data($canvas[0], "wooCanvas");
 
                 var paletteCallback = {
                     thumbnailPressed: function(result)
                     {
-                        var layer = new WooLayer(result.url);
+                        canvas.addLayer(result.url);
                     },
                     cursor: function(cursor)
                     {
@@ -32,7 +32,9 @@
                     .fillWithGoogleImages(imageInput.attr("value"), paletteCallback);
                 });
 
-                $("#searchResult").fillWithGoogleImages("boat", paletteCallback);
+                $("#searchResult")
+                    .disableSelection()
+                    .fillWithGoogleImages("boat", paletteCallback);
             });
 
         </script>
