@@ -27,12 +27,12 @@
 
                 var imageInput = $("#imageSearchInput");
                 imageInput.on("change", function() {
-                    $("#brushWin .imagesContainer")
+                    $("#searchResult")
                     .empty()
                     .fillWithGoogleImages(imageInput.attr("value"), paletteCallback);
                 });
 
-                $("#brushWin .imagesContainer").fillWithGoogleImages("boat", paletteCallback);
+                $("#searchResult").fillWithGoogleImages("boat", paletteCallback);
             });
 
         </script>
@@ -56,7 +56,7 @@
                     <tr><td>
                         <input id="imageSearchInput" type="text" style="display:block;width:100%"></input></td>
                     </tr><tr><td style="height:100%">
-                        <div class="imagesContainer" style="height:100%;overflow:auto"></div>
+                        <div id="searchResult" style="height:100%;overflow:auto"></div>
                     </td></tr>
                 </table>
             </div>
