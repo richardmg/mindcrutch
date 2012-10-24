@@ -1,8 +1,9 @@
 
 function WooCanvas(canvas)
 {
+    var canvas_this = this;
     var $canvas = $(canvas);
-    var layers = new Array;
+    this.layers = new Array;
     canvas.width = $canvas.width();
     canvas.height = $canvas.height();
     var context = $canvas[0].getContext('2d');
@@ -10,7 +11,7 @@ function WooCanvas(canvas)
 
     $canvas.on("mousedown", function() {
         // Find which layer clicked:
-        var layer = layers[0];
+        var layer = canvas_this.layers[0];
         mousedown = true;
     });
 
@@ -26,8 +27,8 @@ function WooCanvas(canvas)
     this.drawLayers = function()
     {
         context.canvas.width = context.canvas.width;
-        for (var i in layers) {
-            var layer = layers[i];
+        for (var i in canvas_this.layers) {
+            var layer = canvas_this.layers[i];
             context.translate(layer.x, layer.y);
             context.rotate(10);
             context.drawImage(layer.image, 0, 0);
@@ -35,17 +36,20 @@ function WooCanvas(canvas)
         }
     }
 
-    this.addLayer = function(url) {
-        var layer = new Object();
-        layers.push(layer);
-        layer.url = url;
-        layer.x = 300;
-        layer.y = 200;
-        layer.rotation = 0;
-        layer.scale = 1;
-        layer.image = new Image();
-        layer.image.onload = this.drawLayers;
-        layer.image.src = url;
+    this.addLayer = function(layer) {
+        layer.x = layer.x || 300;
+        layer.y = layer.y || 200;
+        layer.z = layer.z || this.layers.length;
+        layer.rotation = layer.rotation || 0;
+        layer.scale = layer.scale || 1;
+
+        canvas_this.layers.push(layer);
+        if (layer.url) {
+            layer.image = new Image();
+            layer.image.onload = this.drawLayers;
+            layer.image.src = layer.url;
+        }
+        return layer;
     }
 }
 
