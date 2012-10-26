@@ -23,9 +23,9 @@ function WooCanvas(canvas)
 
     $canvas.on("mousedown", function(e) {
         // Find which layer clicked:
-        var parentOffset = $(this).parent().offset();
-        var x = e.pageX - this.offsetLeft - parentOffset.left;
-        var y = e.pageY - this.offsetTop - parentOffset.top;
+        var parentOffset = $canvas.parent().offset();
+        var x = e.pageX - canvas.offsetLeft - parentOffset.left;
+        var y = e.pageY - canvas.offsetTop - parentOffset.top;
         var layer = getLayerAt(x, y);
         if (layer) {
             console.log("You clicked on:", layer.url);
