@@ -41,7 +41,7 @@ $.fn.createWooWindow = function() {
         if ($this.attr("draggable") != "false") {
             frame.css("cursor", "move");
             $(".header", $this).css("cursor", "move");
-            $this.draggable({cancel:".contents"});
+            //$this.draggable({cancel:".contents"});
         }
 
         // Draw the header background:

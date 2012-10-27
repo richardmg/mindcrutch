@@ -10,7 +10,13 @@
 
         <script>
             $(function() {
-                $(".WooWindow").createWooWindow();
+                $(".WooWindow")
+                    .createWooWindow()
+                    .disableSelection()
+                    .on("dragstart", function(e) {
+                        e.preventDefault();
+                    });
+
                 var $canvas = $(".WooCanvas").createWooCanvas();
                 var canvas = $.data($canvas[0], "wooCanvas");
 
@@ -35,6 +41,7 @@
                 $("#searchResult")
                     .disableSelection()
                     .fillWithGoogleImages("boat", paletteCallback);
+
             });
 
         </script>

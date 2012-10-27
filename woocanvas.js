@@ -8,6 +8,7 @@ function WooCanvas(canvas)
     canvas.height = $canvas.height();
     var context = $canvas[0].getContext('2d');
     var mousedown = false;
+    var selectedLayer = undefined;
 
     function getLayerAt(x, y)
     {
@@ -31,20 +32,29 @@ function WooCanvas(canvas)
     }
 
     $canvas.on("mousedown", function(e) {
+        mousedown = true;
         // Find which layer clicked:
         var parentOffset = $canvas.parent().offset();
         var x = e.pageX - canvas.offsetLeft - parentOffset.left;
         var y = e.pageY - canvas.offsetTop - parentOffset.top;
         var layer = getLayerAt(x, y);
+
         if (layer) {
+            selectedLayer = layer;
             console.log("You clicked on:", layer.url);
+        } else {
+            // Something else other than layer clikced.
+            // Normally unselect, but also rotate/scale.
+            selectedLayer = undefined;
         }
-        mousedown = true;
     }).on("mouseup", function() {
         mousedown = false;
     }).on("mousemove", function() {
-        if (mousedown)
-            console.log("mouse move");
+        if (mousedown) {
+            if (selectedLayer) {
+                console.log("move layer");
+            }
+        }
     });
 
     this.drawLayers = function()
