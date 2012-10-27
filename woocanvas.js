@@ -11,16 +11,19 @@ function WooCanvas(canvas)
 
     function getLayerAt(x, y)
     {
-        console.log(x, y);
         for (var i=this_canvas.layers.length-1; i>=0; --i) {
             var layer = this_canvas.layers[i];
-            var angle = -90 + (Math.atan2(x-layer.x, layer.y-y) * 180 / Math.PI);
-            angle = angle > 0 ? angle : angle + 360;
-            console.log("layer", i, layer.x, layer.y, layer.width, layer.height, angle);
-            // rotate x,y to align with layer
-            // apply scale to width/height
-            if ((x >= layer.x && x <= layer.x + layer.width) 
-                    && (y >= layer.y && y <= layer.y + layer.height)) {
+            var dx = x - layer.x;
+            var dy = layer.y - y;
+            var angle = Math.atan2(dx, dy) - Math.PI/2;
+            var radius = Math.sqrt(dx*dx + dy*dy); 
+
+            var angleNorm = angle - layer.rotation;
+            var xNorm = layer.x + (Math.cos(angleNorm) * radius);
+            var yNorm = layer.y + (Math.sin(angleNorm) * radius);
+
+            if ((xNorm >= layer.x && xNorm <= layer.x + layer.width) 
+                    && (yNorm >= layer.y && yNorm <= layer.y + layer.height)) {
                 // todo: get pixel, check for opacity
                 return layer;
             }
@@ -49,10 +52,11 @@ function WooCanvas(canvas)
         context.canvas.width = context.canvas.width;
         for (var i in this_canvas.layers) {
             var layer = this_canvas.layers[i];
+            context.save();
             context.translate(layer.x, layer.y);
             context.rotate(layer.rotation);
             context.drawImage(layer.image, 0, 0);
-            context.translate(-layer.x, -layer.y);
+            context.restore();
         }
     }
 
