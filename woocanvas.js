@@ -14,10 +14,16 @@ function WooCanvas(canvas)
         console.log(x, y);
         for (var i=this_canvas.layers.length-1; i>=0; --i) {
             var layer = this_canvas.layers[i];
-            console.log("layer", i, layer.x, layer.y, layer.width, layer.height);
+            var angle = -90 + (Math.atan2(x-layer.x, layer.y-y) * 180 / Math.PI);
+            angle = angle > 0 ? angle : angle + 360;
+            console.log("layer", i, layer.x, layer.y, layer.width, layer.height, angle);
+            // rotate x,y to align with layer
+            // apply scale to width/height
             if ((x >= layer.x && x <= layer.x + layer.width) 
-                    && (y >= layer.y && y <= layer.y + layer.height))
+                    && (y >= layer.y && y <= layer.y + layer.height)) {
+                // todo: get pixel, check for opacity
                 return layer;
+            }
         }
     }
 
@@ -44,14 +50,14 @@ function WooCanvas(canvas)
         for (var i in this_canvas.layers) {
             var layer = this_canvas.layers[i];
             context.translate(layer.x, layer.y);
-            //context.rotate(10);
+            context.rotate(layer.rotation);
             context.drawImage(layer.image, 0, 0);
             context.translate(-layer.x, -layer.y);
         }
     }
 
     this.addLayer = function(layer) {
-        layer.x = layer.x || 300;
+        layer.x = layer.x || 200;
         layer.y = layer.y || 200;
         layer.z = layer.z || this.layers.length;
         layer.rotation = layer.rotation || 0;
