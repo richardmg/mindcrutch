@@ -29,14 +29,6 @@ function WooCanvas(canvas)
         };
     }
 
-    function updateCursor(pos)
-    {
-        if (selectedLayer && selectedLayer.containsPos(pos))
-            $canvas.css("cursor", "move");
-        else
-            $canvas.css("cursor", "default");
-    }
-
     $canvas.on("mousedown", function(e) {
         mousedown = true;
         var pos = canvasPos(e);
@@ -45,7 +37,6 @@ function WooCanvas(canvas)
         if (layer) {
             selectedLayer = layer;
             dragOffset = {x:pos.x - layer.x, y:pos.y-layer.y};
-            updateCursor(pos);
         } else {
             // Something else other than layer clikced.
             // Normally unselect, but also rotate/scale.
@@ -61,8 +52,6 @@ function WooCanvas(canvas)
                 selectedLayer.x = pos.x - dragOffset.x;
                 selectedLayer.y = pos.y - dragOffset.y;
                 this_canvas.repaint();
-            } else {
-                updateCursor(canvasPos(e));
             }
         }
     });
@@ -103,7 +92,7 @@ function WooCanvas(canvas)
 
     this.repaint = function() {
         drawLayers();
-        //drawHandle();
+        drawHandle();
     }
 
     this.addLayer = function(layer) {
