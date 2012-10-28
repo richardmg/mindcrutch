@@ -55,23 +55,44 @@ function WooCanvas(canvas)
             // Normally unselect, but also rotate/scale.
             selectedLayer = undefined;
         }
+        this_canvas.repaint();
     }).on("mouseup", function() {
         mousedown = false;
     }).on("mousemove", function(e) {
         if (mousedown) {
             if (selectedLayer) {
                 pos = eventPosInCanvas(e);
-                todo: convert layer.x to layer.pos
                 selectedLayer.x = pos.x - dragOffset.x;
                 selectedLayer.y = pos.y - dragOffset.y;
-                this_canvas.drawLayers();
+                this_canvas.repaint();
 
                 console.log("move layer");
             }
         }
     });
 
-    this.drawLayers = function()
+    function drawHandle()
+    {
+        if (!selectedLayer)
+            return;
+        var size = 40;
+        var offset = 30;
+        context.save();
+        context.translate(selectedLayer.x, selectedLayer.y);
+        context.rotate(selectedLayer.rotation);
+        context.translate(selectedLayer.width+offset, selectedLayer.height+offset);
+        context.fillStyle = "rgba(200, 0, 0, 0.3)";
+        context.strokeStyle = "rgba(200, 0, 0, 0.5)";
+        context.lineWidth = 2;
+        context.beginPath();
+        context.arc(0, 0, size/2, 0, 2 * Math.PI, false);
+        context.fill();
+        context.stroke();
+        context.closePath();
+        context.restore();
+    }
+
+    function drawLayers()
     {
         context.canvas.width = context.canvas.width;
         for (var i in this_canvas.layers) {
@@ -82,6 +103,11 @@ function WooCanvas(canvas)
             context.drawImage(layer.image, 0, 0);
             context.restore();
         }
+    }
+
+    this.repaint = function() {
+        drawLayers();
+        drawHandle();
     }
 
     this.addLayer = function(layer) {
@@ -97,7 +123,7 @@ function WooCanvas(canvas)
             layer.image.onload = function() {
                 layer.width = layer.image.width;
                 layer.height = layer.image.height;
-                this_canvas.drawLayers();
+                this_canvas.repaint();
             };
             layer.image.src = layer.url;
         } else if (layer.image) {
