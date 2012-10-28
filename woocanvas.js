@@ -8,14 +8,15 @@ function WooCanvas(canvas)
     canvas.height = $canvas.height();
     var context = $canvas[0].getContext('2d');
     var mousedown = false;
+    var dragOffset = {x:0, y:0};
     var selectedLayer = undefined;
 
-    function getLayerAt(x, y)
+    function getLayerAt(p)
     {
         for (var i=this_canvas.layers.length-1; i>=0; --i) {
             var layer = this_canvas.layers[i];
-            var dx = x - layer.x;
-            var dy = layer.y - y;
+            var dx = p.x - layer.x;
+            var dy = layer.y - p.y;
             var angle = Math.atan2(dx, dy) - Math.PI/2;
             var radius = Math.sqrt(dx*dx + dy*dy); 
 
@@ -31,17 +32,24 @@ function WooCanvas(canvas)
         }
     }
 
+    function eventPosInCanvas(e)
+    {
+        var parentOffset = $canvas.parent().offset();
+        return {
+            x: e.pageX - canvas.offsetLeft - parentOffset.left,
+            y: e.pageY - canvas.offsetTop - parentOffset.top
+        };
+    }
+
     $canvas.on("mousedown", function(e) {
         mousedown = true;
-        // Find which layer clicked:
-        var parentOffset = $canvas.parent().offset();
-        var x = e.pageX - canvas.offsetLeft - parentOffset.left;
-        var y = e.pageY - canvas.offsetTop - parentOffset.top;
-        var layer = getLayerAt(x, y);
+        var pos = eventPosInCanvas(e);
+        var layer = getLayerAt(pos);
 
         if (layer) {
             selectedLayer = layer;
-            console.log("You clicked on:", layer.url);
+            dragOffset = {x:pos.x - layer.x, y:pos.y-layer.y};
+            console.log(dragOffset.x, dragOffset.y);
         } else {
             // Something else other than layer clikced.
             // Normally unselect, but also rotate/scale.
@@ -49,9 +57,15 @@ function WooCanvas(canvas)
         }
     }).on("mouseup", function() {
         mousedown = false;
-    }).on("mousemove", function() {
+    }).on("mousemove", function(e) {
         if (mousedown) {
             if (selectedLayer) {
+                pos = eventPosInCanvas(e);
+                todo: convert layer.x to layer.pos
+                selectedLayer.x = pos.x - dragOffset.x;
+                selectedLayer.y = pos.y - dragOffset.y;
+                this_canvas.drawLayers();
+
                 console.log("move layer");
             }
         }
