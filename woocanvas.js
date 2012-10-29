@@ -34,7 +34,7 @@ function WooCanvas(canvas)
     {
         if (!selectedLayer)
             return false;
-        var npos = selectedLayer.normalizedPos(pos);
+        var npos = selectedLayer.convertPosCanvasToLayer(pos);
         var hx = selectedLayer.x + selectedLayer.width;
         var hy = selectedLayer.y + selectedLayer.height;
         return (npos.x >= hx-handleRadius && npos.x <= hx+handleRadius
@@ -134,7 +134,7 @@ function WooCanvas(canvas)
             layer.height = 0;
         }
 
-        layer.normalizedPos = function(p)
+        layer.convertPosCanvasToLayer = function(p)
         {
             var dx = p.x - layer.x;
             var dy = layer.y - p.y;
@@ -149,7 +149,7 @@ function WooCanvas(canvas)
 
         layer.containsPos = function(p, checkOpacity)
         {
-            p = layer.normalizedPos(p);
+            p = layer.convertPosCanvasToLayer(p);
             if ((p.x >= layer.x && p.x <= layer.x + layer.width) 
                     && (p.y >= layer.y && p.y <= layer.y + layer.height)) {
                 // todo: get pixel, check for opacity
