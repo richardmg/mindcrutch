@@ -8,7 +8,9 @@ function WooCanvas(canvas)
     canvas.height = $canvas.height();
     var context = $canvas[0].getContext('2d');
     var mousedown = false;
+    var mousedownPos = {x:0, y:0};
     var dragOffset = {x:0, y:0};
+    var startAngle = undefined;
     var handleRadius = 6;
     var selectedLayer = undefined;
 
@@ -42,45 +44,65 @@ function WooCanvas(canvas)
 
     function overlapsHandle(pos)
     {
-        if (!selectedLayer)
-            return false;
-        var npos = selectedLayer.convertPosCanvasToLayer(pos);
+        var npos = selectedLayer.canvasToLayer(pos);
         var hx = selectedLayer.x + (selectedLayer.width/2);
         var hy = selectedLayer.y + (selectedLayer.height/2);
         return (npos.x >= hx-handleRadius && npos.x <= hx+handleRadius
                 && npos.y >= hy-handleRadius && npos.y <= hy+handleRadius);
     }
 
-
     $canvas.on("mousedown", function(e) {
         mousedown = true;
-        var pos = canvasPos(e);
-        if (overlapsHandle(pos)) {
-            console.log("onHandle");
-        } else if (selectedLayer) {
-            var angle = getAngle(selectedLayer.centerPos, pos);
-            console.log("angle:", angle.angle);
+        mousedownPos = canvasPos(e);
+
+        if (selectedLayer) {
+            if (overlapsHandle(mousedownPos)) {
+                console.log("start drag");
+                dragOffset = {
+                    x: mousedownPos.x - selectedLayer.x,
+                    y:mousedownPos.y-selectedLayer.y
+                };
+            } else {
+                console.log("start rotation");
+                var lefttop = { x: selectedLayer.x, y: selectedLayer.y };
+                var lmousedownPos = selectedLayer.layerToCanvas(lefttop);
+                startAngle = getAngle(lmousedownPos, mousedownPos);
+            }
         } else {
-            var layer = getLayerAt(pos);
+            console.log("select layer");
+            var layer = getLayerAt(mousedownPos);
 
             if (layer) {
                 selectedLayer = layer;
-                dragOffset = {x:pos.x - layer.x, y:pos.y-layer.y};
-            } else {
-                // Something else other than layer clikced.
-                // Normally unselect, but also rotate/scale.
-                selectedLayer = undefined;
+                dragOffset = {x:mousedownPos.x - layer.x, y:mousedownPos.y-layer.y};
             }
             this_canvas.repaint();
         }
-    }).on("mouseup", function() {
+    }).on("mouseup", function(e) {
+        var pos = canvasPos(e);
         mousedown = false;
+        startAngle = undefined;
+        dragOffset = undefined;
+        if (selectedLayer && pos.x == mousedownPos.x && pos.y == mousedownPos.y) {
+            var layer = getLayerAt(pos);
+            if (!layer) {
+                console.log("unset layer");
+                selectedLayer = undefined;
+                this_canvas.repaint();
+            }
+        }
     }).on("mousemove", function(e) {
         if (selectedLayer) {
             if (mousedown) {
                 pos = canvasPos(e);
-                selectedLayer.x = pos.x - dragOffset.x;
-                selectedLayer.y = pos.y - dragOffset.y;
+                if (dragOffset) {
+                    console.log("dragging");
+                    console.log(selectedLayer.x, selectedLayer.y, dragOffset.y);
+                    selectedLayer.x = pos.x - dragOffset.x;
+                    selectedLayer.y = pos.y - dragOffset.y;
+                } else if (startAngle) {
+                    console.log("scale/rotate");
+                }
                 this_canvas.repaint();
             }
         }
@@ -177,7 +199,7 @@ function WooCanvas(canvas)
             layer.height = 0;
         }
 
-        layer.convertPosCanvasToLayer = function(p)
+        layer.canvasToLayer = function(p)
         {
             var g = getAngle({x:layer.x, y:layer.y}, p);
             var angleNorm = g.angle - layer.rotation;
@@ -187,9 +209,19 @@ function WooCanvas(canvas)
             }
         }
 
+        layer.layerToCanvas = function(p)
+        {
+            var g = getAngle({x:layer.x, y:layer.y}, p);
+            var angleNorm = g.angle + layer.rotation;
+            return {
+                x: layer.x + (Math.cos(angleNorm) * g.radius),
+                y: layer.y + (Math.sin(angleNorm) * g.radius)
+            }
+        }
+
         layer.containsPos = function(p, checkOpacity)
         {
-            p = layer.convertPosCanvasToLayer(p);
+            p = layer.canvasToLayer(p);
             if ((p.x >= layer.x && p.x <= layer.x + layer.width) 
                     && (p.y >= layer.y && p.y <= layer.y + layer.height)) {
                 // todo: get pixel, check for opacity
