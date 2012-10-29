@@ -12,6 +12,16 @@ function WooCanvas(canvas)
     var handleRadius = 6;
     var selectedLayer = undefined;
 
+    function getAngle(p1, p2)
+    {
+        var dx = p2.x - p1.x;
+        var dy = p1.y - p2.y;
+        return {
+            angle: Math.atan2(dx, dy) - Math.PI/2,
+            radius: Math.sqrt(dx*dx + dy*dy)
+        }; 
+    }
+
     function getLayerAt(p)
     {
         for (var i=this_canvas.layers.length-1; i>=0; --i) {
@@ -35,8 +45,8 @@ function WooCanvas(canvas)
         if (!selectedLayer)
             return false;
         var npos = selectedLayer.convertPosCanvasToLayer(pos);
-        var hx = selectedLayer.x + selectedLayer.width;
-        var hy = selectedLayer.y + selectedLayer.height;
+        var hx = selectedLayer.x + (selectedLayer.width/2);
+        var hy = selectedLayer.y + (selectedLayer.height/2);
         return (npos.x >= hx-handleRadius && npos.x <= hx+handleRadius
                 && npos.y >= hy-handleRadius && npos.y <= hy+handleRadius);
     }
@@ -47,6 +57,9 @@ function WooCanvas(canvas)
         var pos = canvasPos(e);
         if (overlapsHandle(pos)) {
             console.log("onHandle");
+        } else if (selectedLayer) {
+            var angle = getAngle(selectedLayer.centerPos, pos);
+            console.log("angle:", angle.angle);
         } else {
             var layer = getLayerAt(pos);
 
@@ -166,14 +179,11 @@ function WooCanvas(canvas)
 
         layer.convertPosCanvasToLayer = function(p)
         {
-            var dx = p.x - layer.x;
-            var dy = layer.y - p.y;
-            var angle = Math.atan2(dx, dy) - Math.PI/2;
-            var radius = Math.sqrt(dx*dx + dy*dy); 
-            var angleNorm = angle - layer.rotation;
+            var g = getAngle({x:layer.x, y:layer.y}, p);
+            var angleNorm = g.angle - layer.rotation;
             return {
-                x: layer.x + (Math.cos(angleNorm) * radius),
-                y: layer.y + (Math.sin(angleNorm) * radius)
+                x: layer.x + (Math.cos(angleNorm) * g.radius),
+                y: layer.y + (Math.sin(angleNorm) * g.radius)
             }
         }
 
