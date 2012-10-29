@@ -9,7 +9,7 @@ function WooCanvas(canvas)
     var context = $canvas[0].getContext('2d');
     var mousedown = false;
     var dragOffset = {x:0, y:0};
-    var handleRadius = 20;
+    var handleRadius = 6;
     var selectedLayer = undefined;
 
     function getLayerAt(p)
@@ -77,18 +77,48 @@ function WooCanvas(canvas)
     {
         if (!selectedLayer)
             return;
+        var size = 10;
         context.save();
         context.translate(selectedLayer.x, selectedLayer.y);
         context.rotate(selectedLayer.rotation);
-        context.translate(selectedLayer.width, selectedLayer.height);
-        context.fillStyle = "rgba(200, 0, 0, 0.3)";
-        context.strokeStyle = "rgba(200, 0, 0, 0.5)";
+        context.fillStyle = "rgba(250, 0, 0, 0.6)";
+        context.strokeStyle = "rgba(250, 0, 0, 0.6)";
         context.lineWidth = 2;
+
         context.beginPath();
-        context.arc(0, 0, handleRadius, 0, 2 * Math.PI, false);
+        context.arc(selectedLayer.width/2, selectedLayer.height/2,
+                size/2, 0, 2 * Math.PI, false);
         context.fill();
+        context.closePath();
+
+        context.beginPath();
+        context.moveTo(0, size);
+        context.lineTo(0, 0);
+        context.lineTo(size, 0);
         context.stroke();
         context.closePath();
+
+        context.beginPath();
+        context.moveTo(selectedLayer.width-size, 0);
+        context.lineTo(selectedLayer.width, 0);
+        context.lineTo(selectedLayer.width, size);
+        context.stroke();
+        context.closePath();
+
+        context.beginPath();
+        context.moveTo(selectedLayer.width-size, selectedLayer.height);
+        context.lineTo(selectedLayer.width, selectedLayer.height);
+        context.lineTo(selectedLayer.width, selectedLayer.height-size);
+        context.stroke();
+        context.closePath();
+
+        context.beginPath();
+        context.moveTo(0, selectedLayer.height-size);
+        context.lineTo(0, selectedLayer.height);
+        context.lineTo(size, selectedLayer.height);
+        context.stroke();
+        context.closePath();
+
         context.restore();
     }
 
