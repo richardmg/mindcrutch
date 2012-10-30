@@ -84,12 +84,10 @@ function WooCanvas(canvas)
         startAngle = undefined;
         dragOffset = undefined;
         if (selectedLayer && pos.x == mousedownPos.x && pos.y == mousedownPos.y) {
-            var layer = getLayerAt(pos);
-            if (!layer) {
-                console.log("unset layer");
-                selectedLayer = undefined;
+            var oldLayer = selectedLayer;
+            selectedLayer = getLayerAt(pos);
+            if (oldLayer != selectedLayer)
                 this_canvas.repaint();
-            }
         }
     }).on("mousemove", function(e) {
         if (selectedLayer) {
