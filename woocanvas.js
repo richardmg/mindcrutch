@@ -8,7 +8,6 @@ function WooCanvas(canvas)
     canvas.height = $canvas.height();
     var context = $canvas[0].getContext('2d');
     var mousedown = false;
-    var mousedownPos = {x:0, y:0};
     var dragOffset = {x:0, y:0};
     var startAngle = undefined;
     var selectedLayer = undefined;
@@ -52,58 +51,50 @@ function WooCanvas(canvas)
     }
 
     $canvas.on("mousedown", function(e) {
+        // start new layer operation, drag or rotate:
         mousedown = true;
-        mousedownPos = canvasPos(e);
+        var pos = canvasPos(e);
 
         if (selectedLayer) {
-            if (overlapsHandle(mousedownPos)) {
+            if (overlapsHandle(pos)) {
                 console.log("start drag");
                 dragOffset = {
-                    x: mousedownPos.x - selectedLayer.x,
-                    y:mousedownPos.y-selectedLayer.y
+                    x: pos.x - selectedLayer.x,
+                    y:pos.y-selectedLayer.y
                 };
             } else {
                 console.log("start rotation");
                 var lefttop = { x: selectedLayer.x, y: selectedLayer.y };
-                var lmousedownPos = selectedLayer.layerToCanvas(lefttop);
-                startAngle = getAngle(lmousedownPos, mousedownPos);
+                var lpos = selectedLayer.layerToCanvas(lefttop);
+                startAngle = getAngle(lpos, pos);
             }
-        } else {
-            console.log("select layer");
-            var layer = getLayerAt(mousedownPos);
-
-            if (layer) {
-                selectedLayer = layer;
-                dragOffset = {x:mousedownPos.x - layer.x, y:mousedownPos.y-layer.y};
+        }
+    }).on("mousemove", function(e) {
+        // drag or rotate current layer:
+        if (mousedown && selectedLayer) {
+            pos = canvasPos(e);
+            if (dragOffset) {
+                console.log("dragging");
+                console.log(selectedLayer.x, selectedLayer.y, dragOffset.y);
+                selectedLayer.x = pos.x - dragOffset.x;
+                selectedLayer.y = pos.y - dragOffset.y;
+            } else if (startAngle) {
+                console.log("scale/rotate");
             }
             this_canvas.repaint();
         }
     }).on("mouseup", function(e) {
-        var pos = canvasPos(e);
+        // clear current drag action:
         mousedown = false;
         startAngle = undefined;
         dragOffset = undefined;
-        if (selectedLayer && pos.x == mousedownPos.x && pos.y == mousedownPos.y) {
-            var oldLayer = selectedLayer;
-            selectedLayer = getLayerAt(pos);
-            if (oldLayer != selectedLayer)
-                this_canvas.repaint();
-        }
-    }).on("mousemove", function(e) {
-        if (selectedLayer) {
-            if (mousedown) {
-                pos = canvasPos(e);
-                if (dragOffset) {
-                    console.log("dragging");
-                    console.log(selectedLayer.x, selectedLayer.y, dragOffset.y);
-                    selectedLayer.x = pos.x - dragOffset.x;
-                    selectedLayer.y = pos.y - dragOffset.y;
-                } else if (startAngle) {
-                    console.log("scale/rotate");
-                }
-                this_canvas.repaint();
-            }
-        }
+    }).on("click", function(e) {
+        // click means select/unselect layer:
+        var pos = canvasPos(e);
+        var prevLayer = selectedLayer;
+        selectedLayer = getLayerAt(pos);
+        if (prevLayer != selectedLayer)
+            this_canvas.repaint();
     });
 
     function drawHandle()
