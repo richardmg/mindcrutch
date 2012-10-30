@@ -11,7 +11,6 @@ function WooCanvas(canvas)
     var mousedownPos = {x:0, y:0};
     var dragOffset = {x:0, y:0};
     var startAngle = undefined;
-    var handleRadius = 6;
     var selectedLayer = undefined;
 
     function getAngle(p1, p2)
@@ -44,6 +43,7 @@ function WooCanvas(canvas)
 
     function overlapsHandle(pos)
     {
+        var handleRadius = 30;
         var npos = selectedLayer.canvasToLayer(pos);
         var hx = selectedLayer.x + (selectedLayer.width/2);
         var hy = selectedLayer.y + (selectedLayer.height/2);
