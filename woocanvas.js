@@ -66,6 +66,7 @@ function WooCanvas(canvas)
                 currentAction = getAngleAndRadius(lpos, pos);
                 currentAction.rotating = true
                 currentAction.angle -= selectedLayer.rotation;
+                currentAction.scale = selectedLayer.scale;
             }
         }
     }).on("mousemove", function(e) {
@@ -81,8 +82,8 @@ function WooCanvas(canvas)
                 var center = { x: selectedLayer.x, y: selectedLayer.y };
                 var lpos = selectedLayer.layerToCanvas(center);
                 var aar = getAngleAndRadius(lpos, pos);
-                var angle = aar.angle - currentAction.angle;
-                selectedLayer.rotation = angle;
+                selectedLayer.rotation = aar.angle - currentAction.angle;
+                selectedLayer.scale = currentAction.scale * aar.radius / currentAction.radius;
             }
             this_canvas.repaint();
         }
@@ -105,8 +106,8 @@ function WooCanvas(canvas)
         if (!selectedLayer)
             return;
         var size = 10;
-        var dx = selectedLayer.width/2;
-        var dy = selectedLayer.height/2;
+        var widthScaled = selectedLayer.scale * selectedLayer.width;
+        var heightScaled = selectedLayer.scale * selectedLayer.height;
 
         context.save();
         context.translate(selectedLayer.x, selectedLayer.y);
@@ -128,7 +129,7 @@ function WooCanvas(canvas)
         context.stroke();
         context.closePath();
 
-        context.translate(-selectedLayer.width/2, -selectedLayer.height/2);
+        context.translate(-widthScaled/2, -heightScaled/2);
 
         context.beginPath();
         context.moveTo(0, size);
@@ -138,23 +139,23 @@ function WooCanvas(canvas)
         context.closePath();
 
         context.beginPath();
-        context.moveTo(selectedLayer.width-size, 0);
-        context.lineTo(selectedLayer.width, 0);
-        context.lineTo(selectedLayer.width, size);
+        context.moveTo(widthScaled-size, 0);
+        context.lineTo(widthScaled, 0);
+        context.lineTo(widthScaled, size);
         context.stroke();
         context.closePath();
 
         context.beginPath();
-        context.moveTo(selectedLayer.width-size, selectedLayer.height);
-        context.lineTo(selectedLayer.width, selectedLayer.height);
-        context.lineTo(selectedLayer.width, selectedLayer.height-size);
+        context.moveTo(widthScaled-size, heightScaled);
+        context.lineTo(widthScaled, heightScaled);
+        context.lineTo(widthScaled, heightScaled-size);
         context.stroke();
         context.closePath();
 
         context.beginPath();
-        context.moveTo(0, selectedLayer.height-size);
-        context.lineTo(0, selectedLayer.height);
-        context.lineTo(size, selectedLayer.height);
+        context.moveTo(0, heightScaled-size);
+        context.lineTo(0, heightScaled);
+        context.lineTo(size, heightScaled);
         context.stroke();
         context.closePath();
 
@@ -169,6 +170,7 @@ function WooCanvas(canvas)
             context.save();
             context.translate(layer.x, layer.y);
             context.rotate(layer.rotation);
+            context.scale(layer.scale, layer.scale);
             context.translate(-layer.width/2, -layer.height/2);
             context.drawImage(layer.image, 0, 0);
             context.restore();
