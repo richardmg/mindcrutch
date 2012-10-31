@@ -8,8 +8,7 @@ function WooCanvas(canvas)
     canvas.height = $canvas.height();
     var context = $canvas[0].getContext('2d');
     var mousedown = false;
-    var dragOffset = {x:0, y:0};
-    var startAngle = undefined;
+    var currentAction = undefined;
     var selectedLayer = undefined;
 
     function getAngleAndRadius(p1, p2)
@@ -56,7 +55,8 @@ function WooCanvas(canvas)
         if (selectedLayer) {
             if (overlapsHandle(pos)) {
                 // start drag
-                dragOffset = {
+                currentAction = {
+                    dragging: true,
                     x: pos.x - selectedLayer.x,
                     y:pos.y-selectedLayer.y
                 };
@@ -64,25 +64,25 @@ function WooCanvas(canvas)
                 // Start rotation
                 var center = { x: selectedLayer.x, y: selectedLayer.y };
                 var lpos = selectedLayer.layerToCanvas(center);
-                startAngle = getAngleAndRadius(lpos, pos);
-                startAngle.angle -= selectedLayer.rotation;
+                currentAction = getAngleAndRadius(lpos, pos);
+                currentAction.rotating = true
+                currentAction.angle -= selectedLayer.rotation;
             }
         }
     }).on("mousemove", function(e) {
         // drag or rotate current layer:
         if (mousedown && selectedLayer) {
             pos = canvasPos(e);
-            if (dragOffset) {
+            if (currentAction.dragging) {
                 // continue drag
-                console.log(selectedLayer.x, selectedLayer.y, dragOffset.y);
-                selectedLayer.x = pos.x - dragOffset.x;
-                selectedLayer.y = pos.y - dragOffset.y;
-            } else if (startAngle) {
+                selectedLayer.x = pos.x - currentAction.x;
+                selectedLayer.y = pos.y - currentAction.y;
+            } else if (currentAction.rotating) {
                 // continue rotate
                 var center = { x: selectedLayer.x, y: selectedLayer.y };
                 var lpos = selectedLayer.layerToCanvas(center);
                 var aar = getAngleAndRadius(lpos, pos);
-                var angle = aar.angle - startAngle.angle;
+                var angle = aar.angle - currentAction.angle;
                 selectedLayer.rotation = angle;
             }
             this_canvas.repaint();
@@ -90,8 +90,7 @@ function WooCanvas(canvas)
     }).on("mouseup", function(e) {
         // end current action:
         mousedown = false;
-        startAngle = undefined;
-        dragOffset = undefined;
+        currentAction = {};
     }).on("click", function(e) {
         // select/unselect layer:
         var pos = canvasPos(e);
