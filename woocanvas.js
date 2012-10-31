@@ -12,7 +12,7 @@ function WooCanvas(canvas)
     var startAngle = undefined;
     var selectedLayer = undefined;
 
-    function getAngle(p1, p2)
+    function getAngleAndRadius(p1, p2)
     {
         var dx = p2.x - p1.x;
         var dy = p1.y - p2.y;
@@ -57,16 +57,17 @@ function WooCanvas(canvas)
 
         if (selectedLayer) {
             if (overlapsHandle(pos)) {
-                console.log("start drag");
+                // start drag
                 dragOffset = {
                     x: pos.x - selectedLayer.x,
                     y:pos.y-selectedLayer.y
                 };
             } else {
-                console.log("start rotation");
+                // Start rotation
                 var lefttop = { x: selectedLayer.x, y: selectedLayer.y };
                 var lpos = selectedLayer.layerToCanvas(lefttop);
-                startAngle = getAngle(lpos, pos);
+                startAngle = getAngleAndRadius(lpos, pos);
+                startAngle.angle -= selectedLayer.rotation;
             }
         }
     }).on("mousemove", function(e) {
@@ -74,27 +75,34 @@ function WooCanvas(canvas)
         if (mousedown && selectedLayer) {
             pos = canvasPos(e);
             if (dragOffset) {
-                console.log("dragging");
+                // continue drag
                 console.log(selectedLayer.x, selectedLayer.y, dragOffset.y);
                 selectedLayer.x = pos.x - dragOffset.x;
                 selectedLayer.y = pos.y - dragOffset.y;
             } else if (startAngle) {
-                console.log("scale/rotate");
+                // continue rotate
+                var lefttop = { x: selectedLayer.x, y: selectedLayer.y };
+                var lpos = selectedLayer.layerToCanvas(lefttop);
+                var aar = getAngleAndRadius(lpos, pos);
+                console.log("Angle and radius;", aar.angle * 180/Math.PI);
+                var angle = aar.angle - startAngle.angle;
+                selectedLayer.rotation = angle;
             }
             this_canvas.repaint();
         }
     }).on("mouseup", function(e) {
-        // clear current drag action:
+        // end current action:
         mousedown = false;
         startAngle = undefined;
         dragOffset = undefined;
     }).on("click", function(e) {
-        // click means select/unselect layer:
+        // select/unselect layer:
         var pos = canvasPos(e);
         var prevLayer = selectedLayer;
         selectedLayer = getLayerAt(pos);
-        if (prevLayer != selectedLayer)
-            this_canvas.repaint();
+        if (prevLayer == selectedLayer)
+            selectedLayer = undefined;
+        this_canvas.repaint();
     });
 
     function drawHandle()
@@ -190,7 +198,7 @@ function WooCanvas(canvas)
 
         layer.canvasToLayer = function(p)
         {
-            var g = getAngle({x:layer.x, y:layer.y}, p);
+            var g = getAngleAndRadius({x:layer.x, y:layer.y}, p);
             var angleNorm = g.angle - layer.rotation;
             return {
                 x: layer.x + (Math.cos(angleNorm) * g.radius),
@@ -200,7 +208,7 @@ function WooCanvas(canvas)
 
         layer.layerToCanvas = function(p)
         {
-            var g = getAngle({x:layer.x, y:layer.y}, p);
+            var g = getAngleAndRadius({x:layer.x, y:layer.y}, p);
             var angleNorm = g.angle + layer.rotation;
             return {
                 x: layer.x + (Math.cos(angleNorm) * g.radius),
