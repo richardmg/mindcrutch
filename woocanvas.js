@@ -106,20 +106,30 @@ function WooCanvas(canvas)
         if (!selectedLayer)
             return;
         var size = 10;
+        var dx = selectedLayer.width/2;
+        var dy = selectedLayer.height/2;
+
         context.save();
         context.translate(selectedLayer.x, selectedLayer.y);
         context.rotate(selectedLayer.rotation);
-        context.translate(-selectedLayer.width/2, -selectedLayer.height/2);
 
         context.fillStyle = "rgba(250, 0, 0, 0.6)";
         context.strokeStyle = "rgba(250, 0, 0, 0.6)";
         context.lineWidth = 2;
 
         context.beginPath();
-        context.arc(selectedLayer.width/2, selectedLayer.height/2,
-                size/2, 0, 2 * Math.PI, false);
-        context.fill();
+        context.moveTo(-size, 0)
+        context.lineTo(size, 0);
+        context.stroke();
         context.closePath();
+
+        context.beginPath();
+        context.moveTo(0, -size)
+        context.lineTo(0, size);
+        context.stroke();
+        context.closePath();
+
+        context.translate(-selectedLayer.width/2, -selectedLayer.height/2);
 
         context.beginPath();
         context.moveTo(0, size);
