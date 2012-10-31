@@ -42,9 +42,8 @@ function WooCanvas(canvas)
     function overlapsHandle(pos)
     {
         var lpos = selectedLayer.canvasToLayer(pos);
-        var dx = selectedLayer.x + 30;
-        var dy = selectedLayer.y + 30;
-        return (lpos.x >= -dx && lpos.x <= dx && lpos.y >= -dy && lpos.y <= dy);
+        return (lpos.x >= selectedLayer.x-30 && lpos.x <= selectedLayer.x+30
+                && lpos.y >= selectedLayer.y-30 && lpos.y <= selectedLayer.y+30);
     }
 
     $canvas.on("mousedown", function(e) {
