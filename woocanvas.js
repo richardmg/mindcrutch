@@ -229,8 +229,8 @@ function WooCanvas(canvas)
         layer.containsPos = function(p, checkOpacity)
         {
             p = layer.canvasToLayer(p);
-            var dx = layer.width/2;
-            var dy = layer.height/2;
+            var dx = layer.scale * layer.width/2;
+            var dy = layer.scale * layer.height/2;
             if ((p.x >= layer.x-dx && p.x <= layer.x + dx)
                     && (p.y >= layer.y-dy && p.y <= layer.y+dy)) {
                 // todo: get pixel, check for opacity
