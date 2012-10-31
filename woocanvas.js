@@ -42,12 +42,10 @@ function WooCanvas(canvas)
 
     function overlapsHandle(pos)
     {
-        var handleRadius = 30;
-        var npos = selectedLayer.canvasToLayer(pos);
-        var hx = selectedLayer.x + (selectedLayer.width/2);
-        var hy = selectedLayer.y + (selectedLayer.height/2);
-        return (npos.x >= hx-handleRadius && npos.x <= hx+handleRadius
-                && npos.y >= hy-handleRadius && npos.y <= hy+handleRadius);
+        var lpos = selectedLayer.canvasToLayer(pos);
+        var dx = selectedLayer.x + 30;
+        var dy = selectedLayer.y + 30;
+        return (lpos.x >= -dx && lpos.x <= dx && lpos.y >= -dy && lpos.y <= dy);
     }
 
     $canvas.on("mousedown", function(e) {
@@ -64,8 +62,8 @@ function WooCanvas(canvas)
                 };
             } else {
                 // Start rotation
-                var lefttop = { x: selectedLayer.x, y: selectedLayer.y };
-                var lpos = selectedLayer.layerToCanvas(lefttop);
+                var center = { x: selectedLayer.x, y: selectedLayer.y };
+                var lpos = selectedLayer.layerToCanvas(center);
                 startAngle = getAngleAndRadius(lpos, pos);
                 startAngle.angle -= selectedLayer.rotation;
             }
@@ -81,10 +79,9 @@ function WooCanvas(canvas)
                 selectedLayer.y = pos.y - dragOffset.y;
             } else if (startAngle) {
                 // continue rotate
-                var lefttop = { x: selectedLayer.x, y: selectedLayer.y };
-                var lpos = selectedLayer.layerToCanvas(lefttop);
+                var center = { x: selectedLayer.x, y: selectedLayer.y };
+                var lpos = selectedLayer.layerToCanvas(center);
                 var aar = getAngleAndRadius(lpos, pos);
-                console.log("Angle and radius;", aar.angle * 180/Math.PI);
                 var angle = aar.angle - startAngle.angle;
                 selectedLayer.rotation = angle;
             }
@@ -113,6 +110,8 @@ function WooCanvas(canvas)
         context.save();
         context.translate(selectedLayer.x, selectedLayer.y);
         context.rotate(selectedLayer.rotation);
+        context.translate(-selectedLayer.width/2, -selectedLayer.height/2);
+
         context.fillStyle = "rgba(250, 0, 0, 0.6)";
         context.strokeStyle = "rgba(250, 0, 0, 0.6)";
         context.lineWidth = 2;
@@ -162,6 +161,7 @@ function WooCanvas(canvas)
             context.save();
             context.translate(layer.x, layer.y);
             context.rotate(layer.rotation);
+            context.translate(-layer.width/2, -layer.height/2);
             context.drawImage(layer.image, 0, 0);
             context.restore();
         }
@@ -219,8 +219,10 @@ function WooCanvas(canvas)
         layer.containsPos = function(p, checkOpacity)
         {
             p = layer.canvasToLayer(p);
-            if ((p.x >= layer.x && p.x <= layer.x + layer.width) 
-                    && (p.y >= layer.y && p.y <= layer.y + layer.height)) {
+            var dx = layer.width/2;
+            var dy = layer.height/2;
+            if ((p.x >= layer.x-dx && p.x <= layer.x + dx)
+                    && (p.y >= layer.y-dy && p.y <= layer.y+dy)) {
                 // todo: get pixel, check for opacity
                 if (checkOpacity === true)
                     return true
