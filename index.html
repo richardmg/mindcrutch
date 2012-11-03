@@ -5,6 +5,7 @@
         <script src="window.js"></script>
         <script src="woocanvas.js"></script>
         <script src="wooimagepalette.js"></script>
+        <script src="menu.js"></script>
         <link rel="stylesheet" type="text/css" href="window.css">
         <link rel="stylesheet" type="text/css" href="components.css">
 
@@ -17,6 +18,7 @@
                         e.preventDefault();
                     });
 
+                $(".menu").createMenu();
                 var $canvas = $(".WooCanvas").createWooCanvas();
                 var canvas = $.data($canvas[0], "wooCanvas");
 
@@ -64,9 +66,9 @@
                 <table style="width:100%;height:100%">
                     <tr><td><input id="imageSearchInput" type="text" style="display:block;width:100%"></input></td></tr>
                     <tr><td class="brushmenu">
-                        <div>all sizes</div>
-                        <div>clipart</div>
-                        <div>all colors</div>
+                        <div class="menu" subMenu="#imageSizeMenu">all sizes</div>
+                        <div class="menu" subMenu="#clipartMenu">clipart</div>
+                        <div class="menu" subMenu="#colorsMenu">all colors</div>
                     </td></tr>
                     </tr><tr><td style="height:100%">
                         <div id="searchResult" style="height:100%;overflow:auto"></div>
@@ -74,6 +76,47 @@
                 </table>
             </div>
         </div>
+
+        <div id="imageSizeMenu" class="WooWindow" props="{relX:0, relY:20}" style="width:100px;height:300px">
+            <div class="contents menuItems">
+                <div>all sizes</div>
+                <div>icon</div>
+                <div>small</div>
+                <div>medium</div>
+                <div>large</div>
+                <div>xlarge</div>
+                <div>xxlarge</div>
+                <div>huge</div>
+            </div>
+        </div>
+
+        <div id="clipartMenu" class="WooWindow" props="{relX:0, relY:20}" style="width:100px;height:300px">
+            <div class="contents menuItems">
+                <div>all images</div>
+                <div>faces</div>
+                <div>photo</div>
+                <div>clipart</div>
+                <div>lineart</div>
+            </div>
+        </div>
+        <div id="colorsMenu" class="WooWindow" props="{relX:0, relY:20}" style="width:100px;height:350px">
+            <div class="contents menuItems">
+                <div>all colors</div>
+                <div>black/white</div>
+                <div>black</div>
+                <div>blue</div>
+                <div>gray</div>
+                <div>green</div>
+                <div>orange</div>
+                <div>pink</div>
+                <div>purple</div>
+                <div>red</div>
+                <div>teal</div>
+                <div>white</div>
+                <div>yellow</div>
+            </div>
+        </div>
+
 
     </body>
 </html>
