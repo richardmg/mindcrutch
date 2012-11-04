@@ -18,7 +18,6 @@ $.fn.fillWithGoogleImages = function(props, callback)
                 //console.log("Return:" + JSON.stringify(json));
                 $plugin_this.each(function() {
                     var view = $(this);
-                    console.log(json);
                     for (var i in json.responseData.results) {
                         var r = json.responseData.results[i];
                         var e = $("<div class='thumbnail'><img src='" + r.tbUrl + "'></img></div>");
