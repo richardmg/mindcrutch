@@ -19,6 +19,12 @@
                     .fillWithGoogleImages(searchProps, paletteCallback);
                 }
 
+                setSearchString = function(value)
+                {
+                    searchProps.searchString = value;
+                    updatePalette();
+                }
+
                 setImageType = function(value)
                 {
                     searchProps.imgtype = value;
@@ -92,7 +98,7 @@
             <div class="header">Palette</div>
             <div class="contents">
                 <table style="width:100%;height:100%">
-                    <tr><td><input id="imageSearchInput" type="text" value="zombies" onchange="setSearchProp('searchString', this.value)" style="display:block;width:100%"></input></td></tr>
+                    <tr><td><input id="imageSearchInput" type="text" value="zombies" onchange="setSearchString(this.value)" style="display:block;width:100%"></input></td></tr>
                     <tr><td class="searchMenu">
                         <div id="imageSize" class="menuItem" subMenu="#imageSizeMenu">medium</div>
                         <div id="imageType" class="menuItem" subMenu="#clipartMenu">clipart</div>
