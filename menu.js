@@ -8,7 +8,7 @@ function Menu(rootNode, props)
     setupMenuItem(rootNode);
 
     function setupMenuItem(menuItem) {
-        var group = $(".subMenu", menuItem).length > 0; 
+        var group = $(".menuItem", menuItem).length > 0; 
         var $menuItem = $(menuItem);
         var url = $menuItem.attr("url");
         if (url)
@@ -16,72 +16,83 @@ function Menu(rootNode, props)
 
         if (group == true) {
             // Recursively traverse all root menu items:
-            $(".subMenu", menuItem).each(function() { setupMenuItem(this); });
+            $(".menuItem", menuItem).each(function() { setupMenuItem(this); });
         } else {
             var subMenuSel = $menuItem.attr("subMenu");
             if (subMenuSel) {
                 // This menu item has a sub menu. Make
                 // the item open the sub menu on hover:
                 // inside the sub menu:
-                var subMenu = $(subMenuSel);
-                subMenu.css("display", "none")
+                var $subMenu = $(subMenuSel);
+                $subMenu.css("display", "none")
                 $menuItem.hover(
-                    function() { openMenu($menuItem, subMenu) },
-                    function() { closeMenu($menuItem, subMenu) }
+                    function() { openMenu($menuItem, $subMenu) },
+                    function() { closeMenu($menuItem, $subMenu) }
                 );
-                subMenu.hover(
-                    function() { openMenu($menuItem, subMenu) },
-                    function() { closeMenu($menuItem, subMenu) }
+                $subMenu.hover(
+                    function() { openMenu($menuItem, $subMenu) },
+                    function() { closeMenu($menuItem, $subMenu) }
                 );
 
                 // Recursively traverse all items in the sub menu:
-                $("div", subMenu).each(function() { setupMenuItem(this); });
+                $(".menuItem", $subMenu).each(function() { setupMenuItem(this); });
             }
         }
     }
 
-    function openMenu(menuItem, subMenu)
+    function openMenu($menuItem, $subMenu)
     {
-        subMenu.data("hover", true);
-        if (subMenu.data("menuOpen") === true)
+        $subMenu.data("hover", true);
+        if ($subMenu.data("menuOpen") === true)
             return;
-        subMenu.data("menuOpen", true);
+        $subMenu.data("menuOpen", true);
 
-        //var parentSub = menuItem.closest(".subMenu, .menu");
-        var parentSub = menuItem.closest(".menu");
+        var parentSub = $menuItem.closest(".subMenu");
         var level = parentSub.length > 0 ? parentSub.data("level") + 1 : 0;
         level = level || 0;
-        subMenu.data("level", level);
+        $subMenu.data("level", level);
         
         var topMenu = openMenus[openMenus.length - 1];
-        if (topMenu && topMenu.data("level") === level) {
-            topMenu.hide();
-            topMenu.data("menuOpen", false);
-            openMenus.pop();
+        if (topMenu) {
+            var prevLevel = topMenu.data("level");
+            if (level == prevLevel) {
+                // close sibling sub menu;
+                topMenu.hide();
+                topMenu.data("menuOpen", false);
+                openMenus.pop();
+            } else if (level < prevLevel) {
+                // open other root menu, close all sub menus:
+                for (var i in openMenus) {
+                    var m = openMenus[i];
+                    m.hide();
+                    m.data("menuOpen", false);
+                }
+                openMenus = [];
+            }
         }
 
-        openMenus.push(subMenu);
-        var p = eval ("(" + subMenu.attr('props') + ")");
+        openMenus.push($subMenu);
+        var p = eval ("(" + $subMenu.attr('props') + ")");
         if (p) {
             if (p.hasOwnProperty("relX")) {
-                var x = menuItem.offset().left + p.relX;
-                x = Math.min(x, $(document).width() - subMenu.width());
-                subMenu.css("left", x);
+                var x = $menuItem.offset().left + p.relX;
+                x = Math.min(x, $(document).width() - $subMenu.width());
+                $subMenu.css("left", x);
             }
             if (p.hasOwnProperty("relY")) {
-                var y = menuItem.offset().top + p.relY;
-                y = Math.min(y, $(document).height() - subMenu.height());
-                subMenu.css("top", y);
+                var y = $menuItem.offset().top + p.relY;
+                y = Math.min(y, $(document).height() - $subMenu.height());
+                $subMenu.css("top", y);
             }
         }
-        subMenu.stop(true, true);
-        $("body").append(subMenu);
-        subMenu.show();
+        $subMenu.stop(true, true);
+        $("body").append($subMenu);
+        $subMenu.show();
     }
 
-    function closeMenu(menuItem, subMenu)
+    function closeMenu($menuItem, $subMenu)
     { 
-        subMenu.data("hover", false);
+        $subMenu.data("hover", false);
         clearTimeout(this_menu.menuTimer);
         this_menu.menuTimer = setTimeout(function() {
             var last = openMenus.pop();

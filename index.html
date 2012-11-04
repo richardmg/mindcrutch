@@ -66,9 +66,9 @@
                 <table style="width:100%;height:100%">
                     <tr><td><input id="imageSearchInput" type="text" style="display:block;width:100%"></input></td></tr>
                     <tr><td class="searchMenu">
-                        <div class="subMenu" subMenu="#imageSizeMenu">all sizes</div>
-                        <div class="subMenu" subMenu="#clipartMenu">clipart</div>
-                        <div class="subMenu" subMenu="#colorsMenu">all colors</div>
+                        <div class="menuItem" subMenu="#imageSizeMenu">all sizes</div>
+                        <div class="menuItem" subMenu="#clipartMenu">clipart</div>
+                        <div class="menuItem" subMenu="#colorsMenu">all colors</div>
                     </td></tr>
                     </tr><tr><td style="height:100%">
                         <div id="searchResult" style="height:100%;overflow:auto"></div>
@@ -77,43 +77,54 @@
             </div>
         </div>
         
-        <div id="imageSizeMenu" class="WooWindow" props="{relX:0, relY:20}" style="width:100px;height:300px">
-            <div class="contents menuItems">
-                <div>all sizes</div>
-                <div>icon</div>
-                <div>small</div>
-                <div>medium</div>
-                <div>large</div>
-                <div>xlarge</div>
-                <div>xxlarge</div>
-                <div>huge</div>
+        <div id="imageSizeMenu" class="WooWindow subMenu" props="{relX:0, relY:20}" style="width:100px;height:300px">
+            <div class="contents">
+                <div class="menuItem">all sizes</div>
+                <div class="menuItem">icon</div>
+                <div class="menuItem">small</div>
+                <div class="menuItem">medium</div>
+                <div class="menuItem">large</div>
+                <div class="menuItem">xlarge</div>
+                <div class="menuItem">xxlarge</div>
+                <div class="menuItem">huge</div>
             </div>
         </div>
 
-        <div id="clipartMenu" class="WooWindow" props="{relX:0, relY:20}" style="width:100px;height:300px">
-            <div class="contents menuItems">
-                <div>all images</div>
-                <div>faces</div>
-                <div>photo</div>
-                <div>clipart</div>
-                <div>lineart</div>
+        <div id="clipartMenu" class="WooWindow subMenu" props="{relX:0, relY:20}" style="width:100px;height:300px">
+            <div class="contents">
+                <div class="menuItem">all images</div>
+                <div class="menuItem">faces</div>
+                <div class="menuItem">photo</div>
+                <div class="menuItem">clipart</div>
+                <div class="menuItem" subMenu="#tmpSub">lineart</div>
             </div>
         </div>
-        <div id="colorsMenu" class="WooWindow" props="{relX:0, relY:20}" style="width:100px;height:350px">
-            <div class="contents menuItems">
-                <div>all colors</div>
-                <div>black/white</div>
-                <div>black</div>
-                <div>blue</div>
-                <div>gray</div>
-                <div>green</div>
-                <div>orange</div>
-                <div>pink</div>
-                <div>purple</div>
-                <div>red</div>
-                <div>teal</div>
-                <div>white</div>
-                <div>yellow</div>
+
+        <div id="tmpSub" class="WooWindow subMenu" props="{relX:0, relY:20}" style="width:100px;height:300px">
+            <div class="contents">
+                <div class="menuItem">all images</div>
+                <div class="menuItem">faces</div>
+                <div class="menuItem">photo</div>
+                <div class="menuItem">clipart</div>
+                <div class="menuItem">lineart</div>
+            </div>
+        </div>
+
+        <div id="colorsMenu" class="WooWindow subMenu" props="{relX:0, relY:20}" style="width:100px;height:350px">
+            <div class="contents">
+                <div class="menuItem">all colors</div>
+                <div class="menuItem">black/white</div>
+                <div class="menuItem">black</div>
+                <div class="menuItem">blue</div>
+                <div class="menuItem">gray</div>
+                <div class="menuItem">green</div>
+                <div class="menuItem">orange</div>
+                <div class="menuItem">pink</div>
+                <div class="menuItem">purple</div>
+                <div class="menuItem">red</div>
+                <div class="menuItem">teal</div>
+                <div class="menuItem">white</div>
+                <div class="menuItem">yellow</div>
             </div>
         </div>
 
