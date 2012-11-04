@@ -37,7 +37,7 @@
     border: 2px solid #ffffff;
 }
 
-.brushmenu div {
+.searchMenu div {
     float: right;
     display: inline-block;
     padding: 5px;
@@ -48,11 +48,11 @@
     color: #b0b0b0;
 }
 
-.brushmenu div:hover {
+.searchMenu div:hover {
     color: #ffffff;
 }
 
-.brushmenu div:active {
+.searchMenu div:active {
     color: #ffffff;
 }
 

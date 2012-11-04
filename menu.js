@@ -4,33 +4,39 @@ function Menu(rootNode, props)
     var this_menu = this;
     var props = props || {relX:0, relY:0, fadeout:150, delay:300};
     var openMenus = new Array();
-    setupMenuItem($(rootNode));
+
+    setupMenuItem(rootNode);
 
     function setupMenuItem(menuItem) {
-        var url = menuItem.attr("url");
+        var group = $(".subMenu", menuItem).length > 0; 
+        var $menuItem = $(menuItem);
+        var url = $menuItem.attr("url");
         if (url)
-            menuItem.click(function() { window.location.href = url; });
+            $menuItem.click(function() { window.location.href = url; });
 
-        var subMenuSel = menuItem.attr("subMenu");
-        if (subMenuSel) {
-            // This menu item has a sub menu. Make
-            // the item open the sub menu on hover:
-            // inside the sub menu:
-            var subMenu = $(subMenuSel);
-            subMenu.css("display", "none")
-            menuItem.hover(
-                function() { openMenu(menuItem, subMenu) },
-                function() { closeMenu(menuItem, subMenu) }
-            );
-            subMenu.hover(
-                function() { openMenu(menuItem, subMenu) },
-                function() { closeMenu(menuItem, subMenu) }
-            );
+        if (group == true) {
+            // Recursively traverse all root menu items:
+            $(".subMenu", menuItem).each(function() { setupMenuItem(this); });
+        } else {
+            var subMenuSel = $menuItem.attr("subMenu");
+            if (subMenuSel) {
+                // This menu item has a sub menu. Make
+                // the item open the sub menu on hover:
+                // inside the sub menu:
+                var subMenu = $(subMenuSel);
+                subMenu.css("display", "none")
+                $menuItem.hover(
+                    function() { openMenu($menuItem, subMenu) },
+                    function() { closeMenu($menuItem, subMenu) }
+                );
+                subMenu.hover(
+                    function() { openMenu($menuItem, subMenu) },
+                    function() { closeMenu($menuItem, subMenu) }
+                );
 
-            // Recursively traverse all items in the sub menu:
-            $("div", subMenu).each(function(index, innerItemNode) {
-                    setupMenuItem($(innerItemNode));
-            });
+                // Recursively traverse all items in the sub menu:
+                $("div", subMenu).each(function() { setupMenuItem(this); });
+            }
         }
     }
 
@@ -41,8 +47,10 @@ function Menu(rootNode, props)
             return;
         subMenu.data("menuOpen", true);
 
-        var parentSub = menuItem.closest(".subMenu");
+        //var parentSub = menuItem.closest(".subMenu, .menu");
+        var parentSub = menuItem.closest(".menu");
         var level = parentSub.length > 0 ? parentSub.data("level") + 1 : 0;
+        level = level || 0;
         subMenu.data("level", level);
         
         var topMenu = openMenus[openMenus.length - 1];
