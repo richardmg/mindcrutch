@@ -42,35 +42,36 @@ function Menu(rootNode, props)
 
     function openMenu($menuItem, $subMenu, $parentSubMenu)
     {
-        $subMenu.data("hover", true);
-        if ($subMenu.data("menuOpen") === true)
-            return;
-        $subMenu.data("menuOpen", true);
+        clearTimeout(this_menu.menuTimer);
 
-        var level = $parentSubMenu.length > 0 ? $parentSubMenu.data("level") + 1 : 0;
-        level = level || 0;
-        $subMenu.data("level", level);
+        var level = 0;
+        if ($parentSubMenu) {
+            var parentInfo = $parentSubMenu.data("subMenuInfo");
+            if (parentInfo)
+                level = parentInfo.level + 1;
+        }
         
         var topMenu = openMenus[openMenus.length - 1];
         if (topMenu) {
-            var prevLevel = topMenu.data("level");
+            var prevLevel = topMenu.level;
             if (level == prevLevel) {
                 // close sibling sub menu;
-                topMenu.hide();
-                topMenu.data("menuOpen", false);
+                topMenu.$subMenu.hide();
+                topMenu.$subMenu.data("subMenuInfo", undefined);
+                topMenu.$menuItem.removeClass("subMenuOpen");
                 openMenus.pop();
             } else if (level < prevLevel) {
                 // open other root menu, close all sub menus:
                 for (var i in openMenus) {
                     var m = openMenus[i];
-                    m.hide();
-                    m.data("menuOpen", false);
+                    m.$subMenu.hide();
+                    m.$subMenu.data("subMenuInfo", undefined);
+                    m.$menuItem.removeClass("subMenuOpen");
                 }
                 openMenus = [];
             }
         }
 
-        openMenus.push($subMenu);
         var p = eval ("(" + $subMenu.attr('props') + ")");
         if (p) {
             if (p.hasOwnProperty("relX")) {
@@ -84,6 +85,17 @@ function Menu(rootNode, props)
                 $subMenu.css("top", y);
             }
         }
+
+        var info ={
+            $subMenu: $subMenu,
+            $menuItem: $menuItem,
+            closeRequest: false,
+            level:level
+        };
+        openMenus.push(info);
+        $subMenu.data("subMenuInfo", info);
+
+        $menuItem.addClass("subMenuOpen");
         $subMenu.stop(true, true);
         $("body").append($subMenu);
         $subMenu.show();
@@ -91,18 +103,16 @@ function Menu(rootNode, props)
 
     function closeMenu($menuItem, $subMenu)
     { 
-        $subMenu.data("hover", false);
+        $subMenu.data("subMenuInfo").closeRequest = true;
+
         clearTimeout(this_menu.menuTimer);
         this_menu.menuTimer = setTimeout(function() {
-            var last = openMenus.pop();
-            while (last && last.data("hover") === false) {
-                last.hide(props.fadeout);
-                last.data("menuOpen", false);
-                last = openMenus.pop();
-            }
-            if (last && last.data("hover")) {
-                openMenus.push(last);
-                last.data("menuOpen", true);
+            var m = openMenus.pop();
+            while (m && m.closeRequest) {
+                m.$subMenu.hide(props.fadeout);
+                m.$subMenu.data("subMenuInfo", undefined);
+                m.$menuItem.removeClass("subMenuOpen");
+                m = openMenus.pop();
             }
         }, props.delay);
     }

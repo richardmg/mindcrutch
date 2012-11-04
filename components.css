@@ -37,33 +37,23 @@
     border: 2px solid #ffffff;
 }
 
+.menuItem {
+    padding: 5px;
+    font: 10px verdana;
+    color: #b0b0b0;
+    cursor: default;
+}
+
+.menuItem:hover, .subMenuOpen {
+    color: #ffffff;
+}
+
 .searchMenu .menuItem {
     float: right;
     display: inline-block;
-    padding: 5px;
     margin-top: 7px;
     margin-bottom: 3px;
     margin-right: 5px;
-    font: 10px verdana;
-    color: #b0b0b0;
-    cursor: default;
 }
 
-.searchMenu div:hover {
-    color: #ffffff;
-}
-
-.searchMenu div:active {
-    color: #ffffff;
-}
-
-.contents .menuItem {
-    padding: 5px;
-    font: 10px verdana;
-    color: #b0b0b0;
-    cursor: default;
-}
-
-.contents .menuItem:hover {
-    color: #ffffff;
-}
+*/
