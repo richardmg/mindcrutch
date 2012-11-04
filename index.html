@@ -20,7 +20,6 @@
 
                 setupCanvas();
                 setupPalette();
-                updatePalette();
             });
         </script>
 
@@ -32,12 +31,10 @@
     <body>
 
         <div class="WooWindow" style="top:10px;left:10px;width:840px;height:480px;" draggable="true">
-            <div class="header">Canvas</div>
             <canvas class="contents WooCanvas" style="background-color:#ffffff"></canvas>
         </div>
 
         <div id="brushwin" class="WooWindow" style="top:150px;left:500px;width:640px;height:400px">
-            <div class="header">Palette</div>
             <div class="contents">
                 <table style="width:100%;height:100%">
                     <tr><td><input id="imageSearchInput" type="text" value="zombies" onchange="setSearchString(this.value)" style="display:block;width:100%"></input></td></tr>

@@ -89,4 +89,7 @@ function setupPalette()
         }
         return this;
     }
+
+    updatePalette();
 }
+
