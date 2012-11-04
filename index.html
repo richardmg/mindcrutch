@@ -92,7 +92,7 @@
             <div class="header">Palette</div>
             <div class="contents">
                 <table style="width:100%;height:100%">
-                    <tr><td><input id="imageSearchInput" type="text" onchange="setSearchProp('searchString', this.value)" style="display:block;width:100%"></input></td></tr>
+                    <tr><td><input id="imageSearchInput" type="text" value="zombies" onchange="setSearchProp('searchString', this.value)" style="display:block;width:100%"></input></td></tr>
                     <tr><td class="searchMenu">
                         <div id="imageSize" class="menuItem" subMenu="#imageSizeMenu">medium</div>
                         <div id="imageType" class="menuItem" subMenu="#clipartMenu">clipart</div>
@@ -131,7 +131,7 @@
         <div id="colorsMenu" class="WooWindow" props="{relX:0, relY:20}" style="width:100px;height:350px">
             <div class="contents">
                 <div class="menuItem" onmousedown="setImageColor('?')">all colors</div>
-                <div class="menuItem" onmousedown="setImageColor('?')">black/white</div>
+                <div class="menuItem" onmousedown="setImageColor('black/white')">black/white</div>
                 <div class="menuItem" onmousedown="setImageColor('black')">black</div>
                 <div class="menuItem" onmousedown="setImageColor('white')">white</div>
                 <div class="menuItem" onmousedown="setImageColor('blue')">blue</div>
