@@ -17,14 +17,11 @@
                     .on("dragstart", function(e) {
                         e.preventDefault();
                     });
-                $(".searchMenu").createMenu();
-                var $canvas = $(".WooCanvas").createWooCanvas();
-                canvas = $.data($canvas[0], "wooCanvas");
 
+                setupCanvas();
                 setupPalette();
                 updatePalette();
             });
-
         </script>
 
         <style type="text/css">

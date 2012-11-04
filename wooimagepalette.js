@@ -1,6 +1,7 @@
 function setupPalette()
 {
     searchProps = {searchString:"zombies", imgtype:"clipart", imgsz:"medium"};
+    $(".searchMenu").createMenu();
 
     paletteCallback = {
         thumbnailPressed: function(result)

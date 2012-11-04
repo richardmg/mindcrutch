@@ -246,9 +246,15 @@ function WooCanvas(canvas)
     }
 }
 
-$.fn.createWooCanvas = function() {
-    return this.each(function() {
-        $.data(this, "wooCanvas", new WooCanvas(this));
-    });
+function setupCanvas()
+{
+    $.fn.createWooCanvas = function() {
+        return this.each(function() {
+            $.data(this, "wooCanvas", new WooCanvas(this));
+        });
+    }
+
+    var $canvas = $(".WooCanvas").createWooCanvas();
+    canvas = $.data($canvas[0], "wooCanvas");
 }
 
