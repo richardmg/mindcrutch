@@ -11,48 +11,6 @@
 
         <script>
             $(function() {
-                var searchProps = {searchString:"zombies", imgtype:"clipart", imgsz:"medium"};
-                updatePalette = function()
-                {
-                    $("#searchResult")
-                    .empty()
-                    .fillWithGoogleImages(searchProps, paletteCallback);
-                }
-
-                setSearchString = function(value)
-                {
-                    searchProps.searchString = value;
-                    updatePalette();
-                }
-
-                setImageType = function(value)
-                {
-                    searchProps.imgtype = value;
-                    updatePalette();
-                    $(".menuItem#imageType").text(value == "?" ? "all images" : value);
-                }
-
-                setImageSize = function(value)
-                {
-                    searchProps.imgsz = value;
-                    updatePalette();
-                    $(".menuItem#imageSize").text(value == "?" ? "all sizes" : value);
-                }
-
-                setImageColor = function(value)
-                {
-                    if (value == "black/white") {
-                        searchProps.imgc = "gray";
-                        searchProps.imgcolor = "?";
-                        $(".menuItem#imageColor").text(value);
-                    } else {
-                        searchProps.imgc = "color";
-                        searchProps.imgcolor = value;
-                        $(".menuItem#imageColor").text(value == "?" ? "all colors" : value);
-                    }
-                    updatePalette();
-                }
-
                 $(".WooWindow")
                     .createWooWindow()
                     .disableSelection()
@@ -61,23 +19,10 @@
                     });
                 $(".searchMenu").createMenu();
                 var $canvas = $(".WooCanvas").createWooCanvas();
-                var canvas = $.data($canvas[0], "wooCanvas");
+                canvas = $.data($canvas[0], "wooCanvas");
 
-                var paletteCallback = {
-                    thumbnailPressed: function(result)
-                    {
-                        canvas.addLayer({url:result.url, rotation:Math.PI/8});
-                    },
-                    cursor: function(cursor)
-                    {
-                        console.log("Search count: " + cursor.resultCount);
-                    }
-                };
-
-                $("#searchResult")
-                    .disableSelection()
-                    .fillWithGoogleImages(searchProps, paletteCallback);
-
+                setupPalette();
+                updatePalette();
             });
 
         </script>
