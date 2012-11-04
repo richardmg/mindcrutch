@@ -20,6 +20,12 @@
                     .fillWithGoogleImages(searchProps, paletteCallback);
                 }
 
+                setImageType = function(value)
+                {
+                    setSearchProp("imgtype", value);
+                    $(".menuItem#imageType").text(value == "?" ? "all images" : value);
+                }
+
                 $(".WooWindow")
                     .createWooWindow()
                     .disableSelection()
@@ -67,9 +73,9 @@
                 <table style="width:100%;height:100%">
                     <tr><td><input id="imageSearchInput" type="text" onchange="setSearchProp('searchString', this.value)" style="display:block;width:100%"></input></td></tr>
                     <tr><td class="searchMenu">
-                        <div class="menuItem" subMenu="#imageSizeMenu">all sizes</div>
-                        <div class="menuItem" subMenu="#clipartMenu">clipart</div>
-                        <div class="menuItem" subMenu="#colorsMenu">all colors</div>
+                        <div id="imageSize" class="menuItem" subMenu="#imageSizeMenu">all sizes</div>
+                        <div id="imageType" class="menuItem" subMenu="#clipartMenu">clipart</div>
+                        <div id="imageColor" class="menuItem" subMenu="#colorsMenu">all colors</div>
                     </td></tr>
                     </tr><tr><td style="height:100%">
                         <div id="searchResult" style="height:100%;overflow:auto"></div>
@@ -93,11 +99,11 @@
 
         <div id="clipartMenu" class="WooWindow" props="{relX:0, relY:20}" style="width:100px;height:300px">
             <div class="contents">
-                <div class="menuItem" onmousedown="setSearchProp('imgtype', '?')">all images</div>
-                <div class="menuItem" onmousedown="setSearchProp('imgtype', 'faces')">faces</div>
-                <div class="menuItem" onmousedown="setSearchProp('imgtype', 'photo')">photo</div>
-                <div class="menuItem" onmousedown="setSearchProp('imgtype', 'clipart')">clipart</div>
-                <div class="menuItem" onmousedown="setSearchProp('imgtype', 'lineart')">lineart</div>
+                <div class="menuItem" onmousedown="setImageType('?')">all images</div>
+                <div class="menuItem" onmousedown="setImageType('faces')">faces</div>
+                <div class="menuItem" onmousedown="setImageType('photo')">photo</div>
+                <div class="menuItem" onmousedown="setImageType('clipart')">clipart</div>
+                <div class="menuItem" onmousedown="setImageType('lineart')">lineart</div>
             </div>
         </div>
 
