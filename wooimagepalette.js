@@ -6,11 +6,12 @@ $.fn.fillWithGoogleImages = function(props, callback)
     props.imgsz = props.imgsz || "?";
     props.imgcolor = props.imgcolor || "?";
     props.imgtype = props.imgtype || "?";
+    props.imgc = props.imgc || "?";
 
     for (var start=0; start<(7*rsz); start+=rsz) {
         var url = "https://ajax.googleapis.com/ajax/services/search/images?v=1.0" +
             "&rsz=" + rsz + "&q=" + props.searchString + "&start=" + start + "&callback=?" + "&imgsz=" + props.imgsz +
-            "&imgtype=" + props.imgtype + "&imgcolor=" + props.imgcolor;
+            "&imgtype=" + props.imgtype + "&imgcolor=" + props.imgcolor + "&imgc=" + props.imgc;
 
         $.getJSON(url, function(json) {
                 //console.log("Return:" + JSON.stringify(json));

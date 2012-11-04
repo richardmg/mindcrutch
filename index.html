@@ -12,9 +12,8 @@
         <script>
             $(function() {
                 var searchProps = {searchString:"zombies", imgtype:"clipart", imgsz:"medium"};
-                setSearchProp = function(key, value)
+                updatePalette = function()
                 {
-                    searchProps[key] = value;
                     $("#searchResult")
                     .empty()
                     .fillWithGoogleImages(searchProps, paletteCallback);
@@ -22,8 +21,30 @@
 
                 setImageType = function(value)
                 {
-                    setSearchProp("imgtype", value);
+                    searchProps.imgtype = value;
+                    updatePalette();
                     $(".menuItem#imageType").text(value == "?" ? "all images" : value);
+                }
+
+                setImageSize = function(value)
+                {
+                    searchProps.imgsz = value;
+                    updatePalette();
+                    $(".menuItem#imageSize").text(value == "?" ? "all sizes" : value);
+                }
+
+                setImageColor = function(value)
+                {
+                    if (value == "black/white") {
+                        searchProps.imgc = "gray";
+                        searchProps.imgcolor = "?";
+                        $(".menuItem#imageColor").text(value);
+                    } else {
+                        searchProps.imgc = "color";
+                        searchProps.imgcolor = value;
+                        $(".menuItem#imageColor").text(value == "?" ? "all colors" : value);
+                    }
+                    updatePalette();
                 }
 
                 $(".WooWindow")
@@ -73,7 +94,7 @@
                 <table style="width:100%;height:100%">
                     <tr><td><input id="imageSearchInput" type="text" onchange="setSearchProp('searchString', this.value)" style="display:block;width:100%"></input></td></tr>
                     <tr><td class="searchMenu">
-                        <div id="imageSize" class="menuItem" subMenu="#imageSizeMenu">all sizes</div>
+                        <div id="imageSize" class="menuItem" subMenu="#imageSizeMenu">medium</div>
                         <div id="imageType" class="menuItem" subMenu="#clipartMenu">clipart</div>
                         <div id="imageColor" class="menuItem" subMenu="#colorsMenu">all colors</div>
                     </td></tr>
@@ -86,14 +107,14 @@
         
         <div id="imageSizeMenu" class="WooWindow" props="{relX:0, relY:20}" style="width:100px;height:300px">
             <div class="contents">
-                <div class="menuItem">all sizes</div>
-                <div class="menuItem">icon</div>
-                <div class="menuItem">small</div>
-                <div class="menuItem">medium</div>
-                <div class="menuItem">large</div>
-                <div class="menuItem">xlarge</div>
-                <div class="menuItem">xxlarge</div>
-                <div class="menuItem">huge</div>
+                <div class="menuItem" onmousedown="setImageSize('?')">all sizes</div>
+                <div class="menuItem" onmousedown="setImageSize('icon')">icon</div>
+                <div class="menuItem" onmousedown="setImageSize('small')">small</div>
+                <div class="menuItem" onmousedown="setImageSize('medium')">medium</div>
+                <div class="menuItem" onmousedown="setImageSize('large')">large</div>
+                <div class="menuItem" onmousedown="setImageSize('xlarge')">xlarge</div>
+                <div class="menuItem" onmousedown="setImageSize('xxlarge')">xxlarge</div>
+                <div class="menuItem" onmousedown="setImageSize('huge')">huge</div>
             </div>
         </div>
 
@@ -109,19 +130,19 @@
 
         <div id="colorsMenu" class="WooWindow" props="{relX:0, relY:20}" style="width:100px;height:350px">
             <div class="contents">
-                <div class="menuItem">all colors</div>
-                <div class="menuItem">black/white</div>
-                <div class="menuItem">black</div>
-                <div class="menuItem">blue</div>
-                <div class="menuItem">gray</div>
-                <div class="menuItem">green</div>
-                <div class="menuItem">orange</div>
-                <div class="menuItem">pink</div>
-                <div class="menuItem">purple</div>
-                <div class="menuItem">red</div>
-                <div class="menuItem">teal</div>
-                <div class="menuItem">white</div>
-                <div class="menuItem">yellow</div>
+                <div class="menuItem" onmousedown="setImageColor('?')">all colors</div>
+                <div class="menuItem" onmousedown="setImageColor('?')">black/white</div>
+                <div class="menuItem" onmousedown="setImageColor('black')">black</div>
+                <div class="menuItem" onmousedown="setImageColor('white')">white</div>
+                <div class="menuItem" onmousedown="setImageColor('blue')">blue</div>
+                <div class="menuItem" onmousedown="setImageColor('gray')">gray</div>
+                <div class="menuItem" onmousedown="setImageColor('green')">green</div>
+                <div class="menuItem" onmousedown="setImageColor('orange')">orange</div>
+                <div class="menuItem" onmousedown="setImageColor('pink')">pink</div>
+                <div class="menuItem" onmousedown="setImageColor('purple')">purple</div>
+                <div class="menuItem" onmousedown="setImageColor('red')">red</div>
+                <div class="menuItem" onmousedown="setImageColor('teal')">teal</div>
+                <div class="menuItem" onmousedown="setImageColor('yellow')">yellow</div>
             </div>
         </div>
 
