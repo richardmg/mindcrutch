@@ -5,9 +5,9 @@ function Menu(rootNode, props)
     var props = props || {relX:0, relY:0, fadeout:150, delay:300};
     var openMenus = new Array();
 
-    setupMenuItem(rootNode);
+    setupMenuItem(rootNode, undefined);
 
-    function setupMenuItem(menuItem) {
+    function setupMenuItem(menuItem, $parentSubMenu) {
         var group = $(".menuItem", menuItem).length > 0; 
         var $menuItem = $(menuItem);
         var url = $menuItem.attr("url");
@@ -16,7 +16,7 @@ function Menu(rootNode, props)
 
         if (group == true) {
             // Recursively traverse all root menu items:
-            $(".menuItem", menuItem).each(function() { setupMenuItem(this); });
+            $(".menuItem", menuItem).each(function() { setupMenuItem(this, $(rootNode)); });
         } else {
             var subMenuSel = $menuItem.attr("subMenu");
             if (subMenuSel) {
@@ -26,29 +26,28 @@ function Menu(rootNode, props)
                 var $subMenu = $(subMenuSel);
                 $subMenu.css("display", "none")
                 $menuItem.hover(
-                    function() { openMenu($menuItem, $subMenu) },
+                    function() { openMenu($menuItem, $subMenu, $parentSubMenu) },
                     function() { closeMenu($menuItem, $subMenu) }
                 );
                 $subMenu.hover(
-                    function() { openMenu($menuItem, $subMenu) },
+                    function() { openMenu($menuItem, $subMenu, $parentSubMenu) },
                     function() { closeMenu($menuItem, $subMenu) }
                 );
 
                 // Recursively traverse all items in the sub menu:
-                $(".menuItem", $subMenu).each(function() { setupMenuItem(this); });
+                $(".menuItem", $subMenu).each(function() { setupMenuItem(this, $subMenu); });
             }
         }
     }
 
-    function openMenu($menuItem, $subMenu)
+    function openMenu($menuItem, $subMenu, $parentSubMenu)
     {
         $subMenu.data("hover", true);
         if ($subMenu.data("menuOpen") === true)
             return;
         $subMenu.data("menuOpen", true);
 
-        var parentSub = $menuItem.closest(".subMenu");
-        var level = parentSub.length > 0 ? parentSub.data("level") + 1 : 0;
+        var level = $parentSubMenu.length > 0 ? $parentSubMenu.data("level") + 1 : 0;
         level = level || 0;
         $subMenu.data("level", level);
         
