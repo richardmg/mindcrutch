@@ -11,18 +11,22 @@
 
         <script>
             $(function() {
+                var searchProps = {searchString:"zombies", imgtype:"clipart", imgsz:"medium"};
+                setSearchProp = function(key, value)
+                {
+                    searchProps[key] = value;
+                    $("#searchResult")
+                    .empty()
+                    .fillWithGoogleImages(searchProps, paletteCallback);
+                }
+
                 $(".WooWindow")
                     .createWooWindow()
                     .disableSelection()
                     .on("dragstart", function(e) {
                         e.preventDefault();
                     });
-
                 $(".searchMenu").createMenu();
-                $(".menuItem").on("mousedown", function() {
-                    console.log("mouse down on:", $(this).text());
-                });
-
                 var $canvas = $(".WooCanvas").createWooCanvas();
                 var canvas = $.data($canvas[0], "wooCanvas");
 
@@ -37,16 +41,9 @@
                     }
                 };
 
-                var imageInput = $("#imageSearchInput");
-                imageInput.on("change", function() {
-                    $("#searchResult")
-                    .empty()
-                    .fillWithGoogleImages(imageInput.attr("value"), paletteCallback);
-                });
-
                 $("#searchResult")
                     .disableSelection()
-                    .fillWithGoogleImages("zombies", paletteCallback);
+                    .fillWithGoogleImages(searchProps, paletteCallback);
 
             });
 
@@ -68,7 +65,7 @@
             <div class="header">Palette</div>
             <div class="contents">
                 <table style="width:100%;height:100%">
-                    <tr><td><input id="imageSearchInput" type="text" style="display:block;width:100%"></input></td></tr>
+                    <tr><td><input id="imageSearchInput" type="text" onchange="setSearchProp('searchString', this.value)" style="display:block;width:100%"></input></td></tr>
                     <tr><td class="searchMenu">
                         <div class="menuItem" subMenu="#imageSizeMenu">all sizes</div>
                         <div class="menuItem" subMenu="#clipartMenu">clipart</div>
@@ -96,21 +93,11 @@
 
         <div id="clipartMenu" class="WooWindow" props="{relX:0, relY:20}" style="width:100px;height:300px">
             <div class="contents">
-                <div class="menuItem">all images</div>
-                <div class="menuItem">faces</div>
-                <div class="menuItem">photo</div>
-                <div class="menuItem">clipart</div>
-                <div class="menuItem" subMenu="#tmpSub">lineart</div>
-            </div>
-        </div>
-
-        <div id="tmpSub" class="WooWindow" props="{relX:50, relY:20}" style="width:100px;height:300px">
-            <div class="contents">
-                <div class="menuItem">all images</div>
-                <div class="menuItem">faces</div>
-                <div class="menuItem">photo</div>
-                <div class="menuItem">clipart</div>
-                <div class="menuItem">lineart</div>
+                <div class="menuItem" onmousedown="setSearchProp('imgtype', '?')">all images</div>
+                <div class="menuItem" onmousedown="setSearchProp('imgtype', 'faces')">faces</div>
+                <div class="menuItem" onmousedown="setSearchProp('imgtype', 'photo')">photo</div>
+                <div class="menuItem" onmousedown="setSearchProp('imgtype', 'clipart')">clipart</div>
+                <div class="menuItem" onmousedown="setSearchProp('imgtype', 'lineart')">lineart</div>
             </div>
         </div>
 

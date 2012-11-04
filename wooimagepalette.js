@@ -1,13 +1,17 @@
 
-$.fn.fillWithGoogleImages = function(searchString, callback)
+$.fn.fillWithGoogleImages = function(props, callback)
 {
     var $plugin_this = this;
     var rsz = 8
+    props.imgsz = props.imgsz || "?";
+    props.imgcolor = props.imgcolor || "?";
+    props.imgtype = props.imgtype || "?";
+
     for (var start=0; start<(7*rsz); start+=rsz) {
         var url = "https://ajax.googleapis.com/ajax/services/search/images?v=1.0" +
-            "&rsz=" + rsz + "&q=" + searchString + "&start=" + start + "&callback=?";// + "&imgsz=large";
+            "&rsz=" + rsz + "&q=" + props.searchString + "&start=" + start + "&callback=?" + "&imgsz=" + props.imgsz +
+            "&imgtype=" + props.imgtype + "&imgcolor=" + props.imgcolor;
 
-        //var url = "https://ajax.googleapis.com/ajax/services/search/images?v=1.0&imgtype=clipart&imgcolor=brown&rsz=8&q=" + searchString + "&callback=?";
         $.getJSON(url, function(json) {
                 //console.log("Return:" + JSON.stringify(json));
                 $plugin_this.each(function() {
