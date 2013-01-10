@@ -8,6 +8,18 @@ $.fn.center = function () {
     });
 }
 
+$.fn.fullscreen = function () {
+    // Center each div on the page:
+    return this.each(function(){
+        var $this = $(this);
+        $this.css("position","absolute");
+        $this.css("x", 0);
+        $this.css("y", 0);
+        $this.css("width", $(window).width());
+        $this.css("height", $(window).height());
+    });
+}
+
 $.fn.redefineMargins = function() {
     // Since adding margins and paddings to an element makes it bigger
     // than 100%, this helper code makes the element fill the size

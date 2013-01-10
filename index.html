@@ -18,6 +18,7 @@
                         e.preventDefault();
                     });
                 $("#canvasWindow").center();
+                $("#paletteWindow").fullscreen();
 
                 setupCanvas();
                 setupPalette();
@@ -35,7 +36,7 @@
             <canvas class="contents WooCanvas" style="background-color:#ffffff"></canvas>
         </div>
 
-        <div id="brushwin" class="WooWindow" style="top:0px;left:0px;width:640px;height:400px;z-index:10;display:none">
+        <div id="paletteWindow" class="WooWindow" style="top:0px;left:0px;width:640px;height:400px;z-index:10;display:none">
             <div class="contents">
                 <table style="width:100%;height:100%">
                     <tr><td><input id="imageSearchInput" type="text" value="zombies" onchange="setSearchString(this.value)" style="display:block;width:100%"></input></td></tr>
@@ -92,7 +93,7 @@
             </div>
         </div>
 
-        <img src="img/paletteicon.png" class="canvasButton" onmousedown="$('#brushwin').toggle()"></img>
+        <img src="img/paletteicon.png" class="canvasButton" onmousedown="$('#paletteWindow').toggle()"></img>
 
 
     </body>
