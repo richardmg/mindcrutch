@@ -31,3 +31,13 @@
     margin-left:10px;
     color: white;
 }
+
+.popup {
+    z-index: 100
+}
+
+.canvasButton {
+    position: absolute;
+    z-index: 50;
+}
+

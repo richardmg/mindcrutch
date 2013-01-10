@@ -1,3 +1,12 @@
+$.fn.center = function () {
+    // Center each div on the page:
+    return this.each(function(){
+        var $this = $(this);
+        $this.css("position","absolute");
+        $this.css("top", Math.max(0, (($(window).height() - $this.outerHeight()) / 2) + $(window).scrollTop()) + "px");
+        $this.css("left", Math.max(0, (($(window).width() - $this.outerWidth()) / 2) + $(window).scrollLeft()) + "px");
+    });
+}
 
 $.fn.redefineMargins = function() {
     // Since adding margins and paddings to an element makes it bigger

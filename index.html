@@ -17,6 +17,7 @@
                     .on("dragstart", function(e) {
                         e.preventDefault();
                     });
+                $("#canvasWindow").center();
 
                 setupCanvas();
                 setupPalette();
@@ -30,11 +31,11 @@
 
     <body>
 
-        <div class="WooWindow" style="top:10px;left:10px;width:840px;height:480px;" draggable="true">
+        <div class="WooWindow" id="canvasWindow" style="top:20px;left:10px;width:840px;height:480px" draggable="true">
             <canvas class="contents WooCanvas" style="background-color:#ffffff"></canvas>
         </div>
 
-        <div id="brushwin" class="WooWindow" style="top:150px;left:500px;width:640px;height:400px">
+        <div id="brushwin" class="WooWindow" style="top:0px;left:0px;width:640px;height:400px;z-index:10;display:none">
             <div class="contents">
                 <table style="width:100%;height:100%">
                     <tr><td><input id="imageSearchInput" type="text" value="zombies" onchange="setSearchString(this.value)" style="display:block;width:100%"></input></td></tr>
@@ -50,7 +51,7 @@
             </div>
         </div>
         
-        <div id="imageSizeMenu" class="WooWindow" props="{relX:0, relY:20}" style="width:100px;height:300px">
+        <div id="imageSizeMenu" class="WooWindow popup" props="{relX:0, relY:20}" style="width:100px;height:300px">
             <div class="contents">
                 <div class="menuItem" onmousedown="setImageSize('?')">all sizes</div>
                 <div class="menuItem" onmousedown="setImageSize('icon')">icon</div>
@@ -63,7 +64,7 @@
             </div>
         </div>
 
-        <div id="clipartMenu" class="WooWindow" props="{relX:0, relY:20}" style="width:100px;height:300px">
+        <div id="clipartMenu" class="WooWindow popup" props="{relX:0, relY:20}" style="width:100px;height:300px">
             <div class="contents">
                 <div class="menuItem" onmousedown="setImageType('?')">all images</div>
                 <div class="menuItem" onmousedown="setImageType('faces')">faces</div>
@@ -73,7 +74,7 @@
             </div>
         </div>
 
-        <div id="colorsMenu" class="WooWindow" props="{relX:0, relY:20}" style="width:100px;height:350px">
+        <div id="colorsMenu" class="WooWindow popup" props="{relX:0, relY:20}" style="width:100px;height:350px">
             <div class="contents">
                 <div class="menuItem" onmousedown="setImageColor('?')">all colors</div>
                 <div class="menuItem" onmousedown="setImageColor('black/white')">black/white</div>
@@ -90,6 +91,8 @@
                 <div class="menuItem" onmousedown="setImageColor('yellow')">yellow</div>
             </div>
         </div>
+
+        <img src="img/paletteicon.png" class="canvasButton" onmousedown="$('#brushwin').toggle()"></img>
 
 
     </body>
