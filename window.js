@@ -1,10 +1,12 @@
-$.fn.center = function () {
+$.fn.centerIn = function (e) {
     // Center each div on the page:
+    // E.g $("Div").centerIn(window);
     return this.each(function(){
         var $this = $(this);
+        var $e = $(e);
         $this.css("position","absolute");
-        $this.css("top", Math.max(0, (($(window).height() - $this.outerHeight()) / 2) + $(window).scrollTop()) + "px");
-        $this.css("left", Math.max(0, (($(window).width() - $this.outerWidth()) / 2) + $(window).scrollLeft()) + "px");
+        $this.css("top", Math.max(0, (($e.height() - $this.outerHeight()) / 2) + $e.scrollTop()) + "px");
+        $this.css("left", Math.max(0, (($e.width() - $this.outerWidth()) / 2) + $e.scrollLeft()) + "px");
     });
 }
 
