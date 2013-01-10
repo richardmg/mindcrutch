@@ -79,3 +79,23 @@ $.fn.createWooWindow = function() {
         $(".header, .contents", $this).redefineMargins();
     });
 }
+
+$.fn.createModalWindow = function() {
+    return this.each(function() {
+        var $this = $(this);
+        $this.fullscreen();
+        $this.mousedown(function() { $this.toggle(false); });
+
+        $(".contents", this).centerIn(this);
+    });
+}
+
+function setupWindows()
+{
+    $(".WooWindow")
+        .createWooWindow()
+        .disableSelection()
+        .on("dragstart", function(e) { e.preventDefault(); });
+
+    $(".modalWindow").createModalWindow();
+}
