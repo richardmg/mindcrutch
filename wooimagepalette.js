@@ -6,8 +6,8 @@ function setupPalette()
     paletteCallback = {
         thumbnailPressed: function(result)
         {
-            $("#brushwin").toggle(false);
             canvas.addLayer({url:result.url, rotation:Math.PI/8});
+            $("#paletteWindow").toggle(false);
         },
         cursor: function(cursor)
         {

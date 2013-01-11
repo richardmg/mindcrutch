@@ -14,11 +14,14 @@ $.fn.fullscreen = function () {
     // Center each div on the page:
     return this.each(function(){
         var $this = $(this);
-        $this.css("position","absolute");
-        $this.css("x", 0);
-        $this.css("y", 0);
-        $this.css("width", $(window).width());
-        $this.css("height", $(window).height());
+        var w = $(window).width();
+        var h = $(window).height();
+        var l = parseInt($this.css('margin-left'), 10);
+        var r = parseInt($this.css('margin-right'), 10);
+        var t = parseInt($this.css('margin-top'), 10);
+        var b = parseInt($this.css('margin-bottom'), 10);
+        $this.css({'position':'fixed', 'left':l, 'width':w-l-r, 'top':t, 'height':h-t-b,
+            'margin-top':0, 'margin-bottom':0, 'margin-left':0, 'margin-right':0});
     });
 }
 
@@ -84,8 +87,12 @@ $.fn.createModalWindow = function() {
     return this.each(function() {
         var $this = $(this);
         $this.fullscreen();
-        $this.mousedown(function() { $this.toggle(false); });
+        $this.mousedown(function(e) { 
+            if (e.target == this)
+                $this.toggle(false);
+        });
 
+        $this.redefineMargins();
         $(".contents", this).centerIn(this);
     });
 }
