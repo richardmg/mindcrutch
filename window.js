@@ -45,7 +45,7 @@ $.fn.redefineMargins = function() {
     });
 }
 
-$.fn.createNormalWindow = function() {
+$.fn.createWindow = function() {
     return this.each(function() {
         var $this = $(this);
         window.activeWindow = $this;
@@ -82,26 +82,20 @@ $.fn.createNormalWindow = function() {
     });
 }
 
-$.fn.createModalWindow = function() {
-    return this.each(function() {
-        var $this = $(this);
-        $this.fullscreen();
-        $this.mousedown(function(e) { 
-            if (e.target == this)
-                $this.toggle(false);
-        });
-
-        $this.redefineMargins();
-        $(".contents", this).centerIn(this);
-    });
-}
-
 function setupWindows()
 {
-    $(".normalWindow")
-        .createNormalWindow()
+    $(".normalWindow, .modalWindow")
+        .createWindow()
         .disableSelection()
         .on("dragstart", function(e) { e.preventDefault(); });
 
-    $(".modalWindow").createModalWindow();
+    $(".modalWindow").fullscreen().mousedown(function(e) { 
+            if (e.target == this)
+                $(this).toggle(false);
+    });
+
+    $(".modalWindow").each(function(){
+        win = this;
+        $(".contents", win).centerIn(win);
+    });
 }
