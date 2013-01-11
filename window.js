@@ -84,18 +84,17 @@ $.fn.createWindow = function() {
 
 function setupWindows()
 {
+    $(".modalWindow").fullscreen().mousedown(function(e) { 
+        if (e.target == this)
+            $(this).toggle(false);
+    });
+
     $(".normalWindow, .modalWindow")
         .createWindow()
         .disableSelection()
-        .on("dragstart", function(e) { e.preventDefault(); });
-
-    $(".modalWindow").fullscreen().mousedown(function(e) { 
-            if (e.target == this)
-                $(this).toggle(false);
-    });
-
-    $(".modalWindow").each(function(){
-        win = this;
-        $(".contents", win).centerIn(win);
-    });
+        .on("dragstart", function(e) { e.preventDefault(); })
+        .each(function(){
+            win = this;
+            $(".centerInWindow", win).centerIn(win);
+        })
 }
