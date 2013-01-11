@@ -2,10 +2,11 @@ body {
     background: url(http://blog.carbonfive.com/wp-content/themes/carbonfive/images/background.gif);
 }
 
-.WooWindow {
+.normalWindow {
     position: fixed;
 }
-.WooWindow .frame {
+
+.normalWindow .frame {
     width: 100%;
     height: 100%;
     overflow: hidden;
@@ -15,7 +16,8 @@ body {
     -moz-box-shadow: -6px 6px 8px -5px #202020;
     -webkit-box-shadow: -6px 6px 8px -5px #202020;
 }
-.WooWindow .header {
+
+.normalWindow .titlebar {
     position: absolute;
     width: 0px;
     height: 17px;
@@ -25,7 +27,8 @@ body {
     color: #b0b0b0;
     font: 12px verdana;
 }
-.WooWindow .contents {
+
+.normalWindow .contents {
     position: absolute;
     width: 0px;
     height: 0px;

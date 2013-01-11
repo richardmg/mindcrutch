@@ -11,7 +11,6 @@ $.fn.centerIn = function (e) {
 }
 
 $.fn.fullscreen = function () {
-    // Center each div on the page:
     return this.each(function(){
         var $this = $(this);
         var w = $(window).width();
@@ -46,7 +45,7 @@ $.fn.redefineMargins = function() {
     });
 }
 
-$.fn.createWooWindow = function() {
+$.fn.createNormalWindow = function() {
     return this.each(function() {
         var $this = $(this);
         window.activeWindow = $this;
@@ -57,29 +56,29 @@ $.fn.createWooWindow = function() {
             }
         });
 
-        // Create frame div in which we place a canvas. We need o extra div
-        // around the canvas so that the canvas gets clipped to the rounded corners:
         var frame = $("<div class='frame'></div>");
-        var canvas = $("<canvas class='headerCanvas' height=30px width=" + $this.width() + "px</canvas>");
         $this.append(frame);
-        frame.append(canvas);
+
+        if ($(".titlebar", $this).length !== 0) {
+            // Create frame div in which we place a canvas. We need o extra div
+            // around the canvas so that the canvas gets clipped to the rounded corners:
+            var canvas = $("<canvas class='titlebarCanvas' height=30px width=" + $this.width() + "px</canvas>");
+            frame.append(canvas);
+            var context = canvas[0].getContext('2d');
+            var gradient = context.createLinearGradient(0, 0, 0, canvas.height());
+            gradient.addColorStop(0.0, "rgba(180, 180, 180, 0.3)");
+            gradient.addColorStop(0.4, "rgba(50, 50, 50, 0.3)");
+            gradient.addColorStop(1.0, "rgba(20, 20, 20, 0.0)");
+            context.fillStyle = gradient;
+            context.fillRect(0, 0, canvas.width(), canvas.height());
+        }
 
         if ($this.attr("draggable") != "false") {
             frame.css("cursor", "move");
-            $(".header", $this).css("cursor", "move");
+            $(".titlebar", $this).css("cursor", "move");
             //$this.draggable({cancel:".contents"});
         }
-
-        // Draw the header background:
-        var context = canvas[0].getContext('2d');
-        var gradient = context.createLinearGradient(0, 0, 0, canvas.height());
-        gradient.addColorStop(0.0, "rgba(180, 180, 180, 0.3)");
-        gradient.addColorStop(0.4, "rgba(50, 50, 50, 0.3)");
-        gradient.addColorStop(1.0, "rgba(20, 20, 20, 0.0)");
-        context.fillStyle = gradient;
-        context.fillRect(0, 0, canvas.width(), canvas.height());
-
-        $(".header, .contents", $this).redefineMargins();
+        $(".titlebar, .contents", $this).redefineMargins();
     });
 }
 
@@ -99,8 +98,8 @@ $.fn.createModalWindow = function() {
 
 function setupWindows()
 {
-    $(".WooWindow")
-        .createWooWindow()
+    $(".normalWindow")
+        .createNormalWindow()
         .disableSelection()
         .on("dragstart", function(e) { e.preventDefault(); });
 
