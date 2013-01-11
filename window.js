@@ -4,9 +4,12 @@ $.fn.centerIn = function (e) {
     return this.each(function(){
         var $this = $(this);
         var $e = $(e);
+        var l = parseInt($this.css('margin-left'), 10);
+        var t = parseInt($this.css('margin-top'), 10);
+        console.log("pos:", l, t)
         $this.css("position","absolute");
-        $this.css("top", Math.max(0, (($e.height() - $this.outerHeight()) / 2) + $e.scrollTop()) + "px");
-        $this.css("left", Math.max(0, (($e.width() - $this.outerWidth()) / 2) + $e.scrollLeft()) + "px");
+        $this.css("top", Math.max(0, (($e.height() - $this.outerHeight()) / 2) + $e.scrollTop()) + t + "px");
+        $this.css("left", Math.max(0, (($e.width() - $this.outerWidth()) / 2) + $e.scrollLeft()) + l + "px");
     });
 }
 

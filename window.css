@@ -50,6 +50,10 @@
     z-index: 90;
 }
 
+.modalWindow .contents {
+    margin-top:8px;
+}
+
 .canvasButton {
     position: absolute;
     z-index: 50;
