@@ -1,14 +1,17 @@
 
 function WooCanvas(canvas)
 {
+    this.layers = new Array;
+    this.doubleClickCallback = undefined;
+
     var this_canvas = this;
     var $canvas = $(canvas);
-    this.layers = new Array;
     canvas.width = $canvas.width();
     canvas.height = $canvas.height();
     var context = $canvas[0].getContext('2d');
     var mousedown = false;
     var touchStartDate = new Date();
+    var clickDate = new Date();
     var currentAction = undefined;
     var selectedLayer = undefined;
 
@@ -113,16 +116,22 @@ function WooCanvas(canvas)
     function pressEnd(pos)
     {
         mousedown = false;
-        var datediff = (new Date()).getTime() - touchStartDate.getTime();
+        var now = new Date();
+        var click = (now.getTime() - touchStartDate.getTime()) < 100;
 
-        if (datediff < 100) {
-            // we have a 'click', so either select
-            // or unselect the layer underneath:
-            var prevLayer = selectedLayer;
-            selectedLayer = getLayerAt(pos);
-            if (!selectedLayer || selectedLayer === prevLayer){
-                selectedLayer = undefined;
-                currentAction = {};
+        if (click) {
+            var doubleClick = (now.getTime() - clickDate.getTime()) < 300;
+            clickDate = now;
+            if (doubleClick) {
+                if (this.doubleClickCallback)
+                   this.doubleClickCallback(); 
+            } else {
+                var prevLayer = selectedLayer;
+                selectedLayer = getLayerAt(pos);
+                if (!selectedLayer || selectedLayer === prevLayer){
+                    selectedLayer = undefined;
+                    currentAction = {};
+                }
             }
         }
         this_canvas.repaint();
