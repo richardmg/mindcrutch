@@ -120,11 +120,11 @@ function WooCanvas(canvas)
         var click = (now.getTime() - touchStartDate.getTime()) < 100;
 
         if (click) {
-            var doubleClick = (now.getTime() - clickDate.getTime()) < 300;
+            var doubleClick = (now.getTime() - clickDate.getTime()) < 500;
             clickDate = now;
             if (doubleClick) {
-                if (this.doubleClickCallback)
-                   this.doubleClickCallback(); 
+                if (this_canvas.doubleClickCallback)
+                   this_canvas.doubleClickCallback(); 
             } else {
                 var prevLayer = selectedLayer;
                 selectedLayer = getLayerAt(pos);
@@ -286,11 +286,10 @@ function setupCanvas()
 {
     $.fn.createWooCanvas = function() {
         return this.each(function() {
-            $.data(this, "wooCanvas", new WooCanvas(this));
+            $.data(this, "attachedObject", new WooCanvas(this));
         });
     }
 
-    var $canvas = $(".WooCanvas").createWooCanvas();
-    canvas = $.data($canvas[0], "wooCanvas");
+    return $(".WooCanvas").createWooCanvas();
 }
 

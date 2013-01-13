@@ -1,4 +1,4 @@
-function setupPalette()
+function setupPalette(canvas)
 {
     searchProps = {searchString:"zombies", imgtype:"clipart", imgsz:"medium"};
     $(".searchMenu").createMenu();

@@ -14,9 +14,13 @@
                 setupWindows();
                 $("#canvasWindow").centerIn(window);
 
-                setupCanvas();
-                setupPalette();
+                var canvas = setupCanvas().data("attachedObject");
+                canvas.doubleClickCallback = function() {
+                    $("#paletteWindow").toggle();
+                };
+                console.log("callback:", canvas.doubleClickCallback)
 
+                setupPalette(canvas);
             });
         </script>
 
@@ -87,9 +91,6 @@
                 <div class="menuItem" onmousedown="setImageColor('yellow')">yellow</div>
             </div>
         </div>
-
-        <img src="img/paletteicon.png" class="canvasButton" onmousedown="$('#paletteWindow').toggle()"></img>
-
 
     </body>
 </html>
