@@ -115,7 +115,7 @@ function WooCanvas(canvas)
         mousedown = false;
         var datediff = (new Date()).getTime() - touchStartDate.getTime();
 
-        if (datediff < 300) {
+        if (datediff < 100) {
             // we have a 'click', so either select
             // or unselect the layer underneath:
             var prevLayer = selectedLayer;
