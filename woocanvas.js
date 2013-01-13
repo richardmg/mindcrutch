@@ -8,6 +8,7 @@ function WooCanvas(canvas)
     canvas.height = $canvas.height();
     var context = $canvas[0].getContext('2d');
     var mousedown = false;
+    var touchStartDate = new Date();
     var currentAction = undefined;
     var selectedLayer = undefined;
 
@@ -47,9 +48,27 @@ function WooCanvas(canvas)
     }
 
     $canvas.on("mousedown", function(e) {
+        pressStart(canvasPos(e));
+    }).on("mousemove", function(e) {
+        pressDrag(canvasPos(e));
+    }).on("mouseup", function(e) {
+        pressEnd(canvasPos(e));
+    }).on("touchstart", function(e) {
+        e.preventDefault();
+        pressStart(canvasPos(e.originalEvent.changedTouches[0]));
+    }).on("touchmove", function(e) {
+        e.preventDefault();
+        pressDrag(canvasPos(e.originalEvent.changedTouches[0]));
+    }).on("touchend", function(e) {
+        e.preventDefault();
+        pressEnd(canvasPos(e.originalEvent.changedTouches[0]));
+    });
+
+    function pressStart(pos)
+    {
         // start new layer operation, drag or rotate:
         mousedown = true;
-        var pos = canvasPos(e);
+        touchStartDate = new Date();
 
         if (selectedLayer) {
             if (overlapsHandle(pos)) {
@@ -69,10 +88,12 @@ function WooCanvas(canvas)
                 currentAction.scale = selectedLayer.scale;
             }
         }
-    }).on("mousemove", function(e) {
+    }
+
+    function pressDrag(pos)
+    {
         // drag or rotate current layer:
         if (mousedown && selectedLayer) {
-            pos = canvasPos(e);
             if (currentAction.dragging) {
                 // continue drag
                 selectedLayer.x = pos.x - currentAction.x;
@@ -87,19 +108,25 @@ function WooCanvas(canvas)
             }
             this_canvas.repaint();
         }
-    }).on("mouseup", function(e) {
-        // end current action:
+    }
+
+    function pressEnd(pos)
+    {
         mousedown = false;
-        currentAction = {};
-    }).on("click", function(e) {
-        // select/unselect layer:
-        var pos = canvasPos(e);
-        var prevLayer = selectedLayer;
-        selectedLayer = getLayerAt(pos);
-        if (prevLayer == selectedLayer)
-            selectedLayer = undefined;
+        var datediff = (new Date()).getTime() - touchStartDate.getTime();
+
+        if (datediff < 300) {
+            // we have a 'click', so either select
+            // or unselect the layer underneath:
+            var prevLayer = selectedLayer;
+            selectedLayer = getLayerAt(pos);
+            if (!selectedLayer || selectedLayer === prevLayer){
+                selectedLayer = undefined;
+                currentAction = {};
+            }
+        }
         this_canvas.repaint();
-    });
+    }
 
     function drawHandle()
     {
