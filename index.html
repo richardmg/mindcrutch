@@ -12,7 +12,7 @@
         <script>
             $(function() {
                 setupWindows();
-                $("#canvasWindow").centerIn(window);
+                $("#canvasWindow").centerHorizontallyIn(window);
 
                 var canvas = setupCanvas().data("attachedObject");
                 canvas.doubleClickCallback = function() {
