@@ -56,6 +56,10 @@ $.fn.redefineMargins = function() {
     });
 }
 
+$.fn.toggleModal = function(show) {
+    return this.fullscreen().toggle(show);
+}
+
 $.fn.createWindow = function() {
     return this.each(function() {
         var $this = $(this);

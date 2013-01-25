@@ -16,7 +16,7 @@
 
                 var canvas = setupCanvas().data("attachedObject");
                 canvas.doubleClickCallback = function() {
-                    $("#paletteWindow").toggle();
+                    $("#paletteWindow").toggleModal();
                 };
                 console.log("callback:", canvas.doubleClickCallback)
 
