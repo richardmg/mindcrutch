@@ -100,6 +100,7 @@ $.fn.createWindow = function() {
 function setupWindows()
 {
     $(".modalWindow").fullscreen().mousedown(function(e) { 
+        // Click on window canvas to close the window:
         if (e.target == this)
             $(this).toggle(false);
     });
@@ -109,7 +110,9 @@ function setupWindows()
         .disableSelection()
         .on("dragstart", function(e) { e.preventDefault(); })
         .each(function(){
-            win = this;
-            $(".centerInWindow", win).centerIn(win);
+            // Check if divs inside the window (contents) should be centered:
+            $(".center", this).centerIn(this);
+            $(".verticalCenter", this).centerVerticallyIn(this)
+            $(".horizontalCenter", this).centerHorizontallyIn(this)
         })
 }

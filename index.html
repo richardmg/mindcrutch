@@ -18,7 +18,6 @@
                 canvas.doubleClickCallback = function() {
                     $("#paletteWindow").toggleModal();
                 };
-                console.log("callback:", canvas.doubleClickCallback)
 
                 setupPalette(canvas);
             });
@@ -36,7 +35,7 @@
         </div>
 
         <div id="paletteWindow" class="modalWindow">
-            <div class="contents centerInWindow" style="width:640px;height:480px;">
+            <div class="contents horizontalCenter" style="width:640px;height:480px;">
                 <table style="width:100%;height:100%">
                     <tr><td><input id="imageSearchInput" type="text" value="zombies" onchange="setSearchString(this.value)" style="display:block;width:100%"></input></td></tr>
                     <tr><td class="searchMenu">
