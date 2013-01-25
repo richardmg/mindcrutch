@@ -5,38 +5,32 @@ function Menu(rootNode, props)
     var props = props || {relX:0, relY:0, fadeout:150, delay:300};
     var openMenus = new Array();
 
-    setupMenuItem(rootNode, undefined);
+    $(".menuItem", rootNode).each(function() { setupMenuItem(this, $(rootNode)); });
 
     function setupMenuItem(menuItem, $parentSubMenu) {
-        var group = $(".menuItem", menuItem).length > 0; 
         var $menuItem = $(menuItem);
         var url = $menuItem.attr("url");
         if (url)
             $menuItem.click(function() { window.location.href = url; });
 
-        if (group == true) {
-            // Recursively traverse all root menu items:
-            $(".menuItem", menuItem).each(function() { setupMenuItem(this, $(rootNode)); });
-        } else {
-            var subMenuSel = $menuItem.attr("subMenu");
-            if (subMenuSel) {
-                // This menu item has a sub menu. Make
-                // the item open the sub menu on hover:
-                // inside the sub menu:
-                var $subMenu = $(subMenuSel);
-                $subMenu.css("display", "none")
-                $menuItem.hover(
-                    function() { openMenu($menuItem, $subMenu, $parentSubMenu) },
-                    function() { closeMenu($menuItem, $subMenu) }
-                );
-                $subMenu.hover(
-                    function() { openMenu($menuItem, $subMenu, $parentSubMenu) },
-                    function() { closeMenu($menuItem, $subMenu) }
-                );
+        var subMenuSel = $menuItem.attr("subMenu");
+        if (subMenuSel) {
+            // This menu item has a sub menu. Make
+            // the item open the sub menu on hover:
+            // inside the sub menu:
+            var $subMenu = $(subMenuSel);
+            $subMenu.css("display", "none")
+            $menuItem.hover(
+                function() { openMenu($menuItem, $subMenu, $parentSubMenu) },
+                function() { closeMenu($menuItem, $subMenu) }
+            );
+            $subMenu.hover(
+                function() { openMenu($menuItem, $subMenu, $parentSubMenu) },
+                function() { closeMenu($menuItem, $subMenu) }
+            );
 
-                // Recursively traverse all items in the sub menu:
-                $(".menuItem", $subMenu).each(function() { setupMenuItem(this, $subMenu); });
-            }
+            // Recursively traverse all items in the sub menu:
+            $(".menuItem", $subMenu).each(function() { setupMenuItem(this, $subMenu); });
         }
     }
 
