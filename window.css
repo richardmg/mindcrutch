@@ -39,6 +39,10 @@
     z-index: 100
 }
 
+.popup .frame {
+    border-radius: 5px;
+}
+
 .modalWindow {
     display: none;
     margin-top:10px;
@@ -60,7 +64,9 @@
 }
 
 body {
-    background: url(http://blog.carbonfive.com/wp-content/themes/carbonfive/images/background.gif);
+    background: -webkit-gradient(linear, left top, left bottom, from(#505050), to(#303030));
+    //background: url(http://blog.carbonfive.com/wp-content/themes/carbonfive/images/background.gif);
+    //background-color: #606060;
 }
 
 #canvasWindow .frame {
