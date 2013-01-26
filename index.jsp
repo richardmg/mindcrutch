@@ -3,7 +3,6 @@
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js" type="text/javascript"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
         <script src="window.js"></script>
-        <script src="woocanvas.js"></script>
         <script src="wooimagepalette.js"></script>
         <script src="menu.js"></script>
         <link rel="stylesheet" type="text/css" href="window.css">
