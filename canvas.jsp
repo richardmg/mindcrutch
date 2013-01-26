@@ -1,6 +1,7 @@
 <html>
+    <head>
     <script>
-        function WooCanvas($canvas)
+        function Canvas($canvas)
         {
             this.layers = new Array;
             this.doubleClickCallback = undefined;
@@ -290,13 +291,14 @@
 
         $(function() {
             $("#canvasWindow").centerHorizontallyIn(window);
-            app.canvas = new WooCanvas($("#canvasWindow #canvas"));
+            app.canvas = new Canvas($("#canvasWindow #canvas"));
         });
     </script>
+    </head>
 
     <body>
         <div id="canvasWindow" class="normalWindow" style="width:840px;height:480px" draggable="true">
-            <canvas id="canvas" class="contents WooCanvas" style="background-color:#ffffff"></canvas>
+            <canvas id="canvas" class="contents canvas" style="background-color:#ffffff"></canvas>
         </div>
     </body>
 </html>
