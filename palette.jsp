@@ -25,14 +25,14 @@
             {
                 this.searchProps.imgtype = value;
                 this.updatePalette();
-                $(".menuItem#imageType").text(value == "?" ? "all images" : value);
+                $("#imageType", this.$paletteWindow).text(value == "?" ? "all images" : value);
             }
 
             this.setImageSize = function(value)
             {
                 this.searchProps.imgsz = value;
                 this.updatePalette();
-                $(".menuItem#imageSize").text(value == "?" ? "all sizes" : value);
+                $("#imageSize", this.$paletteWindow).text(value == "?" ? "all sizes" : value);
             }
 
             this.setImageColor = function(value)
@@ -40,11 +40,11 @@
                 if (value == "black/white") {
                     this.searchProps.imgc = "gray";
                     this.searchProps.imgcolor = "?";
-                    $(".menuItem#imageColor").text(value);
+                    $("#imageColor", this.$paletteWindow).text(value);
                 } else {
                     this.searchProps.imgc = "color";
                     this.searchProps.imgcolor = value;
-                    $(".menuItem#imageColor").text(value == "?" ? "all colors" : value);
+                    $("#imageColor", this.$paletteWindow).text(value == "?" ? "all colors" : value);
                 }
                 this.updatePalette();
             }
@@ -78,8 +78,6 @@
                     });
                 }
             }
-
-            this.updatePalette();
         }
     </script>
 

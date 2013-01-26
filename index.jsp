@@ -30,6 +30,7 @@
                     }
                 };
 
+                app.palette.updatePalette();
             });
         </script>
 
