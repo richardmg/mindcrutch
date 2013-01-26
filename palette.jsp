@@ -9,18 +9,6 @@
             this.$paletteWindow = $("#paletteWindow");
             this.searchProps = {searchString:"zombies", imgtype:"clipart", imgsz:"medium"};
 
-            this.callback = {
-                thumbnailPressed: function(result)
-                {
-                    app.canvas.addLayer({url:result.url, rotation:Math.PI/8});
-                    this_palette.$paletteWindow.toggle(false);
-                },
-                cursor: function(cursor)
-                {
-                    console.log("Search count: " + cursor.resultCount);
-                }
-            };
-
             this.updatePalette = function()
             {
                 this.$result.empty()

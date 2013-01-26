@@ -17,7 +17,19 @@
                 app.canvas = new Canvas();
                 app.palette = new Palette();
 
-                app.canvas.doubleClickCallback = function() { $("#paletteWindow").toggleModal(); };
+                app.canvas.doubleClickCallback = function() { app.palette.$paletteWindow.toggleModal(); };
+                app.palette.callback = {
+                    thumbnailPressed: function(result)
+                    {
+                        app.canvas.addLayer({url:result.url, rotation:Math.PI/8});
+                        app.palette.$paletteWindow.toggle(false);
+                    },
+                    cursor: function(cursor)
+                    {
+                        console.log("Search count: " + cursor.resultCount);
+                    }
+                };
+
             });
         </script>
 
