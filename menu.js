@@ -112,9 +112,9 @@ function Menu(rootNode, props)
     }
 }
 
-$.fn.createMenu = function()
+function setupMenus()
 {
-    return this.each(function() {
+    $(".menu").each(function() {
         var p = eval ("(" + $(this).attr('props') + ")");
         $.data(this, "menu", new Menu(this, p));
     });

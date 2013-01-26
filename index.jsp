@@ -12,6 +12,12 @@
             $(function() {
                 app = {};
                 setupWindows();
+                setupMenus();
+
+                app.canvas = new Canvas();
+                app.palette = new Palette();
+
+                app.canvas.doubleClickCallback = function() { $("#paletteWindow").toggleModal(); };
             });
         </script>
     </head>

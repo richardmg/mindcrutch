@@ -1,8 +1,11 @@
 <html>
     <head>
     <script>
-        function Canvas($canvas)
+        function Canvas()
         {
+            $canvas = $("#canvasWindow #canvas");
+            $("#canvasWindow").centerHorizontallyIn(window);
+
             this.layers = new Array;
             this.doubleClickCallback = undefined;
 
@@ -288,11 +291,6 @@
                 return layer;
             }
         }
-
-        $(function() {
-            $("#canvasWindow").centerHorizontallyIn(window);
-            app.canvas = new Canvas($("#canvasWindow #canvas"));
-        });
     </script>
     </head>
 
