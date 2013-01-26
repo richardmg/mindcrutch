@@ -20,6 +20,14 @@
                 app.canvas.doubleClickCallback = function() { $("#paletteWindow").toggleModal(); };
             });
         </script>
+
+        <style>
+            body {
+                background: -webkit-gradient(linear, left top, left bottom, from(#505050), to(#303030));
+                //background: url(http://blog.carbonfive.com/wp-content/themes/carbonfive/images/background.gif);
+                //background-color: #606060;
+            }
+        </style>
     </head>
 
     <body>

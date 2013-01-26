@@ -292,6 +292,21 @@
             }
         }
     </script>
+
+    <style>
+        #canvasWindow {
+            margin-top:5px;
+            margin-bottom:5px;
+            margin-right:5px;
+            margin-left:5px;
+        }
+
+        #canvasWindow .frame {
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 1);
+        }
+    </style>
+
     </head>
 
     <body>

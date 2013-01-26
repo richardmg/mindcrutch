@@ -94,7 +94,38 @@
             this.updatePalette();
         }
     </script>
-    </head>
+
+    <style>
+        #paletteWindow .contents {
+            margin-top:20px;
+        }
+        .thumbnail {
+            height: 60px;
+            margin-right: 0px;
+            margin-bottom: 0px;
+            vertical-align: top;
+            border: 2px solid #202020;
+            display: inline-block;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        .thumbnail img {
+            height: 60px;
+        }
+        .thumbnail:hover {
+            border: 2px solid #ffffff;
+        }
+        .menuItem {
+            padding: 5px;
+            font: 15px verdana;
+            color: #ffbb00;
+            cursor: default;
+        }
+        .menuItem:hover, .subMenuOpen {
+            color: #ffffff;
+        }
+    </style>
+</head>
 
 <body>
     <div id="paletteWindow" class="modalWindow">

@@ -60,32 +60,3 @@
     margin-top:8px;
 }
 
-.canvasButton {
-    position: absolute;
-    z-index: 50;
-}
-
-#canvasWindow {
-    margin-top:5px;
-    margin-bottom:5px;
-    margin-right:5px;
-    margin-left:5px;
-}
-
-#canvasWindow .frame {
-    border-radius: 8px;
-    background-color: rgba(255, 255, 255, 1);
-}
-
-#paletteWindow .contents {
-    margin-top:20px;
-}
-
-body {
-    background: -webkit-gradient(linear, left top, left bottom, from(#505050), to(#303030));
-    //background: url(http://blog.carbonfive.com/wp-content/themes/carbonfive/images/background.gif);
-    //background-color: #606060;
-}
-
-
-
