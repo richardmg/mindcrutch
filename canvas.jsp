@@ -5,7 +5,6 @@
         {
             $canvas = $("#canvasWindow #canvas");
             this.layers = new Array;
-            this.doubleClickCallback = undefined;
 
             var this_canvas = this;
             var canvas = $canvas[0];
