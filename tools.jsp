@@ -8,6 +8,14 @@
             this.$toolsWindow.centerHorizontallyIn(app.canvas.$canvasWindow[0]);
             this.$toolsWindow.alignToBottom(app.canvas.$canvasWindow[0]);
         }
+
+        function removeSelectedLayers()
+        {
+            app.canvas.eachLayer(function(layer) {
+                layer.remove();
+            });
+            app.canvas.repaint();
+        }
     </script>
 
     <style>
@@ -24,7 +32,7 @@
         <div id="toolsWindow" class="normalWindow" style="height:100px">
             <div class="contents">
                 <img src="img/search.png" onmousedown="app.tools.$toolsWindow.toggle(false); app.palette.$paletteWindow.toggleModal();"></img>
-                <img src="img/trashcan.png"></img>
+                <img src="img/trashcan.png" onmousedown="removeSelectedLayers()"></img>
             </div>
         </div>
     </body>

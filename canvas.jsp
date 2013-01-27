@@ -302,8 +302,19 @@
                     }
                     return false;
                 }
+
+                layer.remove = function()
+                {
+                    this_canvas.layers.splice(layer.index, 1);
+                }
                 
                 return layer;
+            }
+
+            this.eachLayer = function(f)
+            {
+                for (var i in this_canvas.layers)
+                    f(this_canvas.layers[i]);
             }
         }
     </script>
