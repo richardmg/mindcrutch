@@ -17,7 +17,6 @@
                     onActiveLayerChanged: function(newLayer, prevLayer) {
                         var tools = app.tools.$toolsWindow;
                         app.canvas.clearSelections();
-                        console.log("op:", tools.css("opacity"));
                         if (newLayer) {
                             tools.fadeOut("fast");
                         } else if (prevLayer) {
