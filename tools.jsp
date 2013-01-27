@@ -15,7 +15,6 @@
                 if (layer.selected)
                     layer.remove();
             });
-            app.canvas.repaint();
         }
     </script>
 

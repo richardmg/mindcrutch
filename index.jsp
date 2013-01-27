@@ -19,7 +19,6 @@
                         app.canvas.eachLayer(function(layer) {
                             layer.selected = false;
                         });
-                        app.canvas.repaint();
                         if (newLayer) {
                             tools.fadeOut("fast");
                         } else if (prevLayer) {
