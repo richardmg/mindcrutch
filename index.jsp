@@ -6,9 +6,9 @@
         <script>
             $(function() {
                 app = {};
-                setupMenus();
 
                 app.windowManager = new WindowManager();
+                app.menuManager = new MenuManager();
                 app.canvas = new Canvas();
                 app.palette = new Palette();
                 app.tools = new Tools();
@@ -39,6 +39,7 @@
 
     <body>
         <%@ include file="windowmanager.jsp" %>
+        <%@ include file="menumanager.jsp" %>
         <%@ include file="canvas.jsp" %>
         <%@ include file="palette.jsp" %>
         <%@ include file="tools.jsp" %>

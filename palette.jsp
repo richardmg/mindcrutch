@@ -1,6 +1,5 @@
 <html>
     <head>
-    <script src="menu.js"></script>
     <script>
         function Palette()
         {
@@ -103,15 +102,6 @@
         }
         .thumbnail:hover {
             border: 2px solid #ffffff;
-        }
-        .menuItem {
-            padding: 5px;
-            font: 15px verdana;
-            color: #ffbb00;
-            cursor: default;
-        }
-        .menuItem:hover, .subMenuOpen {
-            color: #ffffff;
         }
     </style>
 </head>
