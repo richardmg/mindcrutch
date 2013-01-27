@@ -82,6 +82,9 @@
     </script>
 
     <style>
+        #paletteWindow {
+            background-image: url("img/transparent95.png");
+        }
         #paletteWindow .contents {
             margin-top:20px;
         }
