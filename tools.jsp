@@ -4,6 +4,8 @@
         function Tools()
         {
             this.$toolsWindow = $("#toolsWindow");
+            this.$toolsWindow.css("width", app.canvas.$canvasWindow.width()+1);
+            this.$toolsWindow.centerHorizontallyIn(app.canvas.$canvasWindow[0]);
         }
     </script>
 
@@ -17,7 +19,7 @@
     </head>
 
     <body>
-        <div id="toolsWindow" class="normalWindow horizontalCenter">
+        <div id="toolsWindow" class="normalWindow">
             <div class="contents">
                 <img src="img/search.png" onmousedown="app.tools.$toolsWindow.toggle(false); app.palette.$paletteWindow.toggleModal();"></img>
                 <img src="img/trashcan.png"></img>

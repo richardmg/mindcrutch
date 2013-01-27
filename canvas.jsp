@@ -3,7 +3,8 @@
     <script>
         function Canvas()
         {
-            $canvas = $("#canvasWindow #canvas");
+            this.$canvasWindow = $("#canvasWindow");
+            $canvas = $("#canvas", this.$canvasWindow);
             this.layers = new Array;
 
             var this_canvas = this;
