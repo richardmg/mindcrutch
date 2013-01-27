@@ -16,8 +16,9 @@
 
                 app.canvas = new Canvas();
                 app.palette = new Palette();
+                app.tools = new Tools();
 
-                app.canvas.onDoubleClick = function() { app.palette.$paletteWindow.toggleModal(); };
+                app.canvas.onDoubleClick = function() { app.tools.$toolsWindow.toggle(true); };
                 app.palette.callback = {
                     thumbnailPressed: function(result)
                     {

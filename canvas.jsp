@@ -307,7 +307,7 @@
     </head>
 
     <body>
-        <div id="canvasWindow" class="normalWindow horizontalCenter" style="width:840px;height:480px" draggable="true">
+        <div id="canvasWindow" class="normalWindow horizontalCenter" style="width:840px;height:480px" autoraise="false" draggable="true">
             <canvas id="canvas" class="contents canvas" style="background-color:#ffffff"></canvas>
         </div>
     </body>
