@@ -13,7 +13,17 @@
                 app.palette = new Palette();
                 app.tools = new Tools();
 
-                app.canvas.onDoubleClick = function() {};
+                app.canvas.callback = {
+                    onSelectedLayerChanged: function(layer) {
+                        if (layer) {
+                            app.tools.$toolsWindow.fadeOut();
+                        } else {
+                            app.tools.$toolsWindow.fadeIn();
+                        }
+                    },
+                    onDoubleClick: function() {}
+                }
+
                 app.palette.callback = {
                     onThumbnailPressed: function(result)
                     {

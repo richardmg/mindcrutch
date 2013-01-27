@@ -131,7 +131,7 @@
                     clickDate = now;
                     clickPos = pos;
                     if (doubleClick) {
-                        this_canvas.onDoubleClick();
+                        this_canvas.callback.onDoubleClick();
                     } else {
                         var prevLayer = selectedLayer;
                         selectedLayer = getLayerAt(pos);
@@ -139,6 +139,7 @@
                             selectedLayer = undefined;
                             currentAction = {};
                         }
+                        this_canvas.callback.onSelectedLayerChanged(selectedLayer);
                     }
                 }
                 this_canvas.repaint();
@@ -232,7 +233,9 @@
                 layer.rotation = layer.rotation || 0;
                 layer.scale = layer.scale || 1;
 
+                layer.index = this_canvas.layers.length;
                 this_canvas.layers.push(layer);
+
                 if (layer.url) {
                     layer.image = new Image();
                     layer.image.onload = function() {
