@@ -71,10 +71,10 @@
                             this_palette.$result.append(e);
                             (function(){
                                 var r2 = r;
-                                $(e).on("mousedown", function() { this_palette.callback.thumbnailPressed(r2); });
+                                $(e).on("mousedown", function() { this_palette.callback.onThumbnailPressed(r2); });
                             })();
                         }
-                        this_palette.callback.cursor(json.responseData.cursor);
+                        this_palette.callback.onCursorChanged(json.responseData.cursor);
                     });
                 }
             }

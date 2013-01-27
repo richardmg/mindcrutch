@@ -15,12 +15,12 @@
 
                 app.canvas.onDoubleClick = function() { app.tools.$toolsWindow.toggleModal(true); };
                 app.palette.callback = {
-                    thumbnailPressed: function(result)
+                    onThumbnailPressed: function(result)
                     {
                         app.canvas.addLayer({url:result.url, rotation:Math.PI/8});
                         app.palette.$paletteWindow.toggle(false);
                     },
-                    cursor: function(cursor)
+                    onCursorChanged: function(cursor)
                     {
                         console.log("Search count: " + cursor.resultCount);
                     }
