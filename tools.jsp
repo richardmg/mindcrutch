@@ -17,8 +17,8 @@
     </head>
 
     <body>
-        <div id="toolsWindow" class="modalWindow" style="display:none">
-            <div class="contents horizontalCenter" style="width: 600; height: 350">
+        <div id="toolsWindow" class="normalWindow horizontalCenter">
+            <div class="contents">
                 <img src="img/search.png" onmousedown="app.tools.$toolsWindow.toggle(false); app.palette.$paletteWindow.toggleModal();"></img>
                 <img src="img/trashcan.png"></img>
             </div>

@@ -13,7 +13,7 @@
                 app.palette = new Palette();
                 app.tools = new Tools();
 
-                app.canvas.onDoubleClick = function() { app.tools.$toolsWindow.toggleModal(true); };
+                app.canvas.onDoubleClick = function() {};
                 app.palette.callback = {
                     onThumbnailPressed: function(result)
                     {
