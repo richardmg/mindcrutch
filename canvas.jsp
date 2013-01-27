@@ -235,6 +235,7 @@
 
                 layer.index = this_canvas.layers.length;
                 this_canvas.layers.push(layer);
+                selectedLayer = layer;
 
                 if (layer.url) {
                     layer.image = new Image();
@@ -288,6 +289,7 @@
                     return false;
                 }
                 
+                this_canvas.callback.onSelectedLayerChanged(selectedLayer);
                 return layer;
             }
         }
