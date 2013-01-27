@@ -229,13 +229,6 @@
                 }
             }
 
-            this.clearSelections = function()
-            {
-                for (var i in this_canvas.layers) {
-                    this_canvas.layers[i].selected = false;
-                }
-            }
-
             this.addLayer = function(layer)
             {
                 layer.x = layer.x || 200;
@@ -249,13 +242,13 @@
                 this_canvas.layers.push(layer);
                 var prevLayer = activeLayer;
                 activeLayer = layer;
-                this_canvas.callback.onActiveLayerChanged(activeLayer, prevLayer);
 
                 if (layer.url) {
                     layer.image = new Image();
                     layer.image.onload = function() {
                         layer.width = layer.image.width;
                         layer.height = layer.image.height;
+                        this_canvas.callback.onActiveLayerChanged(activeLayer, prevLayer);
                         this_canvas.repaint();
                     };
                     layer.image.src = layer.url;
@@ -314,6 +307,12 @@
             this.eachLayer = function(f)
             {
                 for (var i in this_canvas.layers)
+                    f(this_canvas.layers[i]);
+            }
+
+            this.eachLayerReverse = function(f)
+            {
+                for (var i = this_canvas.layers.length - 1; i>=0; --i)
                     f(this_canvas.layers[i]);
             }
         }

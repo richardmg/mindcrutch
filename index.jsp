@@ -16,7 +16,10 @@
                 app.canvas.callback = {
                     onActiveLayerChanged: function(newLayer, prevLayer) {
                         var tools = app.tools.$toolsWindow;
-                        app.canvas.clearSelections();
+                        app.canvas.eachLayer(function(layer) {
+                            layer.selected = false;
+                        });
+                        app.canvas.repaint();
                         if (newLayer) {
                             tools.fadeOut("fast");
                         } else if (prevLayer) {

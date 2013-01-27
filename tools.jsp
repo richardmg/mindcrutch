@@ -11,8 +11,9 @@
 
         function removeSelectedLayers()
         {
-            app.canvas.eachLayer(function(layer) {
-                layer.remove();
+            app.canvas.eachLayerReverse(function(layer) {
+                if (layer.selected)
+                    layer.remove();
             });
             app.canvas.repaint();
         }
