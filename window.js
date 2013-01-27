@@ -109,10 +109,18 @@ function setupWindows()
         .createWindow()
         .disableSelection()
         .on("dragstart", function(e) { e.preventDefault(); })
-        .each(function(){
-            // Check if divs inside the window (contents) should be centered:
-            $(".center", this).centerIn(this);
-            $(".verticalCenter", this).centerVerticallyIn(this)
-            $(".horizontalCenter", this).centerHorizontallyIn(this)
-        })
+
+    $(".horizontalCenter").each(function() {
+        var $this = $(this);
+        var $res = $this.parents(".normalWindow, .modalWindow");
+        var parent = $res.length > 0 ? $res[0] : window;
+        $(this).centerHorizontallyIn(parent);
+    });
+
+    $(".verticalCenter").each(function() {
+        var $this = $(this);
+        var $res = $this.parents(".normalWindow, .modalWindow");
+        var parent = $res.length > 0 ? $res[0] : window;
+        $(this).centerVerticallyIn(parent);
+    });
 }

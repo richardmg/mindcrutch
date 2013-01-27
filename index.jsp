@@ -17,7 +17,7 @@
                 app.canvas = new Canvas();
                 app.palette = new Palette();
 
-                app.canvas.doubleClickCallback = function() { app.palette.$paletteWindow.toggleModal(); };
+                app.canvas.onDoubleClick = function() { app.palette.$paletteWindow.toggleModal(); };
                 app.palette.callback = {
                     thumbnailPressed: function(result)
                     {
@@ -36,7 +36,8 @@
 
         <style>
             body {
-                background: -webkit-gradient(linear, left top, left bottom, from(#505050), to(#303030));
+                //background: -webkit-gradient(linear, left top, left bottom, from(#505050), to(#303030));
+                background: -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 600, from(#505050), to(#303030));
                 //background: url(http://blog.carbonfive.com/wp-content/themes/carbonfive/images/background.gif);
                 //background-color: #606060;
             }
@@ -46,5 +47,6 @@
     <body>
         <%@ include file="canvas.jsp" %>
         <%@ include file="palette.jsp" %>
+        <%@ include file="tools.jsp" %>
     </body>
 </html>

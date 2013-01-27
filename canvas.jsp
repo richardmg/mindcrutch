@@ -4,8 +4,6 @@
         function Canvas()
         {
             $canvas = $("#canvasWindow #canvas");
-            $("#canvasWindow").centerHorizontallyIn(window);
-
             this.layers = new Array;
             this.doubleClickCallback = undefined;
 
@@ -133,8 +131,7 @@
                     clickDate = now;
                     clickPos = pos;
                     if (doubleClick) {
-                        if (this_canvas.doubleClickCallback)
-                           this_canvas.doubleClickCallback(); 
+                        this_canvas.onDoubleClick();
                     } else {
                         var prevLayer = selectedLayer;
                         selectedLayer = getLayerAt(pos);
@@ -310,7 +307,7 @@
     </head>
 
     <body>
-        <div id="canvasWindow" class="normalWindow" style="width:840px;height:480px" draggable="true">
+        <div id="canvasWindow" class="normalWindow horizontalCenter" style="width:840px;height:480px" draggable="true">
             <canvas id="canvas" class="contents canvas" style="background-color:#ffffff"></canvas>
         </div>
     </body>
