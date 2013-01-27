@@ -32,10 +32,7 @@
 
         <style>
             body {
-                //background: -webkit-gradient(linear, left top, left bottom, from(#505050), to(#303030));
                 background: -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 600, from(#505050), to(#303030));
-                //background: url(http://blog.carbonfive.com/wp-content/themes/carbonfive/images/background.gif);
-                //background-color: #606060;
             }
         </style>
     </head>
