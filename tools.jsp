@@ -4,8 +4,9 @@
         function Tools()
         {
             this.$toolsWindow = $("#toolsWindow");
-            this.$toolsWindow.css("width", app.canvas.$canvasWindow.width()+1);
+            this.$toolsWindow.css("width", app.canvas.$canvasWindow.width());
             this.$toolsWindow.centerHorizontallyIn(app.canvas.$canvasWindow[0]);
+            this.$toolsWindow.alignToBottom(app.canvas.$canvasWindow[0]);
         }
     </script>
 
