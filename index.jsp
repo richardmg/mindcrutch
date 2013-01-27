@@ -14,11 +14,17 @@
                 app.tools = new Tools();
 
                 app.canvas.callback = {
-                    onSelectedLayerChanged: function(layer) {
-                        if (layer) {
-                            app.tools.$toolsWindow.fadeOut();
+                    onActiveLayerChanged: function(newLayer, prevLayer) {
+                        var tools = app.tools.$toolsWindow;
+                        app.canvas.clearSelections();
+                        console.log("op:", tools.css("opacity"));
+                        if (newLayer) {
+                            tools.fadeOut("fast");
+                        } else if (prevLayer) {
+                            prevLayer.selected = true;
+                            tools.fadeIn("fast");
                         } else {
-                            app.tools.$toolsWindow.fadeIn();
+                            tools.fadeToggle("fast");
                         }
                     },
                     onDoubleClick: function() {}

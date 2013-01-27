@@ -17,7 +17,7 @@
             var clickDate = new Date();
             var clickPos = {x:-1, y:-1};
             var currentAction = undefined;
-            var selectedLayer = undefined;
+            var activeLayer = undefined;
 
             function getAngleAndRadius(p1, p2)
             {
@@ -49,9 +49,9 @@
 
             function overlapsHandle(pos)
             {
-                var lpos = selectedLayer.canvasToLayer(pos);
-                return (lpos.x >= selectedLayer.x-30 && lpos.x <= selectedLayer.x+30
-                        && lpos.y >= selectedLayer.y-30 && lpos.y <= selectedLayer.y+30);
+                var lpos = activeLayer.canvasToLayer(pos);
+                return (lpos.x >= activeLayer.x-30 && lpos.x <= activeLayer.x+30
+                        && lpos.y >= activeLayer.y-30 && lpos.y <= activeLayer.y+30);
             }
 
             $canvas.on("mousedown", function(e) {
@@ -77,22 +77,22 @@
                 mousedown = true;
                 touchStartDate = new Date();
 
-                if (selectedLayer) {
+                if (activeLayer) {
                     if (overlapsHandle(pos)) {
                         // start drag
                         currentAction = {
                             dragging: true,
-                            x: pos.x - selectedLayer.x,
-                            y:pos.y-selectedLayer.y
+                            x: pos.x - activeLayer.x,
+                            y:pos.y-activeLayer.y
                         };
                     } else {
                         // Start rotation
-                        var center = { x: selectedLayer.x, y: selectedLayer.y };
-                        var lpos = selectedLayer.layerToCanvas(center);
+                        var center = { x: activeLayer.x, y: activeLayer.y };
+                        var lpos = activeLayer.layerToCanvas(center);
                         currentAction = getAngleAndRadius(lpos, pos);
                         currentAction.rotating = true
-                        currentAction.angle -= selectedLayer.rotation;
-                        currentAction.scale = selectedLayer.scale;
+                        currentAction.angle -= activeLayer.rotation;
+                        currentAction.scale = activeLayer.scale;
                     }
                 }
             }
@@ -100,18 +100,18 @@
             function pressDrag(pos)
             {
                 // drag or rotate current layer:
-                if (mousedown && selectedLayer) {
+                if (mousedown && activeLayer) {
                     if (currentAction.dragging) {
                         // continue drag
-                        selectedLayer.x = pos.x - currentAction.x;
-                        selectedLayer.y = pos.y - currentAction.y;
+                        activeLayer.x = pos.x - currentAction.x;
+                        activeLayer.y = pos.y - currentAction.y;
                     } else if (currentAction.rotating) {
                         // continue rotate
-                        var center = { x: selectedLayer.x, y: selectedLayer.y };
-                        var lpos = selectedLayer.layerToCanvas(center);
+                        var center = { x: activeLayer.x, y: activeLayer.y };
+                        var lpos = activeLayer.layerToCanvas(center);
                         var aar = getAngleAndRadius(lpos, pos);
-                        selectedLayer.rotation = aar.angle - currentAction.angle;
-                        selectedLayer.scale = currentAction.scale * aar.radius / currentAction.radius;
+                        activeLayer.rotation = aar.angle - currentAction.angle;
+                        activeLayer.scale = currentAction.scale * aar.radius / currentAction.radius;
                     }
                     this_canvas.repaint();
                 }
@@ -133,32 +133,35 @@
                     if (doubleClick) {
                         this_canvas.callback.onDoubleClick();
                     } else {
-                        var prevLayer = selectedLayer;
-                        selectedLayer = getLayerAt(pos);
-                        if (!selectedLayer || selectedLayer === prevLayer){
-                            selectedLayer = undefined;
+                        var prevLayer = activeLayer;
+                        activeLayer = getLayerAt(pos);
+                        if (!activeLayer || activeLayer === prevLayer){
+                            activeLayer = undefined;
                             currentAction = {};
                         }
-                        this_canvas.callback.onSelectedLayerChanged(selectedLayer);
+                        this_canvas.callback.onActiveLayerChanged(activeLayer, prevLayer);
                     }
                 }
                 this_canvas.repaint();
             }
 
-            function drawHandle()
+            function drawFocus(layer)
             {
-                if (!selectedLayer)
-                    return;
                 var size = 10;
-                var widthScaled = selectedLayer.scale * selectedLayer.width;
-                var heightScaled = selectedLayer.scale * selectedLayer.height;
+                var widthScaled = layer.scale * layer.width;
+                var heightScaled = layer.scale * layer.height;
 
                 context.save();
-                context.translate(selectedLayer.x, selectedLayer.y);
-                context.rotate(selectedLayer.rotation);
+                context.translate(layer.x, layer.y);
+                context.rotate(layer.rotation);
 
-                context.fillStyle = "rgba(250, 0, 0, 0.6)";
-                context.strokeStyle = "rgba(250, 0, 0, 0.6)";
+                if (layer == activeLayer) {
+                    context.fillStyle = "rgba(0, 0, 155, 0.6)";
+                    context.strokeStyle = "rgba(0, 0, 155, 0.6)";
+                } else {
+                    context.fillStyle = "rgba(0, 0, 0, 0.6)";
+                    context.strokeStyle = "rgba(0, 0, 0, 0.6)";
+                }
                 context.lineWidth = 2;
 
                 context.beginPath();
@@ -206,7 +209,7 @@
                 context.restore();
             }
 
-            function drawLayers()
+            this.repaint = function()
             {
                 context.canvas.width = context.canvas.width;
                 for (var i in this_canvas.layers) {
@@ -219,23 +222,34 @@
                     context.drawImage(layer.image, 0, 0);
                     context.restore();
                 }
+                for (var i in this_canvas.layers) {
+                    var layer = this_canvas.layers[i];
+                    if (layer.selected || layer == activeLayer)
+                        drawFocus(layer);
+                }
             }
 
-            this.repaint = function() {
-                drawLayers();
-                drawHandle();
+            this.clearSelections = function()
+            {
+                for (var i in this_canvas.layers) {
+                    this_canvas.layers[i].selected = false;
+                }
             }
 
-            this.addLayer = function(layer) {
+            this.addLayer = function(layer)
+            {
                 layer.x = layer.x || 200;
                 layer.y = layer.y || 200;
                 layer.z = layer.z || this.layers.length;
                 layer.rotation = layer.rotation || 0;
                 layer.scale = layer.scale || 1;
+                layer.selected  = false;
 
                 layer.index = this_canvas.layers.length;
                 this_canvas.layers.push(layer);
-                selectedLayer = layer;
+                var prevLayer = activeLayer;
+                activeLayer = layer;
+                this_canvas.callback.onActiveLayerChanged(activeLayer, prevLayer);
 
                 if (layer.url) {
                     layer.image = new Image();
@@ -289,7 +303,6 @@
                     return false;
                 }
                 
-                this_canvas.callback.onSelectedLayerChanged(selectedLayer);
                 return layer;
             }
         }
