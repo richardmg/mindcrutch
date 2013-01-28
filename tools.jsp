@@ -20,7 +20,11 @@
 
     <style>
         #toolsWindow .frame {
-            background-image: url("img/transparent80.png");
+            background-image: url("img/transparent80blue.png");
+            box-shadow: none;
+            -moz-box-shadow: none;
+            -webkit-box-shadow: none;
+            border-radius: 3px;
         }
         #toolsWindow .contents {
             margin-top:0px;
