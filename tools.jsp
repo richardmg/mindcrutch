@@ -20,11 +20,15 @@
 
     <style>
         #toolsWindow .frame {
-            background-image: url("img/transparent80blue.png");
+            //background-image: url("img/transparent80brown.png");
+            //background: -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 600, from(#707075), to(#303030));
+            //background-image: -webkit-gradient(radial, upper left, 100, upper left, 1000, from(rgba(255, 255, 255, 1.0)), to(rgba(100, 100, 100, 1.0));
+            background-image: -webkit-gradient(radial, 50% 50%, 300, 50% 50%, 20, from(rgba(0, 0, 0, 0.8)), to(rgba(80, 80, 90, 0.8)));
             box-shadow: none;
             -moz-box-shadow: none;
             -webkit-box-shadow: none;
-            border-radius: 3px;
+            border-radius: 5px;
+            border: 1px solid black;
         }
         #toolsWindow .contents {
             margin-top:0px;

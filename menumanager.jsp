@@ -127,7 +127,7 @@
         .menuItem {
             padding: 5px;
             font: 15px verdana;
-            color: #ffbb00;
+            color: #af7a4f;
             cursor: default;
         }
         .menuItem:hover, .subMenuOpen {
