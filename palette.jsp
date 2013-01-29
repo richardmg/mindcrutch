@@ -82,7 +82,7 @@
 
     <style>
         #paletteWindow {
-            background-image: url("img/transparent95.png");
+            background-image: -webkit-gradient(radial, 50% 50%, 300, 50% 50%, 20, from(rgba(0, 0, 0, 0.8)), to(rgba(80, 80, 90, 0.8)));
         }
         #paletteWindow .contents {
             margin-top:20px;
