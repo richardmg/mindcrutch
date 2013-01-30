@@ -5,8 +5,7 @@
         {
             this.$toolsWindow = $("#toolsWindow");
             this.$contents = $(".contents", this.$toolsWindow);
-            this.$contents.css("width", app.canvas.$canvasWindow.width() + 40);
-            this.$contents.centerHorizontallyIn(app.canvas.$canvasWindow[0]);
+            this.$contents.css("left", app.canvas.$canvasWindow.offset().left - 30);
         }
 
         function removeSelectedLayers()
@@ -20,11 +19,13 @@
 
     <style>
         #toolsWindow .contents {
-            margin-top:0px;
-            height: 100px;
+            position: fixed;
+            margin-top:50px;
+            height: 300px;
             font: 15px verdana;
             color: #af7a4f;
             cursor: default;
+            width: 200px;
         }
     </style>
     </head>
