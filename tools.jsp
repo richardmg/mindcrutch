@@ -4,9 +4,9 @@
         function Tools()
         {
             this.$toolsWindow = $("#toolsWindow");
-            this.$toolsWindow.css("width", app.canvas.$canvasWindow.width() + 20);
-            this.$toolsWindow.centerHorizontallyIn(app.canvas.$canvasWindow[0]);
-            this.$toolsWindow.alignToBottom(app.canvas.$canvasWindow[0]);
+            this.$contents = $(".contents", this.$toolsWindow);
+            this.$contents.css("width", app.canvas.$canvasWindow.width() + 40);
+            this.$contents.centerHorizontallyIn(app.canvas.$canvasWindow[0]);
         }
 
         function removeSelectedLayers()
@@ -19,28 +19,25 @@
     </script>
 
     <style>
-        #toolsWindow .frame {
-            background-image: -webkit-gradient(radial, 50% 0%, 300, 50% 10%, 20, from(rgba(0, 0, 0, 0.8)), to(rgba(80, 80, 90, 0.8)));
-            box-shadow: none;
-            -moz-box-shadow: none;
-            -webkit-box-shadow: none;
-            border-radius: 5px;
-            border: 1px solid black;
-        }
         #toolsWindow .contents {
             margin-top:0px;
-width: 100%;
+            height: 100px;
+            font: 15px verdana;
+            color: #af7a4f;
+            cursor: default;
         }
     </style>
     </head>
 
     <body>
-        <div id="toolsWindow" class="normalWindow" style="height:100px">
+        <div id="toolsWindow" class="modalWindow">
             <div class="contents">
-                <img src="img/magnifyer.png" onmousedown="app.tools.$toolsWindow.toggle(false); app.palette.$paletteWindow.toggleModal();"></img>
-                <img src="img/trash.png" onmousedown="removeSelectedLayers()"></img>
-                <img src="img/pencil.png" onmousedown="removeSelectedLayers()"></img>
-                <img src="img/copy.png" onmousedown="removeSelectedLayers()"></img>
+                <p onmousedown="app.tools.$toolsWindow.toggle(false); app.palette.$paletteWindow.toggleModal();">Search for images...</p>
+                <p onmousedown="removeSelectedLayers()">Remove image</p>
+                <p onmousedown="removeSelectedLayers()">Edit image...</p>
+                <p onmousedown="removeSelectedLayers()">Copy...</p>
+                <p onmousedown="removeSelectedLayers()">Level up</p>
+                <p onmousedown="removeSelectedLayers()">Level down</p>
             </div>
         </div>
     </body>
