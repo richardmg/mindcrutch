@@ -4,7 +4,7 @@
         function Tools()
         {
             this.$toolsWindow = $("#toolsWindow");
-            this.$toolsWindow.css("width", app.canvas.$canvasWindow.width());
+            this.$toolsWindow.css("width", app.canvas.$canvasWindow.width() + 20);
             this.$toolsWindow.centerHorizontallyIn(app.canvas.$canvasWindow[0]);
             this.$toolsWindow.alignToBottom(app.canvas.$canvasWindow[0]);
         }
@@ -29,6 +29,7 @@
         }
         #toolsWindow .contents {
             margin-top:0px;
+width: 100%;
         }
     </style>
     </head>
@@ -36,8 +37,10 @@
     <body>
         <div id="toolsWindow" class="normalWindow" style="height:100px">
             <div class="contents">
-                <img src="img/search.png" onmousedown="app.tools.$toolsWindow.toggle(false); app.palette.$paletteWindow.toggleModal();"></img>
-                <img src="img/trashcan.png" onmousedown="removeSelectedLayers()"></img>
+                <img src="img/magnifyer.png" onmousedown="app.tools.$toolsWindow.toggle(false); app.palette.$paletteWindow.toggleModal();"></img>
+                <img src="img/trash.png" onmousedown="removeSelectedLayers()"></img>
+                <img src="img/pencil.png" onmousedown="removeSelectedLayers()"></img>
+                <img src="img/copy.png" onmousedown="removeSelectedLayers()"></img>
             </div>
         </div>
     </body>
