@@ -29,7 +29,7 @@
                 }; 
             }
 
-            function getLayerAt(p)
+            this.getLayerAt = function(p)
             {
                 for (var i=this_canvas.layers.length-1; i>=0; --i) {
                     var layer = this_canvas.layers[i];
@@ -38,7 +38,7 @@
                 }
             }
 
-            function canvasPos(e)
+            this.canvasPos = function(e)
             {
                 var parentOffset = $canvas.parent().offset();
                 return {
@@ -55,20 +55,20 @@
             }
 
             $canvas.on("mousedown", function(e) {
-                pressStart(canvasPos(e));
+                pressStart(this_canvas.canvasPos(e));
             }).on("mousemove", function(e) {
-                pressDrag(canvasPos(e));
+                pressDrag(this_canvas.canvasPos(e));
             }).on("mouseup", function(e) {
-                pressEnd(canvasPos(e));
+                pressEnd(this_canvas.canvasPos(e));
             }).on("touchstart", function(e) {
                 e.preventDefault();
-                pressStart(canvasPos(e.originalEvent.changedTouches[0]));
+                pressStart(this_canvas.canvasPos(e.originalEvent.changedTouches[0]));
             }).on("touchmove", function(e) {
                 e.preventDefault();
-                pressDrag(canvasPos(e.originalEvent.changedTouches[0]));
+                pressDrag(this_canvas.canvasPos(e.originalEvent.changedTouches[0]));
             }).on("touchend", function(e) {
                 e.preventDefault();
-                pressEnd(canvasPos(e.originalEvent.changedTouches[0]));
+                pressEnd(this_canvas.canvasPos(e.originalEvent.changedTouches[0]));
             });
 
             function pressStart(pos)
@@ -134,7 +134,7 @@
                         this_canvas.callback.onDoubleClick();
                     } else {
                         var prevLayer = activeLayer;
-                        activeLayer = getLayerAt(pos);
+                        activeLayer = this_canvas.getLayerAt(pos);
                         if (!activeLayer || activeLayer === prevLayer){
                             activeLayer = undefined;
                             currentAction = {};
@@ -154,14 +154,8 @@
                 context.save();
                 context.translate(layer.x, layer.y);
                 context.rotate(layer.rotation);
-
-                if (layer == activeLayer) {
-                    context.fillStyle = "rgba(0, 0, 155, 0.6)";
-                    context.strokeStyle = "rgba(0, 0, 155, 0.6)";
-                } else {
-                    context.fillStyle = "rgba(0, 0, 0, 0.6)";
-                    context.strokeStyle = "rgba(0, 0, 0, 0.6)";
-                }
+                context.fillStyle = "rgba(0, 0, 155, 0.6)";
+                context.strokeStyle = "rgba(0, 0, 155, 0.6)";
                 context.lineWidth = 2;
 
                 context.beginPath();
@@ -296,9 +290,16 @@
                     return false;
                 }
 
+                layer.activate = function()
+                {
+                    activeLayer = layer;
+                    this_canvas.repaint();
+                }
+
                 layer.remove = function()
                 {
                     this_canvas.layers.splice(layer.index, 1);
+                    this_canvas.repaint();
                 }
                 
                 return layer;
