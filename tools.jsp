@@ -30,7 +30,7 @@
             this.searchForImages = function()
             {
                 app.tools.$toolsWindow.toggle(false);
-                app.palette.$paletteWindow.toggleModal();
+                app.palette.showPalette();
             }
         }
     </script>

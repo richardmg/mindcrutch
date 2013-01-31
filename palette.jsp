@@ -8,6 +8,15 @@
             this.$paletteWindow = $("#paletteWindow");
             this.searchProps = {searchString:"zombies", imgtype:"clipart", imgsz:"medium"};
 
+            this.showPalette = function()
+            {
+                this.$paletteWindow.toggleModal();
+                $("#imageSearchInput", this.$paletteWindow).each(function() {
+                    $this = $(this);
+                    setTimeout(function (){ $this.focus().select(); }, 0);
+                });
+            }
+
             this.updatePalette = function()
             {
                 this.$result.empty()
