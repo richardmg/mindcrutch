@@ -26,6 +26,12 @@
                 if (layer)
                     layer.activate();
             }
+            
+            this.searchForImages = function()
+            {
+                app.tools.$toolsWindow.toggle(false);
+                app.palette.$paletteWindow.toggleModal();
+            }
         }
     </script>
 
@@ -42,7 +48,7 @@
     <body>
         <div id="toolsWindow" class="modalWindow" onmousedown="app.tools.selectLayerAfterModal(event);">
             <div class="contents">
-                <p class="menuitem" onmousedown="app.tools.$toolsWindow.toggle(false); app.palette.$paletteWindow.toggleModal();">Search for images...</p>
+                <p class="menuitem" onmousedown="app.tools.searchForImages()">Search for images...</p>
                 <p class="menuitem" onmousedown="app.tools.removeSelectedLayers()">Remove image</p>
                 <p class="menuitem" onmousedown="app.tools.removeSelectedLayers()">Edit image...</p>
                 <p class="menuitem" onmousedown="app.tools.removeSelectedLayers()">Copy...</p>
