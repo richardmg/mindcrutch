@@ -15,8 +15,6 @@
             var context = canvas.getContext('2d');
             var mousedown = false;
             var touchStartDate = new Date();
-            var clickDate = new Date();
-            var clickPos = {x:-1, y:-1};
             var currentAction = undefined;
 
             function getAngleAndRadius(p1, p2)
@@ -138,20 +136,10 @@
                 var click = (now.getTime() - touchStartDate.getTime()) < 100;
 
                 if (click) {
-                    var doubleClick = (now.getTime() - clickDate.getTime()) < 500
-                        && Math.abs(clickPos.x - pos.x) < 40
-                        && Math.abs(clickPos.y - pos.y) < 40;
-
-                    clickDate = now;
-                    clickPos = pos;
-                    if (doubleClick) {
-                        this_canvas.callback.onDoubleClick();
-                    } else {
-                        var layer = this_canvas.getLayerAt(pos);
-                        if (!layer || !layer.selected)
-                            currentAction = {};
-                        this_canvas.callback.onClicked(layer);
-                    }
+                    var layer = this_canvas.getLayerAt(pos);
+                    if (!layer || !layer.selected)
+                        currentAction = {};
+                    this_canvas.callback.onClicked(layer);
                 }
                 this_canvas.repaint();
             }

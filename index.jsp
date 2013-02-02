@@ -32,8 +32,7 @@
                                 app.canvas.repaint();
                             }
                         }
-                    },
-                    onDoubleClick: function() {}
+                    }
                 }
 
                 app.palette.callback = {
