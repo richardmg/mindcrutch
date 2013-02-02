@@ -4,9 +4,10 @@
         function Canvas()
         {
             this.$canvasWindow = $("#canvasWindow");
-            $canvas = $("#canvas", this.$canvasWindow);
             this.layers = new Array;
+            this.selectedLayers = new Array;
 
+            $canvas = $("#canvas", this.$canvasWindow);
             var this_canvas = this;
             var canvas = $canvas[0];
             canvas.width = $canvas.width();
@@ -17,7 +18,6 @@
             var clickDate = new Date();
             var clickPos = {x:-1, y:-1};
             var currentAction = undefined;
-            var activeLayer = undefined;
 
             function getAngleAndRadius(p1, p2)
             {
@@ -49,9 +49,14 @@
 
             function overlapsHandle(pos)
             {
-                var lpos = activeLayer.canvasToLayer(pos);
-                return (lpos.x >= activeLayer.x-30 && lpos.x <= activeLayer.x+30
-                        && lpos.y >= activeLayer.y-30 && lpos.y <= activeLayer.y+30);
+                for (var i in this_canvas.selectedLayers) {
+                    var layer = this_canvas.selectedLayers[i];
+                    var lpos = layer.canvasToLayer(pos);
+                    if (lpos.x >= layer.x-30 && lpos.x <= layer.x+30
+                            && lpos.y >= layer.y-30 && lpos.y <= layer.y+30)
+                        return layer;
+                }
+                return null;
             }
 
             $canvas.on("mousedown", function(e) {
@@ -77,22 +82,25 @@
                 mousedown = true;
                 touchStartDate = new Date();
 
-                if (activeLayer) {
-                    if (overlapsHandle(pos)) {
+                if (this_canvas.selectedLayers.length !== 0) {
+                    var layer = overlapsHandle(pos);
+                    if (layer) {
                         // start drag
                         currentAction = {
+                            layer: layer, 
                             dragging: true,
-                            x: pos.x - activeLayer.x,
-                            y:pos.y-activeLayer.y
+                            x: pos.x - layer.x,
+                            y:pos.y-layer.y
                         };
                     } else {
                         // Start rotation
-                        var center = { x: activeLayer.x, y: activeLayer.y };
-                        var lpos = activeLayer.layerToCanvas(center);
+                        var layer = this_canvas.selectedLayers[0];
+                        var center = { x: layer.x, y: layer.y };
+                        var lpos = layer.layerToCanvas(center);
                         currentAction = getAngleAndRadius(lpos, pos);
                         currentAction.rotating = true
-                        currentAction.angle -= activeLayer.rotation;
-                        currentAction.scale = activeLayer.scale;
+                        currentAction.angle -= layer.rotation;
+                        currentAction.scale = layer.scale;
                     }
                 }
             }
@@ -100,18 +108,24 @@
             function pressDrag(pos)
             {
                 // drag or rotate current layer:
-                if (mousedown && activeLayer) {
+                if (mousedown && this_canvas.selectedLayers.length !== 0) {
                     if (currentAction.dragging) {
                         // continue drag
-                        activeLayer.x = pos.x - currentAction.x;
-                        activeLayer.y = pos.y - currentAction.y;
+                        for (var i in this_canvas.selectedLayers) {
+                            var layer = this_canvas.selectedLayers[i];
+                            layer.x = pos.x - currentAction.x;
+                            layer.y = pos.y - currentAction.y;
+                        }
                     } else if (currentAction.rotating) {
                         // continue rotate
-                        var center = { x: activeLayer.x, y: activeLayer.y };
-                        var lpos = activeLayer.layerToCanvas(center);
-                        var aar = getAngleAndRadius(lpos, pos);
-                        activeLayer.rotation = aar.angle - currentAction.angle;
-                        activeLayer.scale = currentAction.scale * aar.radius / currentAction.radius;
+                        for (var i in this_canvas.selectedLayers) {
+                            var layer = this_canvas.selectedLayers[i];
+                            var center = { x: layer.x, y: layer.y };
+                            var lpos = layer.layerToCanvas(center);
+                            var aar = getAngleAndRadius(lpos, pos);
+                            layer.rotation = aar.angle - currentAction.angle;
+                            layer.scale = currentAction.scale * aar.radius / currentAction.radius;
+                        }
                     }
                     this_canvas.repaint();
                 }
@@ -133,13 +147,10 @@
                     if (doubleClick) {
                         this_canvas.callback.onDoubleClick();
                     } else {
-                        var prevLayer = activeLayer;
-                        activeLayer = this_canvas.getLayerAt(pos);
-                        if (!activeLayer || activeLayer === prevLayer){
-                            activeLayer = undefined;
+                        var layer = this_canvas.getLayerAt(pos);
+                        if (!layer || !layer.selected)
                             currentAction = {};
-                        }
-                        this_canvas.callback.onActiveLayerChanged(activeLayer, prevLayer);
+                        this_canvas.callback.onClicked(layer);
                     }
                 }
                 this_canvas.repaint();
@@ -218,7 +229,7 @@
                 }
                 for (var i in this_canvas.layers) {
                     var layer = this_canvas.layers[i];
-                    if (layer.selected || layer == activeLayer)
+                    if (layer.selected)
                         drawFocus(layer);
                 }
             }
@@ -287,9 +298,18 @@
                     return false;
                 }
 
-                layer.activate = function()
+                layer.select = function(select)
                 {
-                    activeLayer = layer;
+                    if (select === layer.selected)
+                        return;
+                    layer.selected = select;
+
+                    if (select) {
+                        this_canvas.selectedLayers.push(layer);
+                    } else {
+                        var index = this_canvas.selectedLayers.indexOf(layer);
+                        this_canvas.selectedLayers.splice(index, 1);
+                    }
                 }
 
                 layer.remove = function()

@@ -27,12 +27,11 @@
                             z: layer.z, 
                             rotation: layer.rotation, 
                             scale: layer.scale, 
-                            selected: true,
                             image: layer.image,
                             url: layer.url
                         });
-                        newLayer.activate();
-                        layer.selected = false;
+                        newLayer.select(true);
+                        layer.select(false);
                     }
                 });
                 app.canvas.repaint();
@@ -42,11 +41,11 @@
             {
                 if (e.target != this_tools.$toolsWindow[0])
                     return;
-                app.canvas.eachLayer(function(layer) { layer.selected = false; });
+                app.canvas.eachLayer(function(layer) { layer.select(false); });
                 var p = app.canvas.canvasPos(e);
                 var layer = app.canvas.getLayerAt(p);
                 if (layer) {
-                    layer.activate();
+                    layer.select(true);
                     app.canvas.repaint();
                 }
             }

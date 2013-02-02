@@ -14,17 +14,23 @@
                 app.tools = new Tools();
 
                 app.canvas.callback = {
-                    onActiveLayerChanged: function(newLayer, prevLayer) {
+                    onClicked: function(layer) {
                         var tools = app.tools.$toolsWindow;
-                        app.canvas.eachLayer(function(layer) { layer.selected = false; });
-                        
-                        if (newLayer) {
-                            tools.fadeOut("fast");
-                        } else if (prevLayer) {
-                            prevLayer.selected = true;
-                            tools.fadeIn("fast");
+                        if (!layer) {
+                            if (app.canvas.selectedLayers.length === 0) {
+                                tools.fadeIn("fast");
+                            } else  {
+                                app.canvas.eachLayer(function(layer) { layer.select(false); });
+                                app.canvas.repaint();
+                            }
                         } else {
-                            tools.fadeToggle("fast");
+                            if (layer.selected) {
+                                tools.fadeIn("fast");
+                            } else {
+                                app.canvas.eachLayer(function(layer) { layer.select(false); });
+                                layer.select(true);
+                                app.canvas.repaint();
+                            }
                         }
                     },
                     onDoubleClick: function() {}
@@ -33,7 +39,7 @@
                 app.palette.callback = {
                     onThumbnailPressed: function(result)
                     {
-                        app.canvas.addLayer({url:result.url, rotation:Math.PI/8}).activate();
+                        app.canvas.addLayer({url:result.url, rotation:Math.PI/8}).select(true);
                         app.palette.$paletteWindow.toggle(false);
                     },
                     onCursorChanged: function(cursor)
