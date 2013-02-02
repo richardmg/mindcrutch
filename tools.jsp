@@ -22,7 +22,7 @@
                 app.canvas.eachLayer(function(layer) {
                     if (layer.selected) {
                         var newLayer = app.canvas.addLayer({
-                            x: layer.x + layer.width, 
+                            x: layer.x + (layer.width * layer.scale), 
                             y: layer.y, 
                             z: layer.z, 
                             rotation: layer.rotation, 
