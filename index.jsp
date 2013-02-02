@@ -33,7 +33,7 @@
                 app.palette.callback = {
                     onThumbnailPressed: function(result)
                     {
-                        app.canvas.addLayer({url:result.url, rotation:Math.PI/8});
+                        app.canvas.addLayer({url:result.url, rotation:Math.PI/8}).activate();
                         app.palette.$paletteWindow.toggle(false);
                     },
                     onCursorChanged: function(cursor)

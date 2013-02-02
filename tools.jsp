@@ -10,10 +10,32 @@
 
             this.removeSelectedLayers = function()
             {
-                app.canvas.eachLayerReverse(function(layer) {
+                app.canvas.eachLayer(function(layer) {
                     if (layer.selected)
                         layer.remove();
                 });
+                app.canvas.repaint();
+            }
+
+            this.copySelectedLayers = function()
+            {
+                app.canvas.eachLayer(function(layer) {
+                    if (layer.selected) {
+                        var newLayer = app.canvas.addLayer({
+                            x: layer.x + layer.width, 
+                            y: layer.y, 
+                            z: layer.z, 
+                            rotation: layer.rotation, 
+                            scale: layer.scale, 
+                            selected: true,
+                            image: layer.image,
+                            url: layer.url
+                        });
+                        newLayer.activate();
+                        layer.selected = false;
+                    }
+                });
+                app.canvas.repaint();
             }
 
             this.selectLayerAfterModal = function(e)
@@ -23,8 +45,10 @@
                 app.canvas.eachLayer(function(layer) { layer.selected = false; });
                 var p = app.canvas.canvasPos(e);
                 var layer = app.canvas.getLayerAt(p);
-                if (layer)
+                if (layer) {
                     layer.activate();
+                    app.canvas.repaint();
+                }
             }
             
             this.searchForImages = function()
@@ -51,7 +75,7 @@
                 <p class="menuitem" onmousedown="app.tools.searchForImages()">Search for images...</p>
                 <p class="menuitem" onmousedown="app.tools.removeSelectedLayers()">Remove image</p>
                 <p class="menuitem" onmousedown="app.tools.removeSelectedLayers()">Edit image...</p>
-                <p class="menuitem" onmousedown="app.tools.removeSelectedLayers()">Copy...</p>
+                <p class="menuitem" onmousedown="app.tools.copySelectedLayers()">Copy...</p>
                 <p class="menuitem" onmousedown="app.tools.removeSelectedLayers()">Level up</p>
                 <p class="menuitem" onmousedown="app.tools.removeSelectedLayers()">Level down</p>
             </div>

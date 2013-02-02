@@ -230,25 +230,22 @@
                 layer.z = layer.z || this.layers.length;
                 layer.rotation = layer.rotation || 0;
                 layer.scale = layer.scale || 1;
-                layer.selected  = false;
+                layer.selected  = layer.selected || false;
 
                 layer.index = this_canvas.layers.length;
                 this_canvas.layers.push(layer);
-                var prevLayer = activeLayer;
-                activeLayer = layer;
 
-                if (layer.url) {
+                if (layer.image) {
+                    layer.width = layer.image.width;
+                    layer.height = layer.image.height;
+                } else if (layer.url) {
                     layer.image = new Image();
                     layer.image.onload = function() {
                         layer.width = layer.image.width;
                         layer.height = layer.image.height;
-                        this_canvas.callback.onActiveLayerChanged(activeLayer, prevLayer);
                         this_canvas.repaint();
                     };
                     layer.image.src = layer.url;
-                } else if (layer.image) {
-                    layer.width = layer.image.width;
-                    layer.height = layer.image.height;
                 } else {
                     layer.width = 0;
                     layer.height = 0;
@@ -293,7 +290,6 @@
                 layer.activate = function()
                 {
                     activeLayer = layer;
-                    this_canvas.repaint();
                 }
 
                 layer.remove = function()
