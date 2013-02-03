@@ -16,7 +16,7 @@
 
             this.copySelectedLayers = function()
             {
-                app.canvas.eachSelectedLayer(function(layer) {
+                app.canvas.eachSelectedLayerReverse(function(layer) {
                     var newLayer = app.canvas.addLayer({
                         x: layer.x + (layer.width * layer.scale), 
                         y: layer.y, 
@@ -25,8 +25,8 @@
                         image: layer.image,
                         url: layer.url
                     });
-                    newLayer.select(true);
                     layer.select(false);
+                    newLayer.select(true);
                 });
                 app.canvas.repaint();
             }
