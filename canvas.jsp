@@ -91,8 +91,8 @@
                         currentAction = {
                             layer: layer, 
                             dragging: true,
-                            x: pos.x - layer.x,
-                            y:pos.y-layer.y
+                            x: pos.x,
+                            y:pos.y,
                         };
                     } else {
                         // Start rotation
@@ -124,9 +124,11 @@
                             // continue drag
                             for (var i in this_canvas.selectedLayers) {
                                 var layer = this_canvas.selectedLayers[i];
-                                layer.x = pos.x - currentAction.x;
-                                layer.y = pos.y - currentAction.y;
+                                layer.x += pos.x - currentAction.x;
+                                layer.y += pos.y - currentAction.y;
                             }
+                            currentAction.x = pos.x;
+                            currentAction.y = pos.y;
                         } else if (currentAction.rotating) {
                             // continue rotate
                             for (var i in this_canvas.selectedLayers) {
