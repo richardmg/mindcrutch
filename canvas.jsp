@@ -15,8 +15,8 @@
             var context = canvas.getContext('2d');
             var mousedown = false;
             var touchStartDate = new Date();
-            var currentAction = undefined;
-            var pressAndHold = {timer:undefined}
+            var currentAction = {};
+            var touchStartPos = undefined;
 
             function getAngleAndRadius(p1, p2)
             {
@@ -80,9 +80,7 @@
                 // start new layer operation, drag or rotate:
                 mousedown = true;
                 touchStartDate = new Date();
-
-                pressAndHold.pos = pos;
-                pressAndHold.timer = setTimeout(function() { this_canvas.callback.onPressAndHold(this_canvas.getLayerAt(pos)); }, 1000);
+                touchStartPos = pos;
 
                 if (this_canvas.selectedLayers.length !== 0) {
                     var layer = overlapsHandle(pos);
@@ -109,15 +107,13 @@
             {
                 // drag or rotate current layer:
                 if (mousedown) {
-                    // handle pressAndHold:
-                    if (pressAndHold.timer) {
-                        if (Math.abs(pos.x - pressAndHold.pos.x) < 10 || Math.abs(pos.y - pressAndHold.pos.y) < 10) {
-                            clearTimeout(pressAndHold.timer);
-                            pressAndHold.timer = 0;
+                    if (currentAction.selecting) {
+                        var layer = this_canvas.getLayerAt(pos);
+                        if (layer && !layer.selected) {
+                            layer.select(true);
+                            this_canvas.repaint();
                         }
-                    }
-
-                    if (this_canvas.selectedLayers.length !== 0) {
+                    } else if (this_canvas.selectedLayers.length !== 0) {
                         if (currentAction.dragging) {
                             // continue drag
                             for (var i in this_canvas.selectedLayers) {
@@ -142,6 +138,9 @@
                             currentAction.radius = aar.radius;
                         }
                         this_canvas.repaint();
+                    } else {
+                        var startSelect = (Math.abs(pos.x - touchStartPos.x) < 10 || Math.abs(pos.y - touchStartPos.y) < 10);
+                        currentAction.selecting = true;
                     }
                 }
             }
@@ -149,7 +148,6 @@
             function pressEnd(pos)
             {
                 mousedown = false;
-                clearTimeout(pressAndHold.timer);
                 var now = new Date();
                 var click = (now.getTime() - touchStartDate.getTime()) < 100;
 
