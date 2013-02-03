@@ -32,6 +32,12 @@
                                 app.canvas.repaint();
                             }
                         }
+                    },
+                    onPressAndHold: function(layer) {
+                        if (layer) {
+                            layer.select(true);
+                            app.canvas.repaint();
+                        }
                     }
                 }
 

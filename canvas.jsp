@@ -16,6 +16,7 @@
             var mousedown = false;
             var touchStartDate = new Date();
             var currentAction = undefined;
+            var pressAndHold = {timer:undefined}
 
             function getAngleAndRadius(p1, p2)
             {
@@ -80,6 +81,9 @@
                 mousedown = true;
                 touchStartDate = new Date();
 
+                pressAndHold.pos = pos;
+                pressAndHold.timer = setTimeout(function() { this_canvas.callback.onPressAndHold(this_canvas.getLayerAt(pos)); }, 1000);
+
                 if (this_canvas.selectedLayers.length !== 0) {
                     var layer = overlapsHandle(pos);
                     if (layer) {
@@ -106,32 +110,43 @@
             function pressDrag(pos)
             {
                 // drag or rotate current layer:
-                if (mousedown && this_canvas.selectedLayers.length !== 0) {
-                    if (currentAction.dragging) {
-                        // continue drag
-                        for (var i in this_canvas.selectedLayers) {
-                            var layer = this_canvas.selectedLayers[i];
-                            layer.x = pos.x - currentAction.x;
-                            layer.y = pos.y - currentAction.y;
-                        }
-                    } else if (currentAction.rotating) {
-                        // continue rotate
-                        for (var i in this_canvas.selectedLayers) {
-                            var layer = this_canvas.selectedLayers[i];
-                            var center = { x: layer.x, y: layer.y };
-                            var lpos = layer.layerToCanvas(center);
-                            var aar = getAngleAndRadius(lpos, pos);
-                            layer.rotation = aar.angle - currentAction.angle;
-                            layer.scale = currentAction.scale * aar.radius / currentAction.radius;
+                if (mousedown) {
+                    // hanlde pressAndHold:
+                    if (pressAndHold.timer) {
+                        if (Math.abs(pos.x - pressAndHold.pos.x) < 10 || Math.abs(pos.y - pressAndHold.pos.y) < 10) {
+                            clearTimeout(pressAndHold.timer);
+                            pressAndHold.timer = 0;
                         }
                     }
-                    this_canvas.repaint();
+
+                    if (this_canvas.selectedLayers.length !== 0) {
+                        if (currentAction.dragging) {
+                            // continue drag
+                            for (var i in this_canvas.selectedLayers) {
+                                var layer = this_canvas.selectedLayers[i];
+                                layer.x = pos.x - currentAction.x;
+                                layer.y = pos.y - currentAction.y;
+                            }
+                        } else if (currentAction.rotating) {
+                            // continue rotate
+                            for (var i in this_canvas.selectedLayers) {
+                                var layer = this_canvas.selectedLayers[i];
+                                var center = { x: layer.x, y: layer.y };
+                                var lpos = layer.layerToCanvas(center);
+                                var aar = getAngleAndRadius(lpos, pos);
+                                layer.rotation = aar.angle - currentAction.angle;
+                                layer.scale = currentAction.scale * aar.radius / currentAction.radius;
+                            }
+                        }
+                        this_canvas.repaint();
+                    }
                 }
             }
 
             function pressEnd(pos)
             {
                 mousedown = false;
+                clearTimeout(pressAndHold.timer);
                 var now = new Date();
                 var click = (now.getTime() - touchStartDate.getTime()) < 100;
 
