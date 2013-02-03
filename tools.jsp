@@ -46,6 +46,7 @@
             
             this.searchForImages = function()
             {
+                app.canvas.eachSelectedLayer(function(layer) { layer.select(false); });
                 app.tools.$toolsWindow.toggle(false);
                 app.palette.showPalette();
             }
