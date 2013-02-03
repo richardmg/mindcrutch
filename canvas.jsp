@@ -315,7 +315,7 @@
                     if (z === currentZ)
                         return;
                     this_canvas.layers.splice(currentZ, 1);
-                    this_canvas.layers.splice(z > currentZ ? z + 1 : z, 0, layer);
+                    this_canvas.layers.splice(z, 0, layer);
                 }
 
                 layer.getZ = function()
