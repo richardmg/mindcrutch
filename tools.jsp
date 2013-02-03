@@ -51,9 +51,14 @@
                 app.palette.showPalette();
             }
 
-            this.levelUpDown = function(direction)
+            this.levelUp = function()
             {
-                app.canvas.eachSelectedLayerReverse(function(layer) { layer.setZ(layer.getZ() + direction); });
+                app.canvas.eachSelectedLayer(function(layer) { layer.setZ(layer.getZ() + 1); });
+                app.canvas.repaint();
+            }
+            this.levelDown = function()
+            {
+                app.canvas.eachSelectedLayerReverse(function(layer) { layer.setZ(layer.getZ() - 1); });
                 app.canvas.repaint();
             }
         }
@@ -76,8 +81,8 @@
                 <p class="menuitem" onmousedown="app.tools.removeSelectedLayers()">Remove image</p>
                 <p class="menuitem" onmousedown="app.tools.editImage()">Edit image...</p>
                 <p class="menuitem" onmousedown="app.tools.copySelectedLayers()">Copy...</p>
-                <p class="menuitem" onmousedown="app.tools.levelUpDown(1)">Level up</p>
-                <p class="menuitem" onmousedown="app.tools.levelUpDown(-1)">Level down</p>
+                <p class="menuitem" onmousedown="app.tools.levelUp()">Level up</p>
+                <p class="menuitem" onmousedown="app.tools.levelDown()">Level down</p>
             </div>
         </div>
     </body>
