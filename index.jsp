@@ -35,7 +35,7 @@
                     },
                     onPressAndHold: function(layer) {
                         if (layer) {
-                            layer.select(true);
+                            layer.select(!layer.selected);
                             app.canvas.repaint();
                         }
                     }
