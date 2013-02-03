@@ -131,11 +131,12 @@
                             currentAction.y = pos.y;
                         } else if (currentAction.rotating) {
                             // continue rotate
+                            var layer = this_canvas.selectedLayers[0];
+                            var center = { x: layer.x, y: layer.y };
+                            var lpos = layer.layerToCanvas(center);
+                            var aar = getAngleAndRadius(lpos, pos);
                             for (var i in this_canvas.selectedLayers) {
                                 var layer = this_canvas.selectedLayers[i];
-                                var center = { x: layer.x, y: layer.y };
-                                var lpos = layer.layerToCanvas(center);
-                                var aar = getAngleAndRadius(lpos, pos);
                                 layer.rotation = aar.angle - currentAction.angle;
                                 layer.scale = currentAction.scale * aar.radius / currentAction.radius;
                             }
