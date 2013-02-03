@@ -322,6 +322,13 @@
                     f(this_canvas.layers[i]);
                 this_canvas.repaint();
             }
+
+            this.eachSelectedLayer = function(f)
+            {
+                for (var i in this_canvas.selectedLayers)
+                    f(this_canvas.selectedLayers[i]);
+                this_canvas.repaint();
+            }
         }
     </script>
 

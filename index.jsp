@@ -20,14 +20,14 @@
                             if (app.canvas.selectedLayers.length === 0) {
                                 tools.fadeIn("fast");
                             } else  {
-                                app.canvas.eachLayer(function(layer) { layer.select(false); });
+                                app.canvas.eachSelectedLayer(function(layer) { layer.select(false); });
                                 app.canvas.repaint();
                             }
                         } else {
                             if (layer.selected) {
                                 tools.fadeIn("fast");
                             } else {
-                                app.canvas.eachLayer(function(layer) { layer.select(false); });
+                                app.canvas.eachSelectedLayer(function(layer) { layer.select(false); });
                                 layer.select(true);
                                 app.canvas.repaint();
                             }

@@ -10,29 +10,24 @@
 
             this.removeSelectedLayers = function()
             {
-                app.canvas.eachLayer(function(layer) {
-                    if (layer.selected)
-                        layer.remove();
-                });
+                app.canvas.eachSelectedLayer(function(layer) { layer.remove(); });
                 app.canvas.repaint();
             }
 
             this.copySelectedLayers = function()
             {
-                app.canvas.eachLayer(function(layer) {
-                    if (layer.selected) {
-                        var newLayer = app.canvas.addLayer({
-                            x: layer.x + (layer.width * layer.scale), 
-                            y: layer.y, 
-                            z: layer.z, 
-                            rotation: layer.rotation, 
-                            scale: layer.scale, 
-                            image: layer.image,
-                            url: layer.url
-                        });
-                        newLayer.select(true);
-                        layer.select(false);
-                    }
+                app.canvas.eachSelectedLayer(function(layer) {
+                    var newLayer = app.canvas.addLayer({
+                        x: layer.x + (layer.width * layer.scale), 
+                        y: layer.y, 
+                        z: layer.z, 
+                        rotation: layer.rotation, 
+                        scale: layer.scale, 
+                        image: layer.image,
+                        url: layer.url
+                    });
+                    newLayer.select(true);
+                    layer.select(false);
                 });
                 app.canvas.repaint();
             }
@@ -41,7 +36,7 @@
             {
                 if (e.target != this_tools.$toolsWindow[0])
                     return;
-                app.canvas.eachLayer(function(layer) { layer.select(false); });
+                app.canvas.eachSelectedLayer(function(layer) { layer.select(false); });
                 var p = app.canvas.canvasPos(e);
                 var layer = app.canvas.getLayerAt(p);
                 if (layer) {
@@ -54,6 +49,24 @@
             {
                 app.tools.$toolsWindow.toggle(false);
                 app.palette.showPalette();
+            }
+
+            this.levelUp = function()
+            {
+                app.canvas.eachSelectedLayer(function(layer) {
+                    var newLayer = app.canvas.addLayer({
+                        x: layer.x + (layer.width * layer.scale), 
+                        y: layer.y, 
+                        z: layer.z, 
+                        rotation: layer.rotation, 
+                        scale: layer.scale, 
+                        image: layer.image,
+                        url: layer.url
+                    });
+                    newLayer.select(true);
+                    layer.select(false);
+                });
+                app.canvas.repaint();
             }
         }
     </script>
@@ -73,10 +86,10 @@
             <div class="contents">
                 <p class="menuitem" onmousedown="app.tools.searchForImages()">Search for images...</p>
                 <p class="menuitem" onmousedown="app.tools.removeSelectedLayers()">Remove image</p>
-                <p class="menuitem" onmousedown="app.tools.removeSelectedLayers()">Edit image...</p>
+                <p class="menuitem" onmousedown="app.tools.editImage()">Edit image...</p>
                 <p class="menuitem" onmousedown="app.tools.copySelectedLayers()">Copy...</p>
-                <p class="menuitem" onmousedown="app.tools.removeSelectedLayers()">Level up</p>
-                <p class="menuitem" onmousedown="app.tools.removeSelectedLayers()">Level down</p>
+                <p class="menuitem" onmousedown="app.tools.levelUp()">Level up</p>
+                <p class="menuitem" onmousedown="app.tools.levelDown()">Level down</p>
             </div>
         </div>
     </body>
