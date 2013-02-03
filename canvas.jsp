@@ -226,12 +226,10 @@
             {
                 layer.x = layer.x || 200;
                 layer.y = layer.y || 200;
-                layer.z = layer.z || this.layers.length;
                 layer.rotation = layer.rotation || 0;
                 layer.scale = layer.scale || 1;
                 layer.selected  = layer.selected || false;
 
-                layer.index = this_canvas.layers.length;
                 this_canvas.layers.push(layer);
 
                 if (layer.image) {
@@ -302,10 +300,29 @@
 
                 layer.remove = function()
                 {
-                    this_canvas.layers.splice(layer.index, 1);
+                    this_canvas.layers.splice(layer.getZ(), 1);
+                    if (layer.selected) {
+                        var i = this_canvas.selectedLayers.indexOf(layer);
+                        this_canvas.selectedLayers.splice(i, 1);
+                    }
                     this_canvas.repaint();
                 }
-                
+
+                layer.setZ = function(z)
+                {
+                    z = Math.max(0, Math.min(this_canvas.layers.length - 1, z));
+                    var currentZ = layer.getZ();
+                    if (z === currentZ)
+                        return;
+                    this_canvas.layers.splice(currentZ, 1);
+                    this_canvas.layers.splice(z > currentZ ? z + 1 : z, 0, layer);
+                }
+
+                layer.getZ = function()
+                {
+                    return this_canvas.layers.indexOf(layer);
+                }
+
                 return layer;
             }
 
