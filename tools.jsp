@@ -10,7 +10,7 @@
 
             this.removeSelectedLayers = function()
             {
-                app.canvas.eachSelectedLayer(function(layer) { layer.remove(); });
+                app.canvas.eachSelectedLayerReverse(function(layer) { layer.remove(); });
                 app.canvas.repaint();
             }
 
@@ -46,14 +46,14 @@
             
             this.searchForImages = function()
             {
-                app.canvas.eachSelectedLayer(function(layer) { layer.select(false); });
+                app.canvas.eachSelectedLayerReverse(function(layer) { layer.select(false); });
                 app.tools.$toolsWindow.toggle(false);
                 app.palette.showPalette();
             }
 
             this.levelUpDown = function(direction)
             {
-                app.canvas.eachSelectedLayer(function(layer) { layer.setZ(layer.getZ() + direction); });
+                app.canvas.eachSelectedLayerReverse(function(layer) { layer.setZ(layer.getZ() + direction); });
                 app.canvas.repaint();
             }
         }

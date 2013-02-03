@@ -73,6 +73,8 @@
 
                     $.getJSON(url, function(json) {
                         //console.log("Return:" + JSON.stringify(json));
+                        if (!json.responseData)
+                            return;
                         for (var i in json.responseData.results) {
                             var r = json.responseData.results[i];
                             var e = $("<div class='thumbnail'><img src='" + r.tbUrl + "'></img></div>");

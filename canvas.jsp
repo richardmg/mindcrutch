@@ -364,6 +364,20 @@
                     f(this_canvas.selectedLayers[i]);
                 this_canvas.repaint();
             }
+
+            this.eachSelectedLayerReverse = function(f)
+            {
+                for (var i = this_canvas.selectedLayers.length - 1; i>=0; --i)
+                    f(this_canvas.selectedLayers[i]);
+                this_canvas.repaint();
+            }
+
+            this.eachLayerReverse = function(f)
+            {
+                for (var i = this_canvas.layers.length - 1; i>=0; --i)
+                    f(this_canvas.layers[i]);
+                this_canvas.repaint();
+            }
         }
     </script>
 
