@@ -101,8 +101,6 @@
                         var lpos = layer.layerToCanvas(center);
                         currentAction = getAngleAndRadius(lpos, pos);
                         currentAction.rotating = true
-                        currentAction.angle -= layer.rotation;
-                        currentAction.scale = layer.scale;
                     }
                 }
             }
@@ -137,9 +135,11 @@
                             var aar = getAngleAndRadius(lpos, pos);
                             for (var i in this_canvas.selectedLayers) {
                                 var layer = this_canvas.selectedLayers[i];
-                                layer.rotation = aar.angle - currentAction.angle;
-                                layer.scale = currentAction.scale * aar.radius / currentAction.radius;
+                                layer.rotation += aar.angle - currentAction.angle;
+                                layer.scale *= aar.radius / currentAction.radius;
                             }
+                            currentAction.angle = aar.angle;
+                            currentAction.radius = aar.radius;
                         }
                         this_canvas.repaint();
                     }
