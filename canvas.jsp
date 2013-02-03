@@ -109,7 +109,7 @@
             {
                 // drag or rotate current layer:
                 if (mousedown) {
-                    // hanlde pressAndHold:
+                    // handle pressAndHold:
                     if (pressAndHold.timer) {
                         if (Math.abs(pos.x - pressAndHold.pos.x) < 10 || Math.abs(pos.y - pressAndHold.pos.y) < 10) {
                             clearTimeout(pressAndHold.timer);
