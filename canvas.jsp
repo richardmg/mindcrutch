@@ -14,9 +14,9 @@
             canvas.height = $canvas.height();
             var context = canvas.getContext('2d');
             var mousedown = false;
-            var touchStartDate = new Date();
+            var pressStartTime = 0;
+            var pressStartPos = undefined;
             var currentAction = {};
-            var touchStartPos = undefined;
 
             function getAngleAndRadius(p1, p2)
             {
@@ -79,8 +79,8 @@
             {
                 // start new layer operation, drag or rotate:
                 mousedown = true;
-                touchStartDate = new Date();
-                touchStartPos = pos;
+                pressStartTime = new Date().getTime();
+                pressStartPos = pos;
 
                 if (this_canvas.selectedLayers.length !== 0) {
                     var layer = overlapsHandle(pos);
@@ -139,7 +139,7 @@
                         }
                         this_canvas.repaint();
                     } else {
-                        var startSelect = (Math.abs(pos.x - touchStartPos.x) < 10 || Math.abs(pos.y - touchStartPos.y) < 10);
+                        var startSelect = (Math.abs(pos.x - pressStartPos.x) < 10 || Math.abs(pos.y - pressStartPos.y) < 10);
                         currentAction.selecting = true;
                     }
                 }
@@ -148,8 +148,10 @@
             function pressEnd(pos)
             {
                 mousedown = false;
-                var now = new Date();
-                var click = (now.getTime() - touchStartDate.getTime()) < 100;
+
+                var click = (new Date().getTime() - pressStartTime) < 300 
+                    && Math.abs(pos.x - pressStartPos.x) < 10
+                    && Math.abs(pos.y - pressStartPos.y) < 10;
 
                 if (click) {
                     var layer = this_canvas.getLayerAt(pos);
